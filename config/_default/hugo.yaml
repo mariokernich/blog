@@ -1,4 +1,4 @@
-baseURL: "https://example.org/"
+baseURL: "https://blog.kernich.de/"
 locale: "en-us"
 title: "Mario Kernich Blog"
 theme: "PaperMod"
@@ -25,7 +25,7 @@ params:
   mainSections:
     - posts
   ShowReadingTime: true
-  ShowShareButtons: true
+  ShowShareButtons: false
   ShowPostNavLinks: true
   ShowBreadCrumbs: true
   ShowCodeCopyButtons: true
@@ -38,8 +38,10 @@ params:
     Content: "This is my new blog built with Hugo and PaperMod."
 
   socialIcons:
+    - name: linkedin
+      url: "https://www.linkedin.com/in/mariokernich"
     - name: github
-      url: "https://github.com/"
+      url: "https://github.com/mariokernich"
     - name: rss
       url: "index.xml"
 
@@ -49,10 +51,6 @@ menu:
       name: Posts
       url: /posts/
       weight: 10
-    - identifier: archives
-      name: Archive
-      url: /archives/
-      weight: 20
     - identifier: tags
       name: Tags
       url: /tags/

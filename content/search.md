@@ -1,7 +1,7 @@
 ---
-title: "Suche"
+title: "Search"
 layout: "search"
 url: "/search/"
 summary: search
-placeholder: "Suchbegriff eingeben..."
+placeholder: "Type to search..."
 ---
