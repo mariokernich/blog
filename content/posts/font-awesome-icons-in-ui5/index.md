@@ -5,6 +5,11 @@ draft: false
 tags: ["UI5", "SAPUI5", "font-awesome", "icons", "open-source"]
 categories: ["UI5"]
 ShowToc: true
+cover:
+  image: "showcase.jpg"
+  alt: "UI5 Icon Explorer showcase"
+  caption: "UI5 Icon Explorer showcase"
+  hiddenInSingle: true
 ---
 
 What do a camera and a washing machine have in common? Actually, nothing. In the UI5 world, however, you often have to get creative. Additionally, the selection of standard icons is limited and the look & feel varies depending on the version.

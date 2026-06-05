@@ -21,6 +21,7 @@ params:
   description: "A new Hugo blog with PaperMod"
   keywords: [Blog, Hugo, PaperMod]
   author: "Mario Kernich"
+  hideAuthor: true
   defaultTheme: auto
   mainSections:
     - posts
@@ -32,6 +33,11 @@ params:
   ShowWordCount: true
   ShowToc: true
   comments: false
+
+  cover:
+    linkFullImages: true
+    responsiveImages: true
+    hiddenInSingle: true
 
   footer:
     text: "[Imprint](/imprint/)"
