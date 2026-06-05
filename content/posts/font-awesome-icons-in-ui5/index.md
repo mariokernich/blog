@@ -1,90 +1,32 @@
 ---
-date: '2026-06-05T20:01:52+02:00'
+title: "Font Awesome Icons in UI5"
+date: 2025-09-09
 draft: false
-title: 'My first post'
-tags: ["hugo", "papermod", "abap", "blog"]
-categories: ["General"]
+tags: ["ui5", "sapui5", "font-awesome", "icons", "open-source"]
+categories: ["UI5"]
 ShowToc: true
 ---
 
-## Welcome 👋
+What do a camera and a washing machine have in common? Actually, nothing. In the UI5 world, however, you often have to get creative. Additionally, the selection of standard icons is limited and the look & feel varies depending on the version.
 
-This is my first post built with **Hugo** and the **PaperMod** theme. As a demo
-I'm showing how **ABAP code** can be rendered with syntax highlighting.
+For this reason, I've found myself in the situation of "repurposing" a camera as a washing machine. The lens worked well as a drum and the flash as a control panel. The only problem was that after an update, more contours were added, which clearly identified the camera as a camera.
 
-## Classic "Hello World" in ABAP
+Since this is obviously not a new problem, UI5 now allows you to use the IconPool framework and register custom icons. But somehow it's always tedious to find the icon files and maintain the metadata properly.
 
-```abap
-REPORT z_hello_world.
+## UI5 Library Project
 
-START-OF-SELECTION.
-  WRITE: / 'Hello, World!'.
-```
+For this reason, I came up with a suitable solution that I'd like to share with you through my new project: I took the most well-known and largest icon library, [Font Awesome](https://fontawesome.com/), and packaged it into a UI5 library.
 
-## ABAP Objects: a class with a method
+[**→ GitHub Repository: ui5-fontawesome-lib**](https://github.com/ui5-community/ui5-fontawesome-lib)
 
-```abap
-CLASS zcl_greeter DEFINITION
-  PUBLIC
-  FINAL
-  CREATE PUBLIC.
+By using the library, all free Font Awesome icons become available. The library can also be extended with paid icons through a Pro license in just a few simple steps. This makes it possible to expand the 704 standard icons by an additional 61,764 icons.
 
-  PUBLIC SECTION.
-    METHODS:
-      constructor IMPORTING iv_name TYPE string,
-      greet       RETURNING VALUE(rv_text) TYPE string.
+To use the library for development, you simply need to install an NPM module and add a ui5-middleware configuration. More details can be found in the repository.
 
-  PRIVATE SECTION.
-    DATA mv_name TYPE string.
-ENDCLASS.
+## Showcase Application
 
-CLASS zcl_greeter IMPLEMENTATION.
-  METHOD constructor.
-    mv_name = iv_name.
-  ENDMETHOD.
+![UI5 Icon Explorer showcase](showcase.jpg)
 
-  METHOD greet.
-    rv_text = |Hello { mv_name }, welcome to the blog!|.
-  ENDMETHOD.
-ENDCLASS.
-```
+To make icon selection even easier, I also created a small clone of the well-known Icon Explorer that includes all icons. Feel free to check it out: [ui5-community.github.io/ui5-icon-explorer](https://ui5-community.github.io/ui5-icon-explorer/)
 
-## Modern ABAP syntax (7.40+)
-
-```abap
-DATA(lt_numbers) = VALUE int4_table( ( 1 ) ( 2 ) ( 3 ) ( 4 ) ( 5 ) ).
-
-DATA(lv_sum) = REDUCE i(
-  INIT x = 0
-  FOR n IN lt_numbers
-  NEXT x = x + n ).
-
-cl_demo_output=>display( |Sum: { lv_sum }| ).
-```
-
-## SELECT with inline declaration
-
-```abap
-SELECT carrid, connid, cityfrom, cityto
-  FROM spfli
-  INTO TABLE @DATA(lt_flights)
-  WHERE carrid = 'LH'.
-
-LOOP AT lt_flights INTO DATA(ls_flight).
-  WRITE: / ls_flight-carrid, ls_flight-connid,
-           ls_flight-cityfrom, '->', ls_flight-cityto.
-ENDLOOP.
-```
-
-## Exception handling
-
-```abap
-TRY.
-    DATA(lo_greeter) = NEW zcl_greeter( iv_name = 'Mario' ).
-    WRITE / lo_greeter->greet( ).
-  CATCH cx_root INTO DATA(lx_root).
-    WRITE / lx_root->get_text( ).
-ENDTRY.
-```
-
-Happy blogging!
+[**→ GitHub Repository: ui5-icon-explorer**](https://github.com/ui5-community/ui5-icon-explorer)
