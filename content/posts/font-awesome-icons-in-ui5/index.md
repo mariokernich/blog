@@ -2,7 +2,7 @@
 title: "Font Awesome Icons in UI5"
 date: 2025-09-09
 draft: false
-tags: ["ui5", "sapui5", "font-awesome", "icons", "open-source"]
+tags: ["UI5", "SAPUI5", "font-awesome", "icons", "open-source"]
 categories: ["UI5"]
 ShowToc: true
 ---
