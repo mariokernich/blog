@@ -1,0 +1,53 @@
+/* Custom variables for Hugo PaperMod blog */
+:root {
+    --code-bg: #ffffff;
+}
+
+/* Custom background override for Hugo PaperMod blog */
+.list {
+    background: var(--theme);
+}
+
+/* Post-entries (Cards) ohne Rahmen */
+.post-entry {
+    border: none !important;
+    padding: 0 !important;
+}
+
+.post-entry:hover,
+.post-entry:focus-within {
+    border-color: transparent;
+}
+
+/* Remove border radius from custom logo img and svg */
+.logo a img,
+.logo a svg {
+    border-radius: 0;
+}
+
+/* Remove border radius from thumbnails (post cover images) */
+.entry-cover img {
+    border-radius: 0;
+}
+
+/* Spacing for header / logo on mobile screens */
+@media screen and (max-width: 768px) {
+    .header {
+        padding-top: 15px;
+    }
+}
+
+/* Dark mode logo swap */
+:root[data-theme="dark"] .logo a img {
+    content: url("https://kernich.de/wp-content/uploads/2025/02/kernich-logo-white.svg");
+}
+
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .logo a img {
+        content: url("https://kernich.de/wp-content/uploads/2025/02/kernich-logo-white.svg");
+    }
+}
+
+:root[data-theme="dark"] .post-entry {
+    background: transparent;
+}

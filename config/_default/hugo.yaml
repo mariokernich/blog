@@ -18,11 +18,15 @@ minify:
 params:
   env: production
   title: "Mario Kernich Blog"
-  description: "A new Hugo blog with PaperMod"
+  description: "Tutorials, guides, and news about ABAP, UI5, RAP, Cloud, and AI by Mario Kernich."
   keywords: [Blog, Hugo, PaperMod]
   author: "Mario Kernich"
   hideAuthor: true
   defaultTheme: auto
+  label:
+    icon: "https://kernich.de/wp-content/uploads/2024/11/Kernich-Logo.svg"
+    iconHeight: 25
+    text: " "
   mainSections:
     - posts
   ShowReadingTime: true
@@ -50,7 +54,7 @@ params:
 
   homeInfoParams:
     Title: "Welcome 👋"
-    Content: "This is my new blog built with Hugo and PaperMod."
+    Content: "I'm a Technology Manager with a passion for continuously exploring modern tech. Here, you'll find guides, tutorials, and latest news on ABAP, UI5, RAP, Cloud computing, and AI."
 
   socialIcons:
     - name: linkedin
