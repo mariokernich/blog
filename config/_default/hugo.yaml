@@ -24,7 +24,7 @@ params:
   hideAuthor: true
   defaultTheme: auto
   label:
-    icon: "https://kernich.de/wp-content/uploads/2024/11/Kernich-Logo.svg"
+    icon: "images/kernich-logo.svg"
     iconHeight: 25
     text: " "
   mainSections:
@@ -54,7 +54,7 @@ params:
 
   homeInfoParams:
     Title: "Welcome 👋"
-    Content: "I'm a Technology Manager with a passion for continuously exploring modern tech. Here, you'll find guides, tutorials, and latest news on ABAP, UI5, RAP, Cloud computing, and AI."
+    Content: "I'm a Technology Manager with a passion for continuously exploring modern tech. Here, you'll find guides, tutorials, and latest news on ABAP, UI5, RAP, Cloud computing, and AI — as well as some off-topic insights from my personal life or other programming languages."
 
   socialIcons:
     - name: linkedin
@@ -70,6 +70,14 @@ menu:
       name: Posts
       url: /posts/
       weight: 10
+    - identifier: projects
+      name: Projects
+      url: /projects/
+      weight: 15
+    - identifier: talks
+      name: Talks
+      url: /talks/
+      weight: 20
     - identifier: tags
       name: Tags
       url: /tags/
@@ -96,3 +104,6 @@ markup:
     guessSyntax: true
     lineNos: true
     style: monokai
+  goldmark:
+    renderer:
+      unsafe: true

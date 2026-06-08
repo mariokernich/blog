@@ -3,15 +3,93 @@
     --code-bg: #ffffff;
 }
 
+/* Light mode code background and syntax variables */
+:root:not([data-theme="dark"]), :root[data-theme="light"] {
+    --code-block-bg: #f6f8fa; /* Beautiful light code block background */
+    --code-bg: #eaecef;       /* Beautiful inline code background */
+}
+
+/* Light mode syntax highlighting override */
+:root:not([data-theme="dark"]) .chroma { color: #24292f; }
+:root:not([data-theme="dark"]) .chroma .err { color: #cf222e; }
+:root:not([data-theme="dark"]) .chroma .lnlinks { color: inherit; }
+:root:not([data-theme="dark"]) .chroma .lnt { color: #8c95a0; }
+:root:not([data-theme="dark"]) .chroma .ln { color: #8c95a0; }
+:root:not([data-theme="dark"]) .chroma .k { color: #cf222e; }
+:root:not([data-theme="dark"]) .chroma .kc { color: #cf222e; }
+:root:not([data-theme="dark"]) .chroma .kd { color: #cf222e; }
+:root:not([data-theme="dark"]) .chroma .kn { color: #cf222e; }
+:root:not([data-theme="dark"]) .chroma .kp { color: #cf222e; }
+:root:not([data-theme="dark"]) .chroma .kr { color: #cf222e; }
+:root:not([data-theme="dark"]) .chroma .kt { color: #cf222e; }
+:root:not([data-theme="dark"]) .chroma .na { color: #0550ae; }
+:root:not([data-theme="dark"]) .chroma .nb { color: #953800; }
+:root:not([data-theme="dark"]) .chroma .bp { color: #953800; }
+:root:not([data-theme="dark"]) .chroma .nc { color: #953800; }
+:root:not([data-theme="dark"]) .chroma .no { color: #0550ae; }
+:root:not([data-theme="dark"]) .chroma .nd { color: #8250df; font-weight: bold; }
+:root:not([data-theme="dark"]) .chroma .ni { color: #116329; }
+:root:not([data-theme="dark"]) .chroma .ne { color: #cf222e; }
+:root:not([data-theme="dark"]) .chroma .nf { color: #8250df; }
+:root:not([data-theme="dark"]) .chroma .fm { color: #8250df; }
+:root:not([data-theme="dark"]) .chroma .nl { color: #0550ae; }
+:root:not([data-theme="dark"]) .chroma .nn { color: #cf222e; }
+:root:not([data-theme="dark"]) .chroma .py { color: #0550ae; }
+:root:not([data-theme="dark"]) .chroma .nt { color: #116329; }
+:root:not([data-theme="dark"]) .chroma .nv { color: #24292f; }
+:root:not([data-theme="dark"]) .chroma .vc { color: #24292f; }
+:root:not([data-theme="dark"]) .chroma .vg { color: #24292f; }
+:root:not([data-theme="dark"]) .chroma .vi { color: #24292f; }
+:root:not([data-theme="dark"]) .chroma .vm { color: #24292f; }
+:root:not([data-theme="dark"]) .chroma .s { color: #0a3069; }
+:root:not([data-theme="dark"]) .chroma .sa { color: #cf222e; }
+:root:not([data-theme="dark"]) .chroma .sb { color: #0a3069; }
+:root:not([data-theme="dark"]) .chroma .sc { color: #0a3069; }
+:root:not([data-theme="dark"]) .chroma .dl { color: #0550ae; }
+:root:not([data-theme="dark"]) .chroma .sd { color: #6e7781; }
+:root:not([data-theme="dark"]) .chroma .s2 { color: #0a3069; }
+:root:not([data-theme="dark"]) .chroma .se { color: #0550ae; }
+:root:not([data-theme="dark"]) .chroma .sh { color: #6e7781; }
+:root:not([data-theme="dark"]) .chroma .si { color: #0a3069; }
+:root:not([data-theme="dark"]) .chroma .sx { color: #0a3069; }
+:root:not([data-theme="dark"]) .chroma .sr { color: #cf222e; }
+:root:not([data-theme="dark"]) .chroma .s1 { color: #0a3069; }
+:root:not([data-theme="dark"]) .chroma .ss { color: #0a3069; }
+:root:not([data-theme="dark"]) .chroma .m { color: #0550ae; }
+:root:not([data-theme="dark"]) .chroma .mb { color: #0550ae; }
+:root:not([data-theme="dark"]) .chroma .mf { color: #0550ae; }
+:root:not([data-theme="dark"]) .chroma .mh { color: #0550ae; }
+:root:not([data-theme="dark"]) .chroma .mi { color: #0550ae; }
+:root:not([data-theme="dark"]) .chroma .il { color: #0550ae; }
+:root:not([data-theme="dark"]) .chroma .mo { color: #0550ae; }
+:root:not([data-theme="dark"]) .chroma .o { color: #bc4c00; font-weight: bold; }
+:root:not([data-theme="dark"]) .chroma .ow { color: #cf222e; font-weight: bold; }
+:root:not([data-theme="dark"]) .chroma .c { color: #6e7781; font-style: italic; }
+:root:not([data-theme="dark"]) .chroma .ch { color: #6e7781; font-style: italic; }
+:root:not([data-theme="dark"]) .chroma .cm { color: #6e7781; font-style: italic; }
+:root:not([data-theme="dark"]) .chroma .c1 { color: #6e7781; font-style: italic; }
+:root:not([data-theme="dark"]) .chroma .cs { color: #6e7781; font-style: italic; }
+:root:not([data-theme="dark"]) .chroma .cp { color: #6e7781; font-style: italic; }
+:root:not([data-theme="dark"]) .chroma .cpf { color: #6e7781; font-weight: bold; font-style: italic; }
+:root:not([data-theme="dark"]) .chroma .gd { color: #cf222e; background-color: #ffebe9; }
+:root:not([data-theme="dark"]) .chroma .ge { font-style: italic; }
+:root:not([data-theme="dark"]) .chroma .gr { color: #cf222e; }
+:root:not([data-theme="dark"]) .chroma .gh { color: #0550ae; font-weight: bold; }
+:root:not([data-theme="dark"]) .chroma .gi { color: #116329; background-color: #dafbe1; }
+:root:not([data-theme="dark"]) .chroma .gs { font-weight: bold; }
+:root:not([data-theme="dark"]) .chroma .gu { color: #0550ae; font-weight: bold; }
+:root:not([data-theme="dark"]) .chroma .gt { color: #cf222e; }
+
 /* Custom background override for Hugo PaperMod blog */
 .list {
     background: var(--theme);
 }
 
-/* Post-entries (Cards) ohne Rahmen */
+/* Post-entries (Cards) ohne Rahmen und mit mehr Abstand im Feed */
 .post-entry {
     border: none !important;
     padding: 0 !important;
+    margin-bottom: 60px !important;
 }
 
 .post-entry:hover,
@@ -39,15 +117,125 @@
 
 /* Dark mode logo swap */
 :root[data-theme="dark"] .logo a img {
-    content: url("https://kernich.de/wp-content/uploads/2025/02/kernich-logo-white.svg");
+    content: url("/images/kernich-logo-white.svg");
 }
 
 @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) .logo a img {
-        content: url("https://kernich.de/wp-content/uploads/2025/02/kernich-logo-white.svg");
+        content: url("/images/kernich-logo-white.svg");
     }
 }
 
 :root[data-theme="dark"] .post-entry {
     background: transparent;
+}
+
+
+/* Custom button styles requested */
+a.btn {
+    text-decoration: none !important;
+}
+
+.btn, .btn-primary {
+    cursor: pointer;
+}
+
+.btn, .menu-toggle {
+    transform: skewX(-30deg);
+    box-sizing: border-box;
+    border: 4px solid #221f36;
+    display: block;
+    background-color: transparent;
+    text-transform: uppercase;
+    transition: all .4s;
+    margin: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 16px;
+    width: max-content;
+    min-width: 220px;
+    width:calc(100% - 40px);
+}
+
+.btn {
+    line-height: 28px;
+}
+
+.menu-toggle {
+    line-height: 15px;
+}
+
+.btn-wa {
+    border-color: #24d366;
+    color: #24d366;
+}
+
+.btn-linkedin {
+    border-color: #0a66c2;
+}
+
+footer .btn {
+    font-size: 14px;
+    padding: 8px 15px;
+    line-height: 22px;
+}
+
+.btn-large {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.btn-full {
+    width: calc(100% - 40px);
+}
+
+.btn-centered {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.btn-w {
+    color: #fff;
+    border-color: #fff;
+}
+
+.btn-w .btn-inner {
+    color: #fff;
+}
+
+.btn a, .btn-inner {
+    transform: skewX(30deg);
+    *height: 45px;
+    *line-height: 45px;
+    font-size: 1.1em;
+    font-weight: 600;
+    text-align: center;
+    color: #221f36;
+    display: block;
+    text-decoration: none !important;
+}
+
+.btn:hover {
+    transform: skewX(-30deg) scale(1.025);
+    background-color: #221f36;
+}
+
+.btn:hover .btn-inner {
+    color: #fff;
+}
+
+/* Dark mode compatibility support */
+.dark .btn {
+    border-color: #e1e1e6;
+}
+.dark .btn:hover {
+    background-color: #e1e1e6;
+}
+.dark .btn:hover .btn-inner {
+    color: #221f36;
+}
+.dark .btn a, .dark .btn-inner {
+    color: #e1e1e6;
 }

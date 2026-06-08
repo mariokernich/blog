@@ -24,7 +24,7 @@ params:
   hideAuthor: true
   defaultTheme: auto
   label:
-    icon: "https://kernich.de/wp-content/uploads/2024/11/Kernich-Logo.svg"
+    icon: "images/kernich-logo.svg"
     iconHeight: 35
     text: " "
   mainSections:
@@ -51,7 +51,7 @@ params:
 
   homeInfoParams:
     Title: "Welcome 👋"
-    Content: "I'm a Technology Manager with a passion for continuously exploring modern tech. Here, you'll find guides, tutorials, and latest news on ABAP, UI5, RAP, Cloud computing, and AI."
+    Content: "I'm a Technology Manager with a passion for continuously exploring modern tech. Here, you'll find guides, tutorials, and latest news on ABAP, UI5, RAP, Cloud computing, and AI — as well as some off-topic insights from my personal life or other programming languages."
 
   socialIcons:
     - name: github
