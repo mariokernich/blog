@@ -103,7 +103,7 @@
     border-radius: 0;
 }
 
-img {
+.md-content img {
     border-radius: 0;
 }
 
@@ -260,20 +260,15 @@ footer .btn {
 }
 
 /* ============================================================
-   Projects page – alternating two-column cards (shortcode-based)
+   Projects page – vertically stacked cards (shortcode-based)
    Used by the `project` shortcode in /content/projects.md
+   Order: image → text → action button
    ============================================================ */
 
 .project-container {
     display: flex;
-    flex-wrap: wrap;
-    gap: 32px;
+    flex-direction: column;
     margin: 48px 0;
-    align-items: center;
-}
-
-.project-container:nth-of-type(even) {
-    flex-direction: row-reverse;
 }
 
 .project-container + .project-container {
@@ -281,22 +276,24 @@ footer .btn {
     padding-top: 48px;
 }
 
-.project-container .project-text {
-    flex: 1.2;
-    min-width: 280px;
-}
-
 .project-container .project-image {
-    flex: 1;
-    min-width: 280px;
+    width: 100%;
+    max-width: 640px;
 }
 
 .project-container .project-image img {
-    border-radius: 8px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     width: 100%;
     height: auto;
     display: block;
+}
+
+.project-container .project-text {
+    width: 100%;
+}
+
+.project-container .project-action {
+    margin-top: 8px;
 }
 
 :root[data-theme="dark"] .project-container .project-image img {
