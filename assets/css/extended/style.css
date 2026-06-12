@@ -103,6 +103,10 @@
     border-radius: 0;
 }
 
+img {
+    border-radius: 0;
+}
+
 /* Remove border radius from thumbnails (post cover images) */
 .entry-cover img {
     border-radius: 0;
