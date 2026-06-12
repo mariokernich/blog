@@ -78,6 +78,10 @@ menu:
       name: Talks
       url: /talks/
       weight: 20
+    - identifier: about
+      name: About
+      url: /about/
+      weight: 25
     - identifier: tags
       name: Tags
       url: /tags/

@@ -239,3 +239,62 @@ footer .btn {
 .dark .btn a, .dark .btn-inner {
     color: #e1e1e6;
 }
+
+/* About page – Mario portrait */
+.mario-portrait img {
+    border-radius: 50%;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    max-width: 280px;
+    width: 100%;
+    height: auto;
+    margin: 0 auto 24px;
+    display: block;
+}
+
+:root[data-theme="dark"] .mario-portrait img {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+/* ============================================================
+   Projects page – alternating two-column cards (shortcode-based)
+   Used by the `project` shortcode in /content/projects.md
+   ============================================================ */
+
+.project-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    margin: 48px 0;
+    align-items: center;
+}
+
+.project-container:nth-of-type(even) {
+    flex-direction: row-reverse;
+}
+
+.project-container + .project-container {
+    border-top: 1px solid var(--border);
+    padding-top: 48px;
+}
+
+.project-container .project-text {
+    flex: 1.2;
+    min-width: 280px;
+}
+
+.project-container .project-image {
+    flex: 1;
+    min-width: 280px;
+}
+
+.project-container .project-image img {
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+:root[data-theme="dark"] .project-container .project-image img {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
