@@ -20,10 +20,8 @@ Germany
 
 ## Contact
 
-Phone: +49 1511 0573779  
-Email: mario@kernich.de
-
-[More contact options](https://kernich.de/contact)
+Phone: [+49 1511 0573779](tel:+4915110573779)  
+Email: [mario@kernich.de](mailto:mario@kernich.de)
 
 ## Consumer Dispute Resolution
 
