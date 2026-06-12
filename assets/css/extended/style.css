@@ -302,3 +302,9 @@ footer .btn {
 :root[data-theme="dark"] .project-container .project-image img {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
 }
+
+/* Inline SVG icons in main menu (e.g. Search) – vertically center with text labels */
+#menu a span svg {
+    display: inline-block;
+    vertical-align: middle;
+}
