@@ -112,13 +112,6 @@
     border-radius: 0;
 }
 
-/* Spacing for header / logo on mobile screens */
-@media screen and (max-width: 768px) {
-    .header {
-        padding-top: 15px;
-    }
-}
-
 /* Dark mode logo swap */
 :root[data-theme="dark"] .logo a img {
     content: url("/images/kernich-logo-white.svg");
@@ -161,6 +154,10 @@ a.btn {
     width: max-content;
     min-width: 220px;
     width:calc(100% - 40px);
+}
+
+:root[data-theme="dark"] .btn, :root[data-theme="dark"] .menu-toggle {
+    border-color: #e1e1e6;
 }
 
 .btn {
@@ -221,13 +218,25 @@ footer .btn {
     text-decoration: none !important;
 }
 
+:root[data-theme="dark"] .btn a, :root[data-theme="dark"] .btn-inner {
+    color: #e1e1e6;
+}
+
 .btn:hover {
     transform: skewX(-30deg) scale(1.025);
     background-color: #221f36;
 }
 
+:root[data-theme="dark"] .btn:hover {
+    background-color: #e1e1e6;
+}
+
 .btn:hover .btn-inner {
     color: #fff;
+}
+
+:root[data-theme="dark"] .btn:hover {
+    background-color: #e1e1e6;
 }
 
 /* Dark mode compatibility support */
@@ -304,4 +313,120 @@ footer .btn {
 #menu a span svg {
     display: inline-block;
     vertical-align: middle;
+}
+
+/* ============================================================
+   Sticky site header
+   ============================================================ */
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #fff;
+}
+
+:root[data-theme="dark"] .header {
+    background: var(--theme);
+}
+
+/* On narrow screens (< 800px) give the sticky header a bit of top padding */
+@media (max-width: 799px) {
+    .header {
+        padding-top: 15px;
+    }
+}
+
+/* ============================================================
+   Scroll progress bar (lives inside the sticky .header)
+   ============================================================ */
+::-webkit-scrollbar {
+    display: none;
+}
+
+.progress-container {
+    width: 100%;
+    height: 5px;
+    background: rgb(0 0 0/0.08);
+}
+
+:root[data-theme="dark"] .progress-container {
+    background: rgb(255 255 255/0.08);
+}
+
+.progress-bar {
+    height: 5px;
+    background-image: linear-gradient(#00bbe1, #0077ff);
+    width: 0;
+}
+
+
+.logo:hover img {
+    animation-name: shake-mk;
+    animation-duration: 2s;
+    transform-origin: 50% 50%;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+@keyframes shake-mk {
+    0% {
+        transform: rotate(0deg)
+    }
+    10% {
+        transform: rotate(3deg)
+    }
+    20% {
+        transform: rotate(0deg)
+    }
+    30% {
+        transform: rotate(6deg)
+    }
+    40% {
+        transform: rotate(-3deg)
+    }
+    50% {
+        transform: rotate(0deg)
+    }
+    60% {
+        transform: rotate(3deg)
+    }
+    70% {
+        transform: rotate(0deg)
+    }
+    80% {
+        transform: rotate(6deg)
+    }
+    90% {
+        transform: rotate(-3deg)
+    }
+    100% {
+        transform: rotate(0deg)
+    }
+}
+
+.menu a {
+    font-size: 18px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.menu .active {
+    font-size: 18px;
+    font-weight: 600;
+    text-transform: uppercase;
+    text-decoration: none;
+}
+
+/* ============================================================
+   Larger theme toggle (sun/moon button in the header)
+   ============================================================ */
+.theme-toggle {
+    padding: 0 0.55rem;
+    display: inline-flex;
+    align-items: center;
+}
+
+.theme-toggle svg {
+    width: 22px;
+    height: 22px;
 }

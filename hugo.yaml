@@ -25,7 +25,7 @@ params:
   defaultTheme: auto
   label:
     icon: "images/kernich-logo.svg"
-    iconHeight: 35
+    iconHeight: 38
     text: " "
   mainSections:
     - posts
