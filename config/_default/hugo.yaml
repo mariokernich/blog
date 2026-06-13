@@ -70,10 +70,6 @@ menu:
       name: Posts
       url: /posts/
       weight: 10
-    - identifier: projects
-      name: Projects
-      url: /projects/
-      weight: 15
     - identifier: talks
       name: Talks
       url: /talks/
