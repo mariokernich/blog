@@ -331,8 +331,9 @@ footer .btn {
 
 /* On narrow screens (< 800px) give the sticky header a bit of top padding */
 @media (max-width: 799px) {
-    .header {
+    .header-nav {
         padding-top: 15px;
+        padding-bottom: 15px;
     }
 }
 
@@ -429,4 +430,108 @@ footer .btn {
 .theme-toggle svg {
     width: 22px;
     height: 22px;
+}
+
+/* ============================================================
+   Mobile burger menu (visible only below 800px)
+   ============================================================ */
+
+/* Burger button – hidden on desktop */
+.burger-toggle {
+    display: none;
+    background: transparent;
+    border: none;
+    padding: 6px 8px;
+    cursor: pointer;
+    align-items: center;
+    column-gap: 8px;
+    color: var(--primary);
+    font: inherit;
+    font-weight: 600;
+    margin-left: auto; /* push to the right of the logo row */
+}
+
+.burger-toggle .burger-icon {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
+    width: 24px;
+    height: 18px;
+    flex: 0 0 auto;
+}
+
+.burger-toggle .burger-bar {
+    display: block;
+    height: 3px;
+    width: 100%;
+    background: var(--primary);
+    border-radius: 2px;
+    transition: transform 0.25s ease, opacity 0.2s ease;
+    transform-origin: center;
+}
+
+.burger-toggle .burger-label {
+    font-size: 1rem;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+/* Animate to an X when open */
+.header.menu-open .burger-toggle .burger-icon .burger-bar:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+.header.menu-open .burger-toggle .burger-icon .burger-bar:nth-child(2) {
+    opacity: 0;
+}
+.header.menu-open .burger-toggle .burger-icon .burger-bar:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
+@media (max-width: 799px) {
+    /* Show the burger */
+    .burger-toggle {
+        display: inline-flex;
+    }
+
+    /* Let the logo row span the full width and put the burger at its end */
+    .header-nav {
+        flex-wrap: wrap;
+        row-gap: 8px;
+    }
+    .logo {
+        flex: 1 1 auto;
+    }
+
+    /* Hide the menu by default on mobile */
+    .menu {
+        display: none;
+        width: 100%;
+        order: 3; /* sits below logo + burger row */
+        padding: 6px 0 10px;
+        margin: 0;
+    }
+
+    /* Reveal as a vertical list when toggled open */
+    .header.menu-open .menu {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        row-gap: 4px;
+        column-gap: 0;
+        overflow-x: visible;
+        white-space: normal;
+    }
+
+    .header.menu-open .menu li {
+        width: 100%;
+    }
+
+    .header.menu-open .menu a {
+        display: block;
+        width: 100%;
+        padding: 0;
+        line-height: normal;
+    }
 }

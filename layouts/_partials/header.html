@@ -84,6 +84,16 @@
             </div>
             {{- end }}
         </div>
+        {{- /* Burger toggle – only visible on small screens via CSS */ -}}
+        <button id="burger-toggle" class="burger-toggle" type="button"
+            aria-label="Toggle navigation menu" aria-controls="menu" aria-expanded="false">
+            <span class="burger-icon">
+                <span class="burger-bar"></span>
+                <span class="burger-bar"></span>
+                <span class="burger-bar"></span>
+            </span>
+            <span class="burger-label">Menu</span>
+        </button>
         {{- $currentPage := . }}
         <ul id="menu" class="menu">
             {{- range site.Menus.main }}
