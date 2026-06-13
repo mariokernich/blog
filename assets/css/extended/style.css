@@ -9,6 +9,48 @@
     --code-bg: #eaecef;       /* Beautiful inline code background */
 }
 
+/* ============================================================
+   Code block readability – both light & dark themes
+   ------------------------------------------------------------
+   PaperMod hardcodes `color: rgb(213, 213, 214)` on
+   `.md-content pre code`, which is unreadable on our light
+   `--code-block-bg` (#f6f8fa). Force a high-contrast color
+   per theme and make inline `<code>` chips behave too.
+   ============================================================ */
+
+/* Light mode: dark text on light background + subtle border */
+:root:not([data-theme="dark"]) .md-content pre code,
+:root[data-theme="light"] .md-content pre code {
+    color: #24292f;
+}
+
+:root:not([data-theme="dark"]) .post-content pre,
+:root[data-theme="light"] .post-content pre {
+    border: 1px solid #d0d7de;
+}
+
+/* Inline `<code>` chips – ensure readable contrast in light mode */
+:root:not([data-theme="dark"]) .post-content :not(pre) > code,
+:root[data-theme="light"] .post-content :not(pre) > code {
+    color: #24292f;
+    border: 1px solid #d0d7de;
+}
+
+/* Dark mode: restore a dark inline-code background (the global
+   `:root { --code-bg: #ffffff }` would otherwise make inline
+   chips glaringly white) and keep block text light. */
+:root[data-theme="dark"] {
+    --code-bg: #2d333b;
+}
+
+:root[data-theme="dark"] .md-content pre code {
+    color: #d1d5da;
+}
+
+:root[data-theme="dark"] .post-content :not(pre) > code {
+    color: #f0f3f6;
+}
+
 /* Light mode syntax highlighting override */
 :root:not([data-theme="dark"]) .chroma { color: #24292f; }
 :root:not([data-theme="dark"]) .chroma .err { color: #cf222e; }

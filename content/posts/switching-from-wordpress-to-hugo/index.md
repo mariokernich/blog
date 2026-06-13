@@ -122,6 +122,8 @@ To be fair, switching to Hugo does mean giving up a few things:
 
 For a **personal/technical blog**, none of these matter. For client projects with non-technical editors, WordPress (or a headless CMS) may still be the right call. But for me, on this blog, the tradeoff is overwhelmingly worth it.
 
+> 📖 **Note:** You can see the whole source code of this blog in this repo: [github.com/mariokernich/blog](https://github.com/mariokernich/blog)
+
 ## Conclusion
 
 After **11 years of WordPress**, switching to Hugo felt less like a migration and more like a **liberation**. No more plugin hell, no more PHP, no more database. Just Markdown, Git, and a fast static site that I fully understand and control.
