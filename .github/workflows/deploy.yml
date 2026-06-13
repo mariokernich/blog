@@ -1,4 +1,4 @@
-name: Deploy blog via FTPS
+name: Deploy via FTPS
 
 on:
   push:
@@ -36,7 +36,7 @@ jobs:
           HUGO_ENV: production
         run: hugo --gc --minify
 
-      - name: Deploy to blog.kernich.de via FTPS
+      - name: Deploy to kernich.de via FTPS
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: web04.dataforest.net
