@@ -20,7 +20,7 @@ Here is an overview of my speaking engagements, sessions, and presentations.
 
 In this session, we explore how to build custom CDS entities in ABAP RAP backed by a fully custom query implementation using the IF_RAP_QUERY_PROVIDER interface. We walk through how to programmatically handle incoming request parameters such as filtering, sorting, and paging (top/skip) within the SELECT method, and demonstrate how to define and resolve associations to enable $expand capabilities for OData consumers. By the end, attendees will know how to take full control over data retrieval in RAP while still adhering to the framework’s contract — ideal for scenarios involving legacy APIs, external data sources, or complex custom logic.
 
-![abapconf 2026](/images/talks/abapconf-2026.jpeg)
+<img src="/images/talks/abapconf-2026.jpeg" alt="abapconf 2026" style="width:100%;">
 
 ---
 
