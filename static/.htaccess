@@ -1,0 +1,41 @@
+# ----------------------------------------------------------------------
+# Custom error documents
+# ----------------------------------------------------------------------
+# Serve Hugo's generated 404 page for any "Not Found" response.
+ErrorDocument 404 /404.html
+
+# ----------------------------------------------------------------------
+# Default options
+# ----------------------------------------------------------------------
+# Disable directory listings.
+Options -Indexes
+
+# Follow symbolic links (required by mod_rewrite below).
+Options +FollowSymLinks
+
+# Default charset for text responses.
+AddDefaultCharset UTF-8
+
+# ----------------------------------------------------------------------
+# Rewrite rules
+# ----------------------------------------------------------------------
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # If the request is for an existing file or directory, serve it as-is.
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # Otherwise, return a 404 and let ErrorDocument render /404.html.
+    RewriteRule ^ - [R=404,L]
+</IfModule>
+
+# ----------------------------------------------------------------------
+# Security headers (safe defaults)
+# ----------------------------------------------------------------------
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
