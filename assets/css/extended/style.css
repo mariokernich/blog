@@ -360,8 +360,7 @@ footer .btn {
     width: 0;
 }
 
-
-.logo:hover img {
+.logo a:hover img {
     animation-name: shake-mk;
     animation-duration: 2s;
     transform-origin: 50% 50%;
