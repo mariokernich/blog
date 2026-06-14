@@ -124,3 +124,16 @@
     });
 </script>
 {{- end }}
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll("a").forEach(function (link) {
+            if (link.href && link.hostname !== window.location.hostname) {
+                if (/^https?:\/\//i.test(link.href)) {
+                    link.setAttribute("target", "_blank");
+                    link.setAttribute("rel", "noopener noreferrer");
+                }
+            }
+        });
+    });
+</script>
