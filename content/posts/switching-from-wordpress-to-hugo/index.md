@@ -112,6 +112,18 @@ Hugo gives you a serious templating engine, layouts, partials, shortcodes, taxon
 
 The amount of freedom — without giving up speed — is what makes it so enjoyable.
 
+### 🔧 Things I Adjusted in My Hugo Setup
+
+Since hosting this blog on Hugo, I have customized a few features to perfectly tailor the site to my needs. Here is what I adjusted:
+
+- **Custom "Kernich" Styling:** Added personalized CSS tweaks to match my custom branding and typography system.
+- **Local Mermaid Integration:** Embedded Mermaid support locally to render clear, text-based architecture diagrams with the convenience of simple Markdown.
+- **Local Fancybox Support:** Integrated Fancybox locally to enable smooth, user-friendly lightbox transitions when clicking any blog post images.
+- **Static Pages:** Built structured static pages for my [About Me](/about/) section and [Public Talks](/talks/).
+- **Automatic External Link Target:** Configured a custom render-link hook and global JavaScript fallback so all external links automatically open safely in a new tab.
+
+> 📖 **Note:** You can see the whole source code of this blog in this repo: [github.com/mariokernich/blog](https://github.com/mariokernich/blog)
+
 ## What I Lose (and Don't Miss)
 
 To be fair, switching to Hugo does mean giving up a few things:
@@ -121,8 +133,6 @@ To be fair, switching to Hugo does mean giving up a few things:
 - ❌ Dynamic features like comments or forms — you need third-party services
 
 For a **personal/technical blog**, none of these matter. For client projects with non-technical editors, WordPress (or a headless CMS) may still be the right call. But for me, on this blog, the tradeoff is overwhelmingly worth it.
-
-> 📖 **Note:** You can see the whole source code of this blog in this repo: [github.com/mariokernich/blog](https://github.com/mariokernich/blog)
 
 ## Conclusion
 
