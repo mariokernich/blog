@@ -48,6 +48,13 @@
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
 }
 
+/* Talks page */
+.post-content.talks-page img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
 /* Inline SVG icons in main menu (e.g. Search) */
 #menu a span svg {
     display: inline-block;
