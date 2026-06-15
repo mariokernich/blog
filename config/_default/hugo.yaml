@@ -40,6 +40,10 @@ params:
   ShowToc: true
   comments: false
 
+  analytics:
+    google:
+      id: G-HSQX674Z6S
+
   assets:
     favicon: "favicon.ico?v=2"
     favicon16x16: "favicon-16x16.png?v=2"
@@ -52,7 +56,7 @@ params:
     hiddenInSingle: true
 
   footer:
-    text: "[Imprint](/imprint/)"
+    text: "[Imprint](/imprint/) · [Privacy Policy](/privacy/)"
 
   homeInfoParams:
     Title: "WRITE: / Welcome 👋"
