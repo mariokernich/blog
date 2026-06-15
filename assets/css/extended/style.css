@@ -801,3 +801,51 @@ footer .btn {
     border-color: #f87171;
     color: #fee2e2;
 }
+
+/* Post meta — horizontal row with avatar, dates, and stats */
+.post-meta,
+.entry-footer {
+    line-height: 1.4;
+}
+
+.post-meta-items {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.post-meta-item {
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.post-meta-item + .post-meta-item::before {
+    content: "·";
+    margin: 0 0.5rem;
+    color: var(--secondary);
+    opacity: 0.65;
+    line-height: 1;
+}
+
+.post-author-meta {
+    gap: 0.45rem;
+}
+
+.post-author-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    flex-shrink: 0;
+    border: 1px solid var(--border);
+}
+
+.post-author-name {
+    line-height: 1.2;
+}

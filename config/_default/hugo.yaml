@@ -4,6 +4,7 @@ title: "Mario Kernich"
 theme: "PaperMod"
 
 enableRobotsTXT: true
+enableGitInfo: true
 buildDrafts: false
 buildFuture: false
 buildExpired: false
@@ -21,7 +22,8 @@ params:
   description: "Tutorials, guides, and news about ABAP, UI5, RAP, Cloud, and AI by Mario Kernich."
   keywords: [ABAP, UI5, RAP, Cloud, AI]
   author: "Mario Kernich"
-  hideAuthor: true
+  authorImage: "images/mario-kernich.png"
+  hideAuthor: false
   defaultTheme: auto
   label:
     icon: "images/kernich-logo.svg"

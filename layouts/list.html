@@ -75,7 +75,7 @@ if $term }} {{- $class = "post-entry tag-entry" }} {{- end }}
         </p>
     </div>
     {{- end }} {{- if not (.Param "hideMeta") }}
-    <footer class="entry-footer">{{- partial "post_meta.html" . -}}</footer>
+    <footer class="entry-footer">{{- partial "post_meta.html" (dict "page" . "showAuthor" false) -}}</footer>
     {{- end }}
     <a href="{{ .Permalink }}" title="Read more about {{ .Title }}" class="btn">
         <span class="btn-inner">Read more</span>
