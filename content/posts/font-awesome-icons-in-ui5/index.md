@@ -1,14 +1,13 @@
 ---
-title: "Font Awesome Icons in UI5"
+title: "Extend UI5 with Font Awesome: Industry-Standard Icons for SAPUI5"
 date: 2025-09-09
+lastmod: 2026-06-15
 draft: false
 tags: ["UI5", "SAPUI5", "font-awesome", "icons", "open-source"]
 categories: ["UI5"]
 ShowToc: true
 cover:
-  image: "showcase.jpg"
-  alt: "UI5 Icon Explorer showcase"
-  caption: "UI5 Icon Explorer showcase"
+  image: "thumbnail.png"
   hiddenInSingle: false
 ---
 
@@ -27,6 +26,30 @@ For this reason, I came up with a suitable solution that I'd like to share with 
 By using the library, all free Font Awesome icons become available. The library can also be extended with paid icons through a Pro license in just a few simple steps. This makes it possible to expand the 704 standard icons by an additional 61,764 icons.
 
 To use the library for development, you simply need to install an NPM module and add a ui5-middleware configuration. More details can be found in the repository.
+
+```bash
+npm i ui5-fontawesome-lib
+```
+
+Once installed, use Font Awesome icons through the familiar `sap-icon` URI scheme:
+
+```text
+sap-icon://{icon-pack}/{icon-name}
+```
+
+- **Icon pack:** `fa-regular`, `fa-solid`, or `fa-brands`
+- **Icon name:** the Font Awesome icon identifier (e.g. `heart`, `star`, `github`)
+
+```xml
+<!-- Regular -->
+<Icon src="sap-icon://fa-regular/heart" />
+
+<!-- Solid -->
+<Icon src="sap-icon://fa-solid/star" />
+
+<!-- Brands -->
+<Icon src="sap-icon://fa-brands/github" />
+```
 
 ## Showcase Application
 
