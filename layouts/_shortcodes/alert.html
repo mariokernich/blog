@@ -1,0 +1,15 @@
+{{- /* Alert shortcode for Info, Warning, and Error messages resembling minimal
+styled bootstrap alerts. Usage: {{% alert type="info" %}} This is an info
+message. {{% /alert %}} {{% alert type="warning" title="Note!" %}} This is a
+warning message. {{% /alert %}} {{% alert type="error" %}} This is an error
+message. {{% /alert %}} */ -}} {{- $type := .Get "type" | default "info" -}} {{-
+$title := .Get "title" -}} {{- $class := "alert-info" -}} {{- if eq $type
+"warning" -}} {{- $class = "alert-warning" -}} {{- else if or (eq $type "error")
+(eq $type "danger") -}} {{- $class = "alert-error" -}} {{- end -}}
+
+<div class="alert-box {{ $class }}">
+    {{- if $title }}
+    <div class="alert-title">{{ $title }}</div>
+    {{- end -}}
+    <div class="alert-content">{{- .Inner | .Page.RenderString -}}</div>
+</div>
