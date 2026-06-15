@@ -7,7 +7,7 @@ tags: ["Hugo", "WordPress", "Static Site", "Markdown", "Open Source"]
 categories: ["Web"]
 ShowToc: true
 cover:
-  image: "cover.svg"
+  image: "thumbnail.png"
   alt: "Switching from WordPress to Hugo"
   caption: "From PHP monolith to a blazing-fast static site"
   hiddenInSingle: false
