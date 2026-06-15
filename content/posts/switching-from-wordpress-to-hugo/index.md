@@ -1,6 +1,7 @@
 ---
 title: "Switching After 11 Years From WordPress to Hugo"
 date: 2026-06-13
+lastmod: 2026-06-15
 draft: false
 tags: ["Hugo", "WordPress", "Static Site", "Markdown", "Open Source"]
 categories: ["Web"]
@@ -121,6 +122,8 @@ Since hosting this blog on Hugo, I have customized a few features to perfectly t
 - **Local Fancybox Support:** Integrated Fancybox locally to enable smooth, user-friendly lightbox transitions when clicking any blog post images.
 - **Static Pages:** Built structured static pages for my [About Me](/about/) section and [Public Talks](/talks/).
 - **Automatic External Link Target:** Configured a custom render-link hook and global JavaScript fallback so all external links automatically open safely in a new tab.
+- **GDPR-Compatible Google Analytics:** Added opt-in consent tracking with Google Analytics 4 — no analytics scripts load until visitors explicitly accept.
+- **Alert Shortcodes:** Built custom shortcodes for styled info, warning, and error messages directly in Markdown posts.
 
 {{< alert type="info" title="📖 Note" >}}
 You can see the whole source code of this blog in this repo: [github.com/mariokernich/blog](https://github.com/mariokernich/blog)

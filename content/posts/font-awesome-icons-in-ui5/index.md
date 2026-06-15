@@ -1,7 +1,6 @@
 ---
 title: "Font Awesome Icons in UI5"
 date: 2025-09-09
-lastmod: 2026-06-15
 draft: false
 tags: ["UI5", "SAPUI5", "font-awesome", "icons", "open-source"]
 categories: ["UI5"]
