@@ -1,0 +1,109 @@
+baseURL: "https://kernich.de/"
+locale: "en-us"
+title: "Mario Kernich"
+theme: "PaperMod"
+
+enableRobotsTXT: true
+enableGitInfo: true
+buildDrafts: false
+buildFuture: false
+buildExpired: false
+
+pagination:
+  pagerSize: 10
+
+minify:
+  disableXML: true
+  minifyOutput: true
+
+params:
+  env: production
+  title: "Mario Kernich"
+  description: "Tutorials, guides, and news about ABAP, UI5, RAP, Cloud, and AI by Mario Kernich."
+  keywords: [ABAP, UI5, RAP, Cloud, AI]
+  author: "Mario Kernich"
+  authorImage: "images/mario-kernich.png"
+  hideAuthor: false
+  defaultTheme: auto
+  label:
+    icon: "images/kernich-logo.svg"
+    iconHeight: 30
+    text: " "
+  mainSections:
+    - posts
+  ShowReadingTime: true
+  ShowShareButtons: false
+  ShowPostNavLinks: true
+  ShowBreadCrumbs: true
+  ShowCodeCopyButtons: true
+  ShowWordCount: true
+  ShowToc: true
+  comments: false
+
+  assets:
+    favicon: "favicon.ico?v=2"
+    favicon16x16: "favicon-16x16.png?v=2"
+    favicon32x32: "favicon-32x32.png?v=2"
+    apple_touch_icon: "apple-touch-icon.png?v=2"
+
+  cover:
+    linkFullImages: true
+    responsiveImages: true
+    hiddenInSingle: true
+
+  footer:
+    text: "[Imprint](/imprint/)"
+
+  homeInfoParams:
+    Title: "WRITE: / Welcome 👋"
+    Content: "I'm a Technology Manager with a passion for continuously exploring modern tech. Here, you'll find guides, tutorials, and latest news on ABAP, UI5, RAP, Cloud computing, and AI — as well as some off-topic insights from my personal life or other programming languages."
+
+  socialIcons:
+    - name: linkedin
+      url: "https://www.linkedin.com/in/mariokernich"
+    - name: github
+      url: "https://github.com/mariokernich"
+    - name: rss
+      url: "index.xml"
+
+menu:
+  main:
+    - identifier: posts
+      name: Posts
+      url: /posts/
+      weight: 10
+    - identifier: talks
+      name: Talks
+      url: /talks/
+      weight: 20
+    - identifier: about
+      name: About
+      url: /about/
+      weight: 25
+    - identifier: tags
+      name: Tags
+      url: /tags/
+      weight: 30
+    - identifier: search
+      title: Search
+      name: ""
+      pre: <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      url: /search/
+      weight: 40
+
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON
+
+markup:
+  highlight:
+    noClasses: false
+    codeFences: true
+    guessSyntax: true
+    lineNos: true
+    style: monokai
+  goldmark:
+    renderer:
+      unsafe: true

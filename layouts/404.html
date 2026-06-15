@@ -1,0 +1,127 @@
+{{- define "main" }}
+<div class="error-page">
+    <div class="error-terminal" role="presentation">
+        <div class="error-terminal__chrome">
+            <span class="error-terminal__dot error-terminal__dot--red"></span>
+            <span
+                class="error-terminal__dot error-terminal__dot--yellow"
+            ></span>
+            <span class="error-terminal__dot error-terminal__dot--green"></span>
+            <span class="error-terminal__title"
+                >~/kernich.de — zsh — 80×24</span
+            >
+        </div>
+        <div class="error-terminal__body">
+            <p>
+                <span class="error-terminal__prompt">mario@kernich</span
+                ><span class="error-terminal__sep">:</span
+                ><span class="error-terminal__path">~/blog</span
+                ><span class="error-terminal__sep">$</span> curl -I {{
+                .Site.BaseURL }}{{ trim (.Page.RelPermalink | default
+                "this-page") "/" }}
+            </p>
+            <p class="error-terminal__out">
+                HTTP/2 <span class="error-terminal__code">404</span>
+            </p>
+            <p class="error-terminal__out">
+                content-type: text/html; charset=utf-8
+            </p>
+            <p class="error-terminal__out">x-powered-by: ☕ &amp; 🥨</p>
+            <p class="error-terminal__out">&nbsp;</p>
+            <p>
+                <span class="error-terminal__prompt">mario@kernich</span
+                ><span class="error-terminal__sep">:</span
+                ><span class="error-terminal__path">~/blog</span
+                ><span class="error-terminal__sep">$</span>
+                <span
+                    id="error-typed"
+                    data-messages='[
+        "git push origin missing-page  # rejected (non-fast-forward)",
+        "sudo find / -name "the-page-you-wanted"  # nothing found",
+        "ABAP: SHORT_DUMP — PAGE_NOT_FOUND_EXCEPTION",
+        "UI5: sap.ui.require([\"the/page/you/wanted\"]) // failed",
+        "rm -rf /the/page/you/wanted  # already gone",
+        "kubectl get page -n kernich-de  # No resources found",
+        "npm install missing-page  # 404 — registry returned 404"
+      ]'
+                ></span
+                ><span class="error-terminal__cursor" aria-hidden="true"
+                    >▋</span
+                >
+            </p>
+        </div>
+    </div>
+
+    <h1 class="error-headline">404 &middot; Page not committed</h1>
+    <p class="error-subline">
+        Looks like this page got lost in a merge conflict — or maybe it never
+        made it past code review.
+    </p>
+
+    <ul class="error-suggestions">
+        <li>Check the URL for typos (it happens to the best of us).</li>
+        <li>
+            Head back to the <a href="{{ .Site.BaseURL }}">homepage</a> and
+            start fresh.
+        </li>
+        <li>
+            Browse the latest <a href="{{ .Site.BaseURL }}posts/">posts</a> or
+            use <a href="{{ .Site.BaseURL }}search/">search</a>.
+        </li>
+    </ul>
+
+    <p class="error-easter">
+        <code>// TODO: write this page</code>
+    </p>
+</div>
+
+<script>
+    (function () {
+        var el = document.getElementById("error-typed");
+        if (!el) return;
+        var messages;
+        try {
+            messages = JSON.parse(el.getAttribute("data-messages"));
+        } catch (e) {
+            return;
+        }
+        if (!messages || !messages.length) return;
+
+        var prefersReduced = window.matchMedia(
+            "(prefers-reduced-motion: reduce)",
+        ).matches;
+        if (prefersReduced) {
+            el.textContent =
+                messages[Math.floor(Math.random() * messages.length)];
+            return;
+        }
+
+        var msgIndex = Math.floor(Math.random() * messages.length);
+        var charIndex = 0;
+        var deleting = false;
+
+        function tick() {
+            var current = messages[msgIndex];
+            if (!deleting) {
+                charIndex++;
+                el.textContent = current.slice(0, charIndex);
+                if (charIndex >= current.length) {
+                    deleting = true;
+                    return setTimeout(tick, 2200);
+                }
+                return setTimeout(tick, 45 + Math.random() * 50);
+            } else {
+                charIndex--;
+                el.textContent = current.slice(0, charIndex);
+                if (charIndex <= 0) {
+                    deleting = false;
+                    msgIndex = (msgIndex + 1) % messages.length;
+                    return setTimeout(tick, 400);
+                }
+                return setTimeout(tick, 20);
+            }
+        }
+        tick();
+    })();
+</script>
+{{- end }}{{/* end main */ -}}

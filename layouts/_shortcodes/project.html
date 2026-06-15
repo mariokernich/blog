@@ -1,0 +1,32 @@
+{{- /* Project card shortcode used on the /projects/ page. Parameters: title –
+Project title (required) image – Image path, e.g. /images/projects/odapu.png
+(required) imageAlt – Image alt text (optional, defaults to title) repo –
+Repository / link URL (required) repoTitle – Tooltip / accessibility title for
+the repo link (optional) repoLabel – Visible label for the link button
+(optional, defaults to "GitHub Repository") Body: Markdown description rendered
+between the title and the link. */ -}} {{- $title := .Get "title" -}} {{- $image
+:= .Get "image" -}} {{- $imageAlt := .Get "imageAlt" | default $title -}} {{-
+$repo := .Get "repo" -}} {{- $repoTitle := .Get "repoTitle" | default (printf
+"Go to %s repository" $title) -}} {{- $repoLabel := .Get "repoLabel" | default
+"GitHub Repository" -}}
+<section class="project-container">
+    <div class="project-image">
+        <img src="{{ $image }}" alt="{{ $imageAlt }}" loading="lazy" />
+    </div>
+    <div class="project-text">
+        <h2>{{ $title }}</h2>
+        {{ .Inner | .Page.RenderString }}
+    </div>
+    {{- with $repo }}
+    <div class="project-action">
+        <a
+            href="{{ . }}"
+            title="{{ $repoTitle }}"
+            class="btn"
+            target="_blank"
+            rel="noopener"
+            ><span class="btn-inner">{{ $repoLabel }}</span></a
+        >
+    </div>
+    {{- end }}
+</section>

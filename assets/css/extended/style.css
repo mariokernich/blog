@@ -1,0 +1,884 @@
+/* Custom variables for Hugo PaperMod blog */
+:root {
+    --code-bg: #ffffff;
+    --main-width: 52rem;
+}
+
+/* Light mode code background and syntax variables */
+:root:not([data-theme="dark"]), :root[data-theme="light"] {
+    --code-block-bg: #f6f8fa; /* Beautiful light code block background */
+    --code-bg: #eaecef;       /* Beautiful inline code background */
+}
+
+/* ============================================================
+   Code block readability – both light & dark themes
+   ------------------------------------------------------------
+   PaperMod hardcodes `color: rgb(213, 213, 214)` on
+   `.md-content pre code`, which is unreadable on our light
+   `--code-block-bg` (#f6f8fa). Force a high-contrast color
+   per theme and make inline `<code>` chips behave too.
+   ============================================================ */
+
+/* Light mode: dark text on light background + subtle border */
+:root:not([data-theme="dark"]) .md-content pre code,
+:root[data-theme="light"] .md-content pre code {
+    color: #24292f;
+}
+
+:root:not([data-theme="dark"]) .post-content pre,
+:root[data-theme="light"] .post-content pre {
+    border: 1px solid #d0d7de;
+}
+
+/* Inline `<code>` chips – ensure readable contrast in light mode */
+:root:not([data-theme="dark"]) .post-content :not(pre) > code,
+:root[data-theme="light"] .post-content :not(pre) > code {
+    color: #24292f;
+    border: 1px solid #d0d7de;
+}
+
+/* Dark mode: restore a dark inline-code background (the global
+   `:root { --code-bg: #ffffff }` would otherwise make inline
+   chips glaringly white) and keep block text light. */
+:root[data-theme="dark"] {
+    --code-bg: #2d333b;
+}
+
+:root[data-theme="dark"] .md-content pre code {
+    color: #d1d5da;
+}
+
+:root[data-theme="dark"] .post-content :not(pre) > code {
+    color: #f0f3f6;
+}
+
+/* Light mode syntax highlighting override */
+:root:not([data-theme="dark"]) .chroma { color: #24292f; }
+:root:not([data-theme="dark"]) .chroma .err { color: #cf222e; }
+:root:not([data-theme="dark"]) .chroma .lnlinks { color: inherit; }
+:root:not([data-theme="dark"]) .chroma .lnt { color: #8c95a0; }
+:root:not([data-theme="dark"]) .chroma .ln { color: #8c95a0; }
+:root:not([data-theme="dark"]) .chroma .k { color: #cf222e; }
+:root:not([data-theme="dark"]) .chroma .kc { color: #cf222e; }
+:root:not([data-theme="dark"]) .chroma .kd { color: #cf222e; }
+:root:not([data-theme="dark"]) .chroma .kn { color: #cf222e; }
+:root:not([data-theme="dark"]) .chroma .kp { color: #cf222e; }
+:root:not([data-theme="dark"]) .chroma .kr { color: #cf222e; }
+:root:not([data-theme="dark"]) .chroma .kt { color: #cf222e; }
+:root:not([data-theme="dark"]) .chroma .na { color: #0550ae; }
+:root:not([data-theme="dark"]) .chroma .nb { color: #953800; }
+:root:not([data-theme="dark"]) .chroma .bp { color: #953800; }
+:root:not([data-theme="dark"]) .chroma .nc { color: #953800; }
+:root:not([data-theme="dark"]) .chroma .no { color: #0550ae; }
+:root:not([data-theme="dark"]) .chroma .nd { color: #8250df; font-weight: bold; }
+:root:not([data-theme="dark"]) .chroma .ni { color: #116329; }
+:root:not([data-theme="dark"]) .chroma .ne { color: #cf222e; }
+:root:not([data-theme="dark"]) .chroma .nf { color: #8250df; }
+:root:not([data-theme="dark"]) .chroma .fm { color: #8250df; }
+:root:not([data-theme="dark"]) .chroma .nl { color: #0550ae; }
+:root:not([data-theme="dark"]) .chroma .nn { color: #cf222e; }
+:root:not([data-theme="dark"]) .chroma .py { color: #0550ae; }
+:root:not([data-theme="dark"]) .chroma .nt { color: #116329; }
+:root:not([data-theme="dark"]) .chroma .nv { color: #24292f; }
+:root:not([data-theme="dark"]) .chroma .vc { color: #24292f; }
+:root:not([data-theme="dark"]) .chroma .vg { color: #24292f; }
+:root:not([data-theme="dark"]) .chroma .vi { color: #24292f; }
+:root:not([data-theme="dark"]) .chroma .vm { color: #24292f; }
+:root:not([data-theme="dark"]) .chroma .s { color: #0a3069; }
+:root:not([data-theme="dark"]) .chroma .sa { color: #cf222e; }
+:root:not([data-theme="dark"]) .chroma .sb { color: #0a3069; }
+:root:not([data-theme="dark"]) .chroma .sc { color: #0a3069; }
+:root:not([data-theme="dark"]) .chroma .dl { color: #0550ae; }
+:root:not([data-theme="dark"]) .chroma .sd { color: #6e7781; }
+:root:not([data-theme="dark"]) .chroma .s2 { color: #0a3069; }
+:root:not([data-theme="dark"]) .chroma .se { color: #0550ae; }
+:root:not([data-theme="dark"]) .chroma .sh { color: #6e7781; }
+:root:not([data-theme="dark"]) .chroma .si { color: #0a3069; }
+:root:not([data-theme="dark"]) .chroma .sx { color: #0a3069; }
+:root:not([data-theme="dark"]) .chroma .sr { color: #cf222e; }
+:root:not([data-theme="dark"]) .chroma .s1 { color: #0a3069; }
+:root:not([data-theme="dark"]) .chroma .ss { color: #0a3069; }
+:root:not([data-theme="dark"]) .chroma .m { color: #0550ae; }
+:root:not([data-theme="dark"]) .chroma .mb { color: #0550ae; }
+:root:not([data-theme="dark"]) .chroma .mf { color: #0550ae; }
+:root:not([data-theme="dark"]) .chroma .mh { color: #0550ae; }
+:root:not([data-theme="dark"]) .chroma .mi { color: #0550ae; }
+:root:not([data-theme="dark"]) .chroma .il { color: #0550ae; }
+:root:not([data-theme="dark"]) .chroma .mo { color: #0550ae; }
+:root:not([data-theme="dark"]) .chroma .o { color: #bc4c00; font-weight: bold; }
+:root:not([data-theme="dark"]) .chroma .ow { color: #cf222e; font-weight: bold; }
+:root:not([data-theme="dark"]) .chroma .c { color: #6e7781; font-style: italic; }
+:root:not([data-theme="dark"]) .chroma .ch { color: #6e7781; font-style: italic; }
+:root:not([data-theme="dark"]) .chroma .cm { color: #6e7781; font-style: italic; }
+:root:not([data-theme="dark"]) .chroma .c1 { color: #6e7781; font-style: italic; }
+:root:not([data-theme="dark"]) .chroma .cs { color: #6e7781; font-style: italic; }
+:root:not([data-theme="dark"]) .chroma .cp { color: #6e7781; font-style: italic; }
+:root:not([data-theme="dark"]) .chroma .cpf { color: #6e7781; font-weight: bold; font-style: italic; }
+:root:not([data-theme="dark"]) .chroma .gd { color: #cf222e; background-color: #ffebe9; }
+:root:not([data-theme="dark"]) .chroma .ge { font-style: italic; }
+:root:not([data-theme="dark"]) .chroma .gr { color: #cf222e; }
+:root:not([data-theme="dark"]) .chroma .gh { color: #0550ae; font-weight: bold; }
+:root:not([data-theme="dark"]) .chroma .gi { color: #116329; background-color: #dafbe1; }
+:root:not([data-theme="dark"]) .chroma .gs { font-weight: bold; }
+:root:not([data-theme="dark"]) .chroma .gu { color: #0550ae; font-weight: bold; }
+:root:not([data-theme="dark"]) .chroma .gt { color: #cf222e; }
+
+/* Custom background override for Hugo PaperMod blog */
+.list {
+    background: var(--theme);
+}
+
+/* Post-entries (Cards) ohne Rahmen und mit mehr Abstand im Feed */
+.post-entry {
+    border: none !important;
+    padding: 0 !important;
+    margin-bottom: 60px !important;
+}
+
+.post-entry:hover,
+.post-entry:focus-within {
+    border-color: transparent;
+}
+
+/* Remove border radius from custom logo img and svg */
+.logo a img,
+.logo a svg {
+    border-radius: 0;
+}
+
+.md-content img {
+    border-radius: 0;
+    box-shadow: 0 10px 15px -3px #0000001a, 0 4px 6px -2px #0000000d;
+}
+
+/* Remove border radius from thumbnails (post cover images) */
+.entry-cover img {
+    border-radius: 0;
+}
+
+/* Dark mode logo swap */
+:root[data-theme="dark"] .logo a img {
+    content: url("/images/kernich-logo-white.svg");
+}
+
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .logo a img {
+        content: url("/images/kernich-logo-white.svg");
+    }
+}
+
+:root[data-theme="dark"] .post-entry {
+    background: transparent;
+}
+
+
+/* Custom button styles requested */
+a.btn {
+    text-decoration: none !important;
+}
+
+.btn, .btn-primary {
+    cursor: pointer;
+}
+
+.btn, .menu-toggle {
+    transform: skewX(-30deg);
+    box-sizing: border-box;
+    border: 4px solid #221f36;
+    display: block;
+    background-color: transparent;
+    text-transform: uppercase;
+    transition: all .4s;
+    margin: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 16px;
+    width: max-content;
+    min-width: 220px;
+    width:calc(100% - 40px);
+}
+
+:root[data-theme="dark"] .btn, :root[data-theme="dark"] .menu-toggle {
+    border-color: #e1e1e6;
+}
+
+.btn {
+    line-height: 28px;
+}
+
+.menu-toggle {
+    line-height: 15px;
+}
+
+.btn-wa {
+    border-color: #24d366;
+    color: #24d366;
+}
+
+.btn-linkedin {
+    border-color: #0a66c2;
+}
+
+footer .btn {
+    font-size: 14px;
+    padding: 8px 15px;
+    line-height: 22px;
+}
+
+.btn-large {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.btn-full {
+    width: calc(100% - 40px);
+}
+
+.btn-centered {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.btn-w {
+    color: #fff;
+    border-color: #fff;
+}
+
+.btn-w .btn-inner {
+    color: #fff;
+}
+
+.btn a, .btn-inner {
+    transform: skewX(30deg);
+    *height: 45px;
+    *line-height: 45px;
+    font-size: 1.1em;
+    font-weight: 600;
+    text-align: center;
+    color: #221f36;
+    display: block;
+    text-decoration: none !important;
+}
+
+:root[data-theme="dark"] .btn a, :root[data-theme="dark"] .btn-inner {
+    color: #e1e1e6;
+}
+
+.btn:hover {
+    transform: skewX(-30deg) scale(1.025);
+    background-color: #221f36;
+}
+
+:root[data-theme="dark"] .btn:hover {
+    background-color: #e1e1e6;
+}
+
+.btn:hover .btn-inner {
+    color: #fff;
+}
+
+:root[data-theme="dark"] .btn:hover {
+    background-color: #e1e1e6;
+}
+
+/* Dark mode compatibility support */
+.dark .btn {
+    border-color: #e1e1e6;
+}
+.dark .btn:hover {
+    background-color: #e1e1e6;
+}
+.dark .btn:hover .btn-inner {
+    color: #221f36;
+}
+.dark .btn a, .dark .btn-inner {
+    color: #e1e1e6;
+}
+
+/* About page – Mario portrait */
+.mario-portrait img {
+    border-radius: 50%;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    max-width: 280px;
+    width: 100%;
+    height: auto;
+    margin: 0 auto 24px;
+    display: block;
+}
+
+:root[data-theme="dark"] .mario-portrait img {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+/* ============================================================
+   Projects page – vertically stacked cards (shortcode-based)
+   Used by the `project` shortcode in /content/projects.md
+   Order: image → text → action button
+   ============================================================ */
+
+.project-container {
+    display: flex;
+    flex-direction: column;
+    margin: 48px 0;
+}
+
+.project-container + .project-container {
+    border-top: 1px solid var(--border);
+    padding-top: 48px;
+}
+
+.project-container .project-image {
+    width: 100%;
+}
+
+.project-container .project-image img {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.project-container .project-text {
+    width: 100%;
+}
+
+.project-container .project-action {
+    margin-top: 8px;
+}
+
+:root[data-theme="dark"] .project-container .project-image img {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+/* Inline SVG icons in main menu (e.g. Search) – vertically center with text labels */
+#menu a span svg {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* ============================================================
+   Sticky site header
+   ============================================================ */
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #fff;
+}
+
+:root[data-theme="dark"] .header {
+    background: var(--theme);
+}
+
+/* On narrow screens (< 800px) give the sticky header a bit of top padding */
+@media (max-width: 799px) {
+    .header-nav {
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+}
+
+/* ============================================================
+   Scroll progress bar (lives inside the sticky .header)
+   ============================================================ */
+::-webkit-scrollbar {
+    display: none;
+}
+
+.progress-container {
+    width: 100%;
+    height: 5px;
+    background: rgb(0 0 0/0.08);
+}
+
+:root[data-theme="dark"] .progress-container {
+    background: rgb(255 255 255/0.08);
+}
+
+.progress-bar {
+    height: 5px;
+    background-image: linear-gradient(#00bbe1, #0077ff);
+    width: 0;
+}
+
+.logo a:hover img {
+    animation-name: shake-mk;
+    animation-duration: 2s;
+    transform-origin: 50% 50%;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+@keyframes shake-mk {
+    0% {
+        transform: rotate(0deg)
+    }
+    10% {
+        transform: rotate(3deg)
+    }
+    20% {
+        transform: rotate(0deg)
+    }
+    30% {
+        transform: rotate(6deg)
+    }
+    40% {
+        transform: rotate(-3deg)
+    }
+    50% {
+        transform: rotate(0deg)
+    }
+    60% {
+        transform: rotate(3deg)
+    }
+    70% {
+        transform: rotate(0deg)
+    }
+    80% {
+        transform: rotate(6deg)
+    }
+    90% {
+        transform: rotate(-3deg)
+    }
+    100% {
+        transform: rotate(0deg)
+    }
+}
+
+.menu a {
+    font-size: 18px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.menu .active {
+    font-size: 18px;
+    font-weight: 600;
+    text-transform: uppercase;
+    text-decoration: none;
+}
+
+/* ============================================================
+   Larger theme toggle (sun/moon button in the header)
+   ============================================================ */
+.theme-toggle {
+    padding: 0 0.55rem;
+    display: inline-flex;
+    align-items: center;
+}
+
+.theme-toggle svg {
+    width: 22px;
+    height: 22px;
+}
+
+/* ============================================================
+   Mobile burger menu (visible only below 800px)
+   ============================================================ */
+
+/* Burger button – hidden on desktop */
+.burger-toggle {
+    display: none;
+    background: transparent;
+    border: none;
+    padding: 6px 8px;
+    cursor: pointer;
+    align-items: center;
+    column-gap: 8px;
+    color: var(--primary);
+    font: inherit;
+    font-weight: 600;
+    margin-left: auto; /* push to the right of the logo row */
+}
+
+.burger-toggle .burger-icon {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
+    width: 24px;
+    height: 18px;
+    flex: 0 0 auto;
+}
+
+.burger-toggle .burger-bar {
+    display: block;
+    height: 3px;
+    width: 100%;
+    background: var(--primary);
+    border-radius: 2px;
+    transition: transform 0.25s ease, opacity 0.2s ease;
+    transform-origin: center;
+}
+
+.burger-toggle .burger-label {
+    font-size: 1rem;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+/* Animate to an X when open */
+.header.menu-open .burger-toggle .burger-icon .burger-bar:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+.header.menu-open .burger-toggle .burger-icon .burger-bar:nth-child(2) {
+    opacity: 0;
+}
+.header.menu-open .burger-toggle .burger-icon .burger-bar:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
+@media (max-width: 799px) {
+    /* Show the burger */
+    .burger-toggle {
+        display: inline-flex;
+    }
+
+    /* Let the logo row span the full width and put the burger at its end */
+    .header-nav {
+        flex-wrap: wrap;
+        row-gap: 8px;
+    }
+    .logo {
+        flex: 1 1 auto;
+    }
+
+    /* Hide the menu by default on mobile */
+    .menu {
+        display: none;
+        width: 100%;
+        order: 3; /* sits below logo + burger row */
+        padding: 6px 0 10px;
+        margin: 0;
+    }
+
+    /* Reveal as a vertical list when toggled open */
+    .header.menu-open .menu {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        row-gap: 4px;
+        column-gap: 0;
+        overflow-x: visible;
+        white-space: normal;
+    }
+
+    .header.menu-open .menu li {
+        width: 100%;
+    }
+
+    .header.menu-open .menu a {
+        display: block;
+        width: 100%;
+        padding: 0;
+        line-height: normal;
+    }
+}
+
+/* ============================================================
+   404 page – developer-themed “terminal” error screen
+   ============================================================ */
+.error-page {
+    max-width: 760px;
+    margin: 2rem auto 4rem;
+    padding: 0 1rem;
+    text-align: center;
+}
+
+.error-terminal {
+    text-align: left;
+    background: #1e1f22;
+    color: #e6e6e6;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18), 0 2px 6px rgba(0, 0, 0, 0.12);
+    overflow: hidden;
+    margin: 1.5rem auto 2.5rem;
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    font-size: 0.92rem;
+    line-height: 1.55;
+}
+
+.error-terminal__chrome {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.55rem 0.85rem;
+    background: linear-gradient(#3a3d42, #2c2e33);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+.error-terminal__dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.error-terminal__dot--red    { background: #ff5f57; }
+.error-terminal__dot--yellow { background: #febc2e; }
+.error-terminal__dot--green  { background: #28c840; }
+
+.error-terminal__title {
+    flex: 1;
+    text-align: center;
+    color: #c0c0c0;
+    font-size: 0.78rem;
+    letter-spacing: 0.02em;
+    /* Pull the title back to compensate for the dot cluster on the left */
+    margin-right: 56px;
+    user-select: none;
+}
+
+.error-terminal__body {
+    padding: 1rem 1.1rem 1.2rem;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.error-terminal__body p {
+    margin: 0.15rem 0;
+}
+
+.error-terminal__prompt { color: #7ee787; }
+.error-terminal__path   { color: #79c0ff; }
+.error-terminal__sep    { color: #c9d1d9; margin: 0 0.05rem; }
+.error-terminal__out    { color: #adbac7; }
+.error-terminal__code   { color: #ff7b72; font-weight: 700; }
+
+.error-terminal__cursor {
+    display: inline-block;
+    margin-left: 2px;
+    color: #7ee787;
+    animation: error-blink 1s steps(2, start) infinite;
+}
+
+@keyframes error-blink {
+    to { visibility: hidden; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .error-terminal__cursor { animation: none; }
+}
+
+.error-headline {
+    font-size: clamp(1.6rem, 2.4vw + 1rem, 2.3rem);
+    margin: 1.4rem 0 0.4rem;
+    color: var(--primary);
+}
+
+.error-subline {
+    color: var(--secondary);
+    font-size: 1.05rem;
+    margin: 0 auto 1.4rem;
+    max-width: 560px;
+}
+
+.error-suggestions {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto 1.5rem;
+    max-width: 520px;
+    text-align: left;
+    color: var(--content);
+}
+
+.error-suggestions li {
+    padding: 0.4rem 0 0.4rem 1.6rem;
+    position: relative;
+}
+
+.error-suggestions li::before {
+    content: "›";
+    position: absolute;
+    left: 0.4rem;
+    top: 0.35rem;
+    color: var(--primary);
+    font-weight: 700;
+}
+
+.error-suggestions a {
+    color: var(--primary);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.error-easter {
+    margin-top: 1.8rem;
+    color: var(--secondary);
+    font-size: 0.92rem;
+}
+
+.error-easter code {
+    background: transparent;
+    border: 0;
+    padding: 0;
+    color: var(--secondary);
+}
+
+/* Fancybox custom image styles */
+.post-content a.fancybox-link {
+    cursor: zoom-in;
+    display: block;
+    margin: 1.5rem auto;
+    text-align: center;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.post-content a.fancybox-link img {
+    margin: 0 auto;
+    display: inline-block;
+    transition: transform 0.2s ease-in-out;
+}
+
+.post-content a.fancybox-link:hover img {
+    transform: scale(1.015);
+}
+
+/* ============================================================
+   Alert box shortcode styles (.alert-box)
+   ============================================================ */
+.alert-box {
+    padding: 1rem 1.25rem;
+    margin: 1.5rem 0;
+    border-radius: 4px;
+    border-left: 5px solid;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.alert-box .alert-title {
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+    font-size: 1rem;
+    letter-spacing: 0.01em;
+}
+
+.alert-box .alert-content p:last-child {
+    margin-bottom: 0;
+}
+
+.alert-box .alert-content p:first-child {
+    margin-top: 0;
+}
+
+/* Light theme colors */
+:root:not([data-theme="dark"]) .alert-info,
+:root[data-theme="light"] .alert-info {
+    background-color: #f0f7ff;
+    border-color: #0077ff;
+    color: #004085;
+}
+:root:not([data-theme="dark"]) .alert-warning,
+:root[data-theme="light"] .alert-warning {
+    background-color: #fdfaf2;
+    border-color: #febc2e;
+    color: #856404;
+}
+:root:not([data-theme="dark"]) .alert-error,
+:root[data-theme="light"] .alert-error {
+    background-color: #fff5f5;
+    border-color: #ff5f57;
+    color: #721c24;
+}
+
+/* Dark theme colors */
+:root[data-theme="dark"] .alert-info {
+    background-color: #1a2333;
+    border-color: #38bdf8;
+    color: #e0f2fe;
+}
+:root[data-theme="dark"] .alert-warning {
+    background-color: #262216;
+    border-color: #facc15;
+    color: #fef9c3;
+}
+:root[data-theme="dark"] .alert-error {
+    background-color: #2d1919;
+    border-color: #f87171;
+    color: #fee2e2;
+}
+
+/* Post meta — horizontal row with avatar, dates, and stats */
+.post-meta,
+.entry-footer {
+    line-height: 1.4;
+}
+
+.entry-footer--list {
+    margin: 0.25rem 0 0.5rem;
+}
+
+.post-meta-items {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.post-meta-item {
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.post-meta-item + .post-meta-item::before {
+    content: "·";
+    margin: 0 0.5rem;
+    color: var(--secondary);
+    opacity: 0.65;
+    line-height: 1;
+}
+
+.post-author-meta {
+    gap: 0.45rem;
+}
+
+.post-author-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    flex-shrink: 0;
+    border: 1px solid var(--border);
+}
+
+.post-author-name {
+    line-height: 1.2;
+}
+
+.post-meta-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    line-height: 1.3;
+    padding: 0.2rem 0.55rem;
+    border-radius: 999px;
+    letter-spacing: 0.01em;
+}
+
+.post-meta-badge__icon {
+    width: 0.9em;
+    height: 0.9em;
+    flex-shrink: 0;
+    display: block;
+}
+
+.post-meta-badge--human {
+    background-color: #dcfce7;
+    color: #166534;
+}
+
+:root[data-theme="dark"] .post-meta-badge--human {
+    background-color: #14532d;
+    color: #bbf7d0;
+}

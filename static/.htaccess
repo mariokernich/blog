@@ -1,0 +1,25 @@
+# ----------------------------------------------------------------------
+# Custom error documents
+# ----------------------------------------------------------------------
+# Serve Hugo's generated 404 page for any "Not Found" response.
+ErrorDocument 404 /404.html
+
+# ----------------------------------------------------------------------
+# Default options
+# ----------------------------------------------------------------------
+# Default charset for text responses.
+AddDefaultCharset UTF-8
+
+# Disable directory listings (only applied if mod_autoindex is loaded).
+<IfModule mod_autoindex.c>
+    IndexIgnore *
+</IfModule>
+
+# ----------------------------------------------------------------------
+# Security headers (safe defaults)
+# ----------------------------------------------------------------------
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
