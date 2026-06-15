@@ -1,0 +1,143 @@
+/* Skewed CTA buttons (Read more, consent, footer links) */
+a.btn {
+    text-decoration: none !important;
+}
+
+.btn, .btn-primary {
+    cursor: pointer;
+}
+
+.btn, .menu-toggle {
+    transform: skewX(-30deg);
+    box-sizing: border-box;
+    border: 4px solid #221f36;
+    display: block;
+    background-color: transparent;
+    text-transform: uppercase;
+    transition: all .4s;
+    margin: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 16px;
+    width: max-content;
+    min-width: 220px;
+    width:calc(100% - 40px);
+}
+
+.btn-small {
+    padding: 6px 10px !important;
+    line-height: 18px !important;
+    font-size: 14px !important;
+}
+
+:root[data-theme="dark"] .btn, :root[data-theme="dark"] .menu-toggle {
+    border-color: #e1e1e6;
+}
+
+.btn {
+    line-height: 28px;
+}
+
+.menu-toggle {
+    line-height: 15px;
+}
+
+.btn-wa {
+    border-color: #24d366;
+    color: #24d366;
+}
+
+.btn-accept {
+    border-color: #24d366;
+}
+.btn-accept .btn-inner {
+    color: #24d366;
+}
+
+.btn-accept:hover {
+    background-color: #24d366 !important;
+}
+.btn-accept:hover .btn-inner {
+    color: #fff !important;
+}
+
+.btn-linkedin {
+    border-color: #0a66c2;
+}
+
+footer .btn {
+    font-size: 14px;
+    padding: 8px 15px;
+    line-height: 22px;
+}
+
+.btn-large {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.btn-full {
+    width: calc(100% - 40px);
+}
+
+.btn-centered {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.btn-w {
+    color: #fff;
+    border-color: #fff;
+}
+
+.btn-w .btn-inner {
+    color: #fff;
+}
+
+.btn a, .btn-inner {
+    transform: skewX(30deg);
+    *height: 45px;
+    *line-height: 45px;
+    font-size: 1.1em;
+    font-weight: 600;
+    text-align: center;
+    color: #221f36;
+    display: block;
+    text-decoration: none !important;
+}
+
+:root[data-theme="dark"] .btn a, :root[data-theme="dark"] .btn-inner {
+    color: #e1e1e6;
+}
+
+.btn:hover {
+    transform: skewX(-30deg) scale(1.025) !important;
+    background-color: #221f36 !important;
+}
+
+:root[data-theme="dark"] .btn:hover {
+    background-color: #e1e1e6;
+}
+
+.btn:hover .btn-inner {
+    color: #fff;
+}
+
+:root[data-theme="dark"] .btn:hover {
+    background-color: #e1e1e6;
+}
+
+.dark .btn {
+    border-color: #e1e1e6;
+}
+.dark .btn:hover {
+    background-color: #e1e1e6;
+}
+.dark .btn:hover .btn-inner {
+    color: #221f36;
+}
+.dark .btn a, .dark .btn-inner {
+    color: #e1e1e6;
+}
