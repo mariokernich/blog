@@ -67,6 +67,9 @@ if $term }} {{- $class = "post-entry tag-entry" }} {{- end }}
             {{- end }}
         </h2>
     </header>
+    {{- if not (.Param "hideMeta") }}
+    <footer class="entry-footer entry-footer--list">{{- partial "post_meta.html" (dict "page" . "showAuthor" false) -}}</footer>
+    {{- end }}
     {{- if (ne (.Param "hideSummary") true) }}
     <div class="entry-content">
         <p>
@@ -74,8 +77,6 @@ if $term }} {{- $class = "post-entry tag-entry" }} {{- end }}
             }}
         </p>
     </div>
-    {{- end }} {{- if not (.Param "hideMeta") }}
-    <footer class="entry-footer">{{- partial "post_meta.html" (dict "page" . "showAuthor" false) -}}</footer>
     {{- end }}
     <a href="{{ .Permalink }}" title="Read more about {{ .Title }}" class="btn">
         <span class="btn-inner">Read more</span>
