@@ -122,7 +122,9 @@ Since hosting this blog on Hugo, I have customized a few features to perfectly t
 - **Static Pages:** Built structured static pages for my [About Me](/about/) section and [Public Talks](/talks/).
 - **Automatic External Link Target:** Configured a custom render-link hook and global JavaScript fallback so all external links automatically open safely in a new tab.
 
-> 📖 **Note:** You can see the whole source code of this blog in this repo: [github.com/mariokernich/blog](https://github.com/mariokernich/blog)
+{{< alert type="info" title="📖 Note" >}}
+You can see the whole source code of this blog in this repo: [github.com/mariokernich/blog](https://github.com/mariokernich/blog)
+{{< /alert >}}
 
 ## What I Lose (and Don't Miss)
 
