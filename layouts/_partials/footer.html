@@ -6,7 +6,10 @@
         Bavaria</span
     >
     {{- print " · "}} {{- end }} {{- with site.Params.footer.text }} {{ . |
-    markdownify }} {{- end }}
+    markdownify }} {{- end }} {{- if hugo.IsProduction | or (eq site.Params.env
+    "production") }} {{- print " · " }}
+    <a href="#" data-consent-settings>Privacy settings</a>
+    {{- end }}
 </footer>
 {{- end }} {{- if (not site.Params.disableScrollToTop) }}
 <a
