@@ -3,7 +3,7 @@ title: "Switching After 11 Years From WordPress to Hugo"
 seoTitle: "From WordPress to Hugo After 11 Years"
 description: "After 11 years on WordPress I switched to Hugo — why static sites win for developer blogs: speed, Markdown, Git, and no plugin hell."
 date: 2026-06-13
-lastmod: 2026-06-15
+lastmod: 2026-06-17
 draft: false
 tags: ["Hugo", "WordPress", "Static Site", "Markdown", "Open Source"]
 categories: ["Web"]
@@ -71,7 +71,7 @@ When I started this blog, I decided to try something completely different: a **s
 
 Here is what convinced me:
 
-#### ✅ Effortless Project Setup
+#### Effortless Project Setup
 
 Installing Hugo is one command. Scaffolding a new site is another. Adding a theme is a `git submodule`. You can have a working blog in minutes — locally, in your editor, with hot reload.
 
@@ -84,7 +84,7 @@ hugo server
 
 That's it. No database. No PHP. No `wp-config.php`.
 
-#### ✅ Static Output
+#### Static Output
 
 Hugo produces **plain HTML, CSS, and JavaScript**. That means:
 
@@ -93,7 +93,7 @@ Hugo produces **plain HTML, CSS, and JavaScript**. That means:
 - **Insanely fast** page loads, because there is nothing to compute at request time
 - A much **smaller attack surface** — there is no admin panel to hack
 
-#### ✅ Markdown All the Way
+#### Markdown All the Way
 
 This is the killer feature for me as a developer: **content is just Markdown files**.
 
@@ -104,7 +104,7 @@ This is the killer feature for me as a developer: **content is just Markdown fil
 
 No more "logging into the admin panel to fix a typo." Just edit, commit, push.
 
-#### ✅ A Real Developer Experience
+#### A Real Developer Experience
 
 Hugo gives you a serious templating engine, layouts, partials, shortcodes, taxonomies, and a clean content model. You can:
 
@@ -115,7 +115,7 @@ Hugo gives you a serious templating engine, layouts, partials, shortcodes, taxon
 
 The amount of freedom — without giving up speed — is what makes it so enjoyable.
 
-### 🔧 Things I Adjusted in My Hugo Setup
+### Things I Adjusted in My Hugo Setup
 
 Since hosting this blog on Hugo, I have customized a few features to perfectly tailor the site to my needs. Here is what I adjusted:
 

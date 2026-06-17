@@ -13,16 +13,10 @@
     color: #24292f;
 }
 
-:root:not([data-theme="dark"]) .post-content pre,
-:root[data-theme="light"] .post-content pre {
-    border: 1px solid #d0d7de;
-}
-
 /* Inline `<code>` chips – ensure readable contrast in light mode */
 :root:not([data-theme="dark"]) .post-content :not(pre) > code,
 :root[data-theme="light"] .post-content :not(pre) > code {
     color: #24292f;
-    border: 1px solid #d0d7de;
 }
 
 /* Dark mode: restore a dark inline-code background (the global
