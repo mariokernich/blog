@@ -44,6 +44,22 @@ You start with a **component** (typically `Component.ts` or `Component.js`) and 
 - `i18n` resource bundles
 - Standard UI5 controls and libraries
 - TypeScript, ESLint, UI5 Tooling, and modern project setups
+- **Startup parameters** passed from the launchpad configuration
+
+Just like in a regular Fiori app, you can read **startup parameters** inside your plugin component via `getComponentData()`. Configuration values from the target mapping land in `config`; intent-based navigation parameters are available under `startupParameters` (each value is an array):
+
+```typescript
+public init(): void {
+    super.init();
+
+    const { config, startupParameters } = this.getComponentData() ?? {};
+
+    const message = config?.message ?? "Hello from my plugin";
+    const mode = startupParameters?.mode?.[0];
+}
+```
+
+This is useful when the same plugin should behave differently per role, site, or inbound assignment — without hard-coding values in the component.
 
 The main difference: instead of rendering a full application UI, you hook into **shell services** like `Extension`, `AppLifeCycle`, or `UserInfo`.
 
@@ -211,6 +227,35 @@ Follow the prompts — especially the **UI5 version** — and start local develo
 ```bash
 npm run start
 ```
+
+### Local Testing with the FLP Sandbox
+
+For local development, the generator does not run the plugin in standalone mode. Instead, it **simulates a Fiori Launchpad** using the official ushell sandbox (`webapp/test/flpSandbox.html`). That way you can develop and debug against real shell services — `Extension`, `AppLifeCycle`, `UserInfo`, and the rest — without deploying to ABAP or BTP first.
+
+The magic happens in the sandbox configuration. Register your plugin under `bootstrapPlugins` and point `url` at the webapp root:
+
+```javascript
+window["sap-ushell-config"] = {
+    defaultRenderer: "fiori2",
+    bootstrapPlugins: {
+        FLPPluginAll: {
+            component: "my.fiori.plugin",
+            url: "../../../"
+        }
+    },
+    services: {
+        LaunchPage: {
+            adapter: {
+                config: {
+                    groups: [{ tiles: [] }]
+                }
+            }
+        }
+    }
+};
+```
+
+With this setup, the plugin is loaded automatically when the sandbox starts. The launchpad shell renders as usual, but **no tiles or apps** are configured — you get an empty home page and can focus entirely on your shell extension.
 
 The generator wires up the correct shell integration path for your target version, so you do not have to maintain two codebases manually.
 
