@@ -180,9 +180,9 @@ The generator is built on top of [Easy UI5](https://github.com/ui5-community/gen
 
 - TypeScript-ready project structure
 - Automatic integration strategy based on the **UI5 version you select**
-- Uses the **Extension API** on UI5 1.120+
-- Falls back to the **legacy renderer approach** on older versions
-- Includes shell extension samples and OPA5 test setup
+  - Uses the **Extension API** on UI5 1.120+
+  - Falls back to the **legacy renderer approach** on older versions
+- Includes shell extension sample
 
 ### Quick Start
 
