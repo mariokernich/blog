@@ -1,5 +1,6 @@
 ---
 title: "Talks"
+seoTitle: "Talks & Speaking on SAP, ABAP, UI5 & AI"
 url: "/talks/"
 layout: "single"
 summary: "Speaking engagements, presentations, and workshops by Mario Kernich."

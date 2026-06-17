@@ -23,11 +23,25 @@
   <meta name="twitter:image" content="{{ $coverImage }}">
 {{- end }}
 
-{{- with or .Title site.Title site.Params.title | plainify }}
-  <meta name="twitter:title" content="{{ . }}">
+{{- $twitterTitle := cond .IsHome (site.Params.title | default site.Title) (.Params.seoTitle | default .Title) -}}
+{{- with $twitterTitle }}
+  <meta name="twitter:title" content="{{ . | plainify }}">
 {{- end }}
 
-{{- with or .Description .Summary site.Params.description | plainify | htmlUnescape }}
+{{- $twitterDesc := "" -}}
+{{- if .Description -}}
+  {{- $twitterDesc = .Description | plainify -}}
+{{- else if .IsSection -}}
+  {{- with .GetPage "_index" -}}
+    {{- with .Description -}}
+      {{- $twitterDesc = . | plainify -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- if not $twitterDesc -}}
+  {{- $twitterDesc = (or .Summary site.Params.description) | plainify -}}
+{{- end -}}
+{{- with $twitterDesc }}
   <meta name="twitter:description" content="{{ trim . "\n\r\t " }}">
 {{- end }}
 
