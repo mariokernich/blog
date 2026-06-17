@@ -1,5 +1,5 @@
 ---
-title: "Developing and Understanding Fiori Launchpad Plugins with Extension API and TypeScript"
+title: "Understanding and Developing Fiori Launchpad Plugins with Extension API and TypeScript"
 date: 2026-06-15
 draft: false
 tags: ["UI5", "SAPUI5", "Fiori", "TypeScript", "Launchpad", "Extension API", "open-source"]
