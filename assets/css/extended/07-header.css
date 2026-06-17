@@ -6,6 +6,17 @@
     background: #fff;
 }
 
+/* Keep in-page anchors (TOC links) visible below the sticky header */
+html {
+    scroll-padding-top: calc(var(--header-height) + 5px + 1rem);
+}
+
+@media (max-width: 799px) {
+    html {
+        scroll-padding-top: calc(var(--header-height) + 5px + 30px + 1rem);
+    }
+}
+
 :root[data-theme="dark"] .header {
     background: var(--theme);
 }
