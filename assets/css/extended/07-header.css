@@ -179,3 +179,11 @@
         line-height: normal;
     }
 }
+
+@media (max-width: 429px) {
+    .logo a img,
+    .logo a svg {
+        height: 24px;
+        width: auto;
+    }
+}

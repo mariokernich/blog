@@ -40,3 +40,9 @@
 :root[data-theme="dark"] .post-entry {
     background: transparent;
 }
+
+@media (max-width: 860px) {
+    .main {
+        padding-top: 0;
+    }
+}
