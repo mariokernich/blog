@@ -85,11 +85,17 @@ Typical pain points:
 - Verbose boilerplate just to add a single button
 - Harder to maintain when supporting multiple UI5 versions
 
-A simplified example of the old pattern:
+A example of the old pattern:
 
 ```typescript
-const renderer = await Container.getRenderer();
-renderer.addHeaderItem({
+import ObjectPath from "sap/base/util/ObjectPath";
+
+const oShellContainer = ObjectPath.get("sap.ushell.Container");
+if (!oShellContainer) {
+    throw new Error("Illegal state: shell container not available; this component must be executed in a unified shell runtime context.");
+}
+const oRenderer = oShellContainer.getRenderer();
+oRenderer.addHeaderItem({
     id: "myCustomButton",
     icon: "sap-icon://action",
     text: "My Action",
@@ -203,7 +209,7 @@ yo easy-ui5 ts-flp-plugin
 Follow the prompts — especially the **UI5 version** — and start local development:
 
 ```bash
-npm start
+npm run start
 ```
 
 The generator wires up the correct shell integration path for your target version, so you do not have to maintain two codebases manually.
@@ -279,9 +285,9 @@ Once your plugin is built, you need to register it in the launchpad landscape.
 
 Deploy the plugin as a **BSP/UI5 application** with `sap.flp.type: "plugin"` in `manifest.json`
 
-Option 1: Register it in the Fiori launchpad configuration — typically as a **global shell plugin** via launchpad site / content administrator settings. Use T-Code `/UI2/FLP_CUS_CONF` and `/UI2/FLP_CONF_DEF`. With this option everyone will get the plugin loaded without any restriction.
+**Option 1:** Register it in the Fiori launchpad configuration — typically as a **global shell plugin** via launchpad site / content administrator settings. Use T-Code `/UI2/FLP_CUS_CONF` and `/UI2/FLP_CONF_DEF`. With this option everyone will get the plugin loaded without any restriction.
 
-Option 2: Assign the plugin through a **PFCG role** so authorized users load the extension at shell startup
+**Option 2:** Assign the plugin through a **PFCG role** so authorized users load the extension at shell startup
 
 ### SAP Build Work Zone
 
