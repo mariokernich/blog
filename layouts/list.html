@@ -78,8 +78,8 @@ if $term }} {{- $class = "post-entry tag-entry" }} {{- end }}
         </p>
     </div>
     {{- end }}
-    <a href="{{ .Permalink }}" title="Read more about {{ .Title }}" class="btn">
-        <span class="btn-inner">Read more</span>
+    <a href="{{ .Permalink }}" class="btn" aria-label="Read more about {{ .Title | plainify }}">
+        <span class="btn-inner">Read more<span class="sr-only"> about {{ .Title | plainify }}</span></span>
     </a>
     <a
         class="entry-link"
