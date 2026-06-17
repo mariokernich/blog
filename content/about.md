@@ -1,5 +1,6 @@
 ---
 title: "About"
+seoTitle: "About Mario Kernich – ABAP, UI5 & SAP Developer"
 url: "/about/"
 layout: "single"
 summary: "About Mario Kernich – Technology Manager, SAP & Cloud Developer, AI enthusiast."

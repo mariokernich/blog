@@ -1,5 +1,6 @@
 ---
 title: "Switching After 11 Years From WordPress to Hugo"
+seoTitle: "From WordPress to Hugo After 11 Years"
 description: "After 11 years on WordPress I switched to Hugo — why static sites win for developer blogs: speed, Markdown, Git, and no plugin hell."
 date: 2026-06-13
 lastmod: 2026-06-15
