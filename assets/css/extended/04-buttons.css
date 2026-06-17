@@ -50,17 +50,12 @@ a.btn {
 }
 
 .btn-accept {
-    border-color: #24d366;
-}
-.btn-accept .btn-inner {
-    color: #24d366;
+    border-color: #156837;
+    background-color: #156837;
 }
 
-.btn-accept:hover {
-    background-color: #24d366 !important;
-}
-.btn-accept:hover .btn-inner {
-    color: #fff !important;
+.btn-accept .btn-inner {
+    color: #fff;
 }
 
 .btn-linkedin {
@@ -140,4 +135,33 @@ footer .btn {
 }
 .dark .btn a, .dark .btn-inner {
     color: #e1e1e6;
+}
+
+/* Accept — must follow generic .btn:hover (same specificity, later wins) */
+:root[data-theme="dark"] .btn.btn-accept {
+    border-color: #1a8a42;
+    background-color: #1a8a42;
+}
+
+.btn.btn-accept .btn-inner,
+:root[data-theme="dark"] .btn.btn-accept .btn-inner,
+.dark .btn.btn-accept .btn-inner {
+    color: #fff;
+}
+
+.btn.btn-accept:hover {
+    background-color: #115c2f !important;
+    border-color: #115c2f !important;
+}
+
+.btn.btn-accept:hover .btn-inner,
+:root[data-theme="dark"] .btn.btn-accept:hover .btn-inner,
+.dark .btn.btn-accept:hover .btn-inner {
+    color: #fff !important;
+}
+
+:root[data-theme="dark"] .btn.btn-accept:hover,
+.dark .btn.btn-accept:hover {
+    background-color: #156837 !important;
+    border-color: #156837 !important;
 }
