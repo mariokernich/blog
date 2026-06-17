@@ -15,7 +15,7 @@ disableShare: true
 
 ## Hello, I'm Mario 👋
 
-{{< figure src="/images/mario-kernich.png" alt="Mario Kernich" align="center" width="280" class="mario-portrait" >}}
+{{< figure src="/images/mario-kernich-full.jpg" alt="Mario Kernich" align="center" width="100%" >}}
 
 Great to have you here!
 
