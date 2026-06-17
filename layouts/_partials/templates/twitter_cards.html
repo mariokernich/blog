@@ -1,11 +1,22 @@
 {{- $coverImage := partial "templates/_funcs/get-cover-image-url" . -}}
 {{- if not $coverImage }}
-  {{- $images := partial "templates/_funcs/get-page-images" . }}
-  {{- with index $images 0 }}
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content="{{ .Permalink }}">
+  {{- if .IsHome }}
+    {{- with site.Params.images }}
+      {{- with index . 0 }}
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:image" content="{{ . | absURL }}">
+      {{- end }}
+    {{- else }}
+      <meta name="twitter:card" content="summary">
+    {{- end }}
   {{- else }}
-    <meta name="twitter:card" content="summary">
+    {{- $images := partial "templates/_funcs/get-page-images" . }}
+    {{- with index $images 0 }}
+      <meta name="twitter:card" content="summary_large_image">
+      <meta name="twitter:image" content="{{ .Permalink }}">
+    {{- else }}
+      <meta name="twitter:card" content="summary">
+    {{- end }}
   {{- end }}
 {{- else }}
   <meta name="twitter:card" content="summary_large_image">

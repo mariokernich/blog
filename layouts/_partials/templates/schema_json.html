@@ -1,23 +1,53 @@
+{{- $publisherLogo := site.Params.schema.logo | default site.Params.authorImage | default "images/mario-kernich.png" | absURL -}}
+{{- $aboutURL := "" -}}
+{{- with site.GetPage "/about/" -}}
+  {{- $aboutURL = .Permalink -}}
+{{- end -}}
+
 {{ if .IsHome }}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "{{- ( site.Params.schema.publisherType | default "Organization") | title -}}",
-  "name": {{ site.Title }},
+  "@type": "{{- ( site.Params.schema.publisherType | default "Person") | title -}}",
+  "name": {{ site.Params.title | default site.Title }},
   "url": {{ site.Home.Permalink }},
   "description": {{ site.Params.description | plainify | truncate 180 | safeHTML }},
-  {{- if (eq site.Params.schema.publisherType "Person") }}
-  "image": {{ site.Params.assets.favicon | default "favicon.ico" | absURL }},
+  {{- if (eq site.Params.schema.publisherType "Organization") }}
+  "logo": {{ $publisherLogo }},
   {{- else }}
-  "logo": {{ site.Params.assets.favicon | default "favicon.ico" | absURL }},
+  "image": {{ $publisherLogo }},
+  {{- end }}
+  {{- with $aboutURL }}
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": {{ . | safeHTML }}
+  },
   {{- end }}
   "sameAs": [
-    {{- if site.Params.schema.sameAs }}
-      {{ range $i, $e := site.Params.schema.sameAs }}{{ if $i }}, {{ end }}{{ trim $e " " }}{{ end }}
-    {{- else}}
-      {{ range $i, $e := site.Params.SocialIcons }}{{ if $i }}, {{ end }}{{ trim $e.url " " | safeURL }}{{ end }}
-    {{- end}}
+    {{- range $i, $e := site.Params.schema.sameAs }}{{ if $i }}, {{ end }}{{ trim $e " " | safeURL }}{{ end }}
   ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": {{ site.Params.title | default site.Title }},
+  "url": {{ site.Home.Permalink }},
+  "description": {{ site.Params.description | plainify | truncate 180 | safeHTML }},
+  "publisher": {
+    "@type": "{{- ( site.Params.schema.publisherType | default "Person") | title -}}",
+    "name": {{ site.Params.author | default "Mario Kernich" }},
+    "image": {{ $publisherLogo }}
+  },
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "{{ site.Home.Permalink }}search/?q={search_term_string}"
+    },
+    "query-input": "required name=search_term_string"
+  }
 }
 </script>
 {{- else if (or .IsPage .IsSection) }}
@@ -98,12 +128,18 @@
   {
     "@type": "Person",
     "name": {{ $v }}
+    {{- with $aboutURL }},
+    "url": {{ . | safeHTML }}
+    {{- end }}
   }
   {{- end }}],
     {{- else -}}
   {
     "@type": "Person",
     "name": {{ . }}
+    {{- with $aboutURL }},
+    "url": {{ . | safeHTML }}
+    {{- end }}
   },
     {{- end -}}
   {{- end }}
@@ -112,11 +148,11 @@
     "@id": {{ .Permalink | safeHTML }}
   },
   "publisher": {
-    "@type": "{{- ( site.Params.schema.publisherType | default "Organization") | title -}}",
-    "name": {{ site.Title }},
+    "@type": "{{- ( site.Params.schema.publisherType | default "Person") | title -}}",
+    "name": {{ site.Params.author | default site.Title }},
     "logo": {
       "@type": "ImageObject",
-      "url": {{ site.Params.assets.favicon | default "favicon.ico" | absURL }}
+      "url": {{ $publisherLogo }}
     }
   }
 }

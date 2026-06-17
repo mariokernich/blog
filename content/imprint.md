@@ -11,6 +11,7 @@ ShowToc: false
 hideMeta: true
 disableShare: true
 searchHidden: true
+robotsNoIndex: true
 ---
 
 Mario Kernich  

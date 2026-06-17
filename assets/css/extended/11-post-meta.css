@@ -48,6 +48,36 @@
 
 .post-author-name {
     line-height: 1.2;
+    color: inherit;
+    text-decoration: none;
+}
+
+.post-author-name:hover {
+    text-decoration: underline;
+}
+
+.related-posts {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+}
+
+.related-posts h2 {
+    font-size: 1.15rem;
+    margin-bottom: 0.75rem;
+}
+
+.related-posts ul {
+    margin: 0;
+    padding-left: 1.25rem;
+}
+
+.related-posts li + li {
+    margin-top: 0.35rem;
+}
+
+.related-posts a {
+    text-decoration: underline;
 }
 
 .post-meta-badge {

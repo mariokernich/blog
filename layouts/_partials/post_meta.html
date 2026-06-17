@@ -11,7 +11,7 @@
 
 {{- if and $showAuthor (not ($page.Param "hideAuthor")) -}}
     {{- with (partial "author.html" $page) }}
-        {{- $authorContent := printf `<img class="post-author-avatar" src="%s" alt="%s" width="28" height="28" loading="lazy" decoding="async"><span class="post-author-name">%s</span>` $avatarURL . . }}
+        {{- $authorContent := printf `<img class="post-author-avatar" src="%s" alt="%s" width="28" height="28" loading="lazy" decoding="async"><a class="post-author-name" href="/about/">%s</a>` $avatarURL . . }}
         {{- $items = $items | append (dict "class" "post-author-meta" "content" $authorContent) }}
     {{- end }}
 {{- end }}
