@@ -37,9 +37,17 @@
 
 {{- $coverImage := partial "templates/_funcs/get-cover-image-url" . -}}
 {{- if not $coverImage }}
-  {{- with partial "templates/_funcs/get-page-images" . }}
-    {{- range . | first 6 }}
-      <meta property="og:image" content="{{ .Permalink }}">
+  {{- if .IsHome }}
+    {{- with site.Params.images }}
+      {{- range . | first 6 }}
+        <meta property="og:image" content="{{ . | absURL }}">
+      {{- end }}
+    {{- end }}
+  {{- else }}
+    {{- with partial "templates/_funcs/get-page-images" . }}
+      {{- range . | first 6 }}
+        <meta property="og:image" content="{{ .Permalink }}">
+      {{- end }}
     {{- end }}
   {{- end }}
 {{- else }}

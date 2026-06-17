@@ -84,7 +84,7 @@
         }
     });
 </script>
-{{- end }} {{- if .IsPage }}
+{{- end }} {{- if and .IsPage (gt (len (findRE `!\[|<figure` .RawContent)) 0) }}
 <script src="/js/fancybox.umd.js" defer></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
