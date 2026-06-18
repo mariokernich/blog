@@ -267,6 +267,7 @@ To demonstrate the Extension API in practice, I built a small open-source plugin
 
 [**→ GitHub: mariokernich/fiori-fullscreen-plugin**](https://github.com/mariokernich/fiori-fullscreen-plugin)
 
+
 ![Fiori Fullscreen Plugin in the shell header](screenshot.png)
 
 The core logic loads an `i18n` bundle, creates a header item through the Extension service, and toggles the browser fullscreen API on press:
@@ -330,7 +331,11 @@ Once your plugin is built, you need to register it in the launchpad landscape.
 
 Deploy the plugin as a **BSP/UI5 application** with `sap.flp.type: "plugin"` in `manifest.json`
 
-**Option 1:** Register it in the Fiori launchpad configuration — typically as a **global shell plugin** via launchpad site / content administrator settings. Use T-Code `/UI2/FLP_CUS_CONF` and `/UI2/FLP_CONF_DEF`. With this option everyone will get the plugin loaded without any restriction.
+**Option 1:** Register it in the Fiori launchpad configuration — typically as a **global shell plugin** via launchpad site / content administrator settings. Use T-Code `/UI2/FLP_CONF_DEF` (Plugin definition) and `/UI2/FLP_CUS_CONF` (Plugin activation). With this option everyone will get the plugin loaded without any restriction.
+
+![Transaction /UI2/FLP_CUS_CONF](plugin-definition.png)
+
+![Transaction /UI2/FLP_CONF_DEF](plugin-definition.png)
 
 **Option 2:** Assign the plugin through a **PFCG role** so authorized users load the extension at shell startup
 
