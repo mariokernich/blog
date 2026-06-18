@@ -269,7 +269,7 @@ To demonstrate the Extension API in practice, I built a small open-source plugin
 [**→ GitHub: mariokernich/fiori-fullscreen-plugin**](https://github.com/mariokernich/fiori-fullscreen-plugin)
 
 
-![Fiori Fullscreen Plugin in the shell header](screenshot.png)
+![Fiori Fullscreen Plugin in the shell header](fullscreen-plugin-sample.png)
 
 The core logic loads an `i18n` bundle, creates a header item through the Extension service, and toggles the browser fullscreen API on press:
 
