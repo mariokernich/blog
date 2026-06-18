@@ -3,6 +3,7 @@ title: "Understanding and Developing Fiori Plugins with Extension API & TypeScri
 seoTitle: "Fiori Launchpad Plugins with TypeScript"
 description: "Build Fiori Launchpad plugins with TypeScript and the sap.ushell Extension API — architecture, deployment, and a working fullscreen sample."
 date: 2026-06-15
+lastmod: 2026-06-18
 draft: false
 tags: ["UI5", "SAPUI5", "Fiori", "TypeScript", "Launchpad", "Extension API", "open-source"]
 categories: ["UI5"]
@@ -331,13 +332,23 @@ Once your plugin is built, you need to register it in the launchpad landscape.
 
 Deploy the plugin as a **BSP/UI5 application** with `sap.flp.type: "plugin"` in `manifest.json`
 
-**Option 1:** Register it in the Fiori launchpad configuration — typically as a **global shell plugin** via launchpad site / content administrator settings. Use T-Code `/UI2/FLP_CONF_DEF` (Plugin definition) and `/UI2/FLP_CUS_CONF` (Plugin activation). With this option everyone will get the plugin loaded without any restriction.
+**Option 1: Global shell plugin** — register and activate through launchpad administrator settings. Every user loads the plugin at shell startup; no role assignment required.
 
-![Transaction /UI2/FLP_CUS_CONF](plugin-definition.png)
+1. **`/UI2/FLP_CONF_DEF`** — define the plug-in (ID, UI5 component, description).
 
-![Transaction /UI2/FLP_CONF_DEF](plugin-definition.png)
+![Define Launchpad Plug-Ins (`/UI2/FLP_CONF_DEF`)](plugin-definition.png)
 
-**Option 2:** Assign the plugin through a **PFCG role** so authorized users load the extension at shell startup
+2. **`/UI2/FLP_CUS_CONF`** — activate it and set **Activity State** to *Active (all users)*.
+
+![Activate launchpad plug-in (`/UI2/FLP_CUS_CONF`)](plugin-activation.png)
+
+**Option 2: Role-based assignment** — load the plugin only for users with a specific **PFCG role**. The setup follows the same **catalog → role** pattern as any UI5 Fiori app: you expose the plugin through a **target mapping** in a Fiori catalog and assign that catalog to a role. No home-page tile is required — the shell loads the plugin at startup once the user is authorized.
+
+1. **`/UI2/FLPD_CUST`** (Launchpad Designer) — in a catalog, create a **target mapping** with intent `Shell-plugin` (Semantic Object: `Shell`, Action: `plugin`). Set the BSP application URL and UI5 component name, just as you would when registering a Fiori app.
+
+2. **`PFCG`** — on the role **Menu** tab, add **SAP Fiori Launchpad → Fiori Launchpad Catalog** and assign the catalog from step 1. Generate authorizations and assign the role to the relevant users.
+
+Only users who hold a role that includes this catalog receive the plugin. Global activation in `/UI2/FLP_CUS_CONF` (Option 1) is not required.
 
 ### SAP Build Work Zone
 
