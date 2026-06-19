@@ -62,6 +62,12 @@ public init(): void {
 
 This is useful when the same plugin should behave differently per role, site, or inbound assignment — without hard-coding values in the component.
 
+{{< alert type="warning" title="Plan for multiple plugin instances" >}}
+The same UI5 component can be registered more than once with different configuration — for example, separate target mappings per role, each passing its own startup parameters. The launchpad then creates **one component instance per registration**, not a single shared singleton.
+
+**Solution:** Do not assume only one instance exists. Keep shell extensions idempotent, guard duplicate registrations (for example with stable IDs), and scope side effects to the current instance's `config`. Even singleton-style logic must tolerate multiple instances running in parallel.
+{{< /alert >}}
+
 The main difference: instead of rendering a full application UI, you hook into **shell services** like `Extension`, `AppLifeCycle`, or `UserInfo`.
 
 ```mermaid
@@ -157,22 +163,34 @@ Beyond adding visible shell controls, plugins can interact with the **applicatio
 
 ### React to App Changes with AppLifeCycle
 
-If your plugin needs to know when a Fiori app has finished loading — for example to attach listeners or read the active component — use the `AppLifeCycle` service:
+If your plugin needs to know when a Fiori app has finished loading — for example to attach listeners or read the active component — use the `AppLifeCycle` service.
+
+**API reference:** [sap.ushell.services.AppLifeCycle.CurrentApplication](https://ui5.sap.com/#/api/sap.ushell.services.AppLifeCycle.CurrentApplication)
 
 ```typescript
 const appLifeCycle = await Container.getServiceAsync("AppLifeCycle");
-const current = appLifeCycle.getCurrentApplication();
+const currentApp = appLifeCycle.getCurrentApplication();
 
 appLifeCycle.attachAppLoaded(
     {},
     () => {
-        // UI5 application changed
-    },
-    {}
+        const { applicationType, componentInstance, homePage } =
+            appLifeCycle.getCurrentApplication() ?? {};
+    }
 );
 ```
 
-This is especially useful for plugins that need to interact with the **currently open app component** after navigation.
+`getCurrentApplication()` returns a [`CurrentApplication`](https://ui5.sap.com/#/api/sap.ushell.services.AppLifeCycle.CurrentApplication) object — or `undefined` when no application is running:
+
+- **`applicationType`** — the technology of the active app: `UI5`, `WDA`, `NWBC`, `URL`, or `GUI`
+- **`componentInstance`** — the root [`sap.ui.core.UIComponent`](https://ui5.sap.com/#/api/sap.ui.core.UIComponent) of the running app; only set for UI5 applications
+- **`homePage`** — `true` when the launchpad home page is displayed instead of a launched app
+
+For UI5 apps, `componentInstance` gives you direct access to the running application (models, views, component API). That makes it straightforward to interact with the **currently open app component** after navigation.
+
+{{< alert type="info" title="What you can reach from componentInstance" >}}
+When `applicationType` is `UI5`, use `componentInstance` to traverse views and controls, work with OData and other models, use the in-app router, or call any public API the application exposes.
+{{< /alert >}}
 
 ### Access the Logged-In User
 
@@ -330,7 +348,7 @@ Once your plugin is built, you need to register it in the launchpad landscape.
 
 ### On-Premise (ABAP Fiori Launchpad)
 
-Deploy the plugin as a **BSP/UI5 application** with `sap.flp.type: "plugin"` in `manifest.json`
+Deploy the plugin as a **BSP/UI5 application** with `sap.flp.type: "plugin"` in `manifest.json`. For the official on-premise activation procedure, see [Activating Plug-Ins on the ABAP Platform](https://help.sap.com/docs/ABAP_PLATFORM_NEW/a7b390faab1140c087b8926571e942b7/cc03f57993f54a969f3c6a9d59b6d3f0.html?locale=en-US).
 
 **Option 1: Global shell plugin** — register and activate through launchpad administrator settings. Every user loads the plugin at shell startup; no role assignment required.
 
@@ -378,6 +396,7 @@ If you have a cross-app requirement — tracking, reporting, shell utilities, or
 
 **Useful links:**
 
+- [Official Fiori Plugin documentation (SAP Help)](https://help.sap.com/docs/ABAP_PLATFORM_NEW/a7b390faab1140c087b8926571e942b7/cc03f57993f54a969f3c6a9d59b6d3f0.html?locale=en-US)
 - [Extension API documentation](https://ui5.sap.com/#/api/sap.ushell.services.Extension)
 - [generator-ui5-flp-plugin](https://github.com/ui5-community/generator-ui5-ts-flp-plugin)
 - [fiori-fullscreen-plugin sample](https://github.com/mariokernich/fiori-fullscreen-plugin)
