@@ -24,10 +24,11 @@ Plugins run inside the Fiori shell and can extend the launchpad itself: add head
 Fiori Launchpad plugins require **SAPUI5**. They are **not** available in OpenUI5, because `sap.ushell` is not part of the OpenUI5 distribution.
 {{< /alert >}}
 
-In my opinion, plugins are **underrated**. They are lightweight, powerful, and perfect for cross-app functionality that does not belong inside a single Fiori app.
+In my opinion, plugins are **underrated**. They are lightweight, powerful, and perfect for cross-app functionality that does not belong inside a single Fiori app. Unlike a **UI5 library**, which every application must import and wire up individually, a launchpad plugin is activated once in the shell and applies to **all** running apps — including SAP standard Fiori apps and third-party UI5 applications you do not own.
 
 Some real-world examples:
 
+- **Shell UI extensions** — header buttons, user menu actions, footers, and side panels
 - **Usage tracking** across all launched applications
 - **Custom reporting** or diagnostics triggered from the shell
 - **Global utilities** like a fullscreen toggle, theme helpers, or support widgets
@@ -68,34 +69,38 @@ The same UI5 component can be registered more than once with different configura
 **Solution:** Do not assume only one instance exists. Keep shell extensions idempotent, guard duplicate registrations (for example with stable IDs), and scope side effects to the current instance's `config`. Even singleton-style logic must tolerate multiple instances running in parallel.
 {{< /alert >}}
 
-The main difference: instead of rendering a full application UI, you hook into **shell services** like `Extension`, `AppLifeCycle`, or `UserInfo`.
+The main difference: instead of rendering a full application UI, you hook into **shell services** like `Extension`, `FrameBoundExtension`, `AppLifeCycle`, or `UserInfo`.
 
 ```mermaid
 flowchart LR
     subgraph Plugin["Fiori Launchpad Plugin"]
         C[Component.init]
         E[Extension Service]
+        F[FrameBoundExtension]
         A[AppLifeCycle Service]
         U[UserInfo Service]
     end
 
     subgraph Shell["Fiori Launchpad Shell"]
         H[Header Bar]
+        SH[Sub-Header / Footer / Side Pane]
         M[User Menu]
         Apps[Running Fiori Apps]
     end
 
     C --> E
+    C --> F
     C --> A
     C --> U
     E --> H
     E --> M
+    F --> SH
     A --> Apps
 ```
 
 ---
 
-## Adding Buttons and User Menu Actions
+## Extending the Shell UI
 
 ### The Old Renderer Approach
 
@@ -142,18 +147,93 @@ With the Extension API you can:
 - Register **user menu actions**
 - Show extensions globally across apps with `showForAllApps()`
 
+```typescript
+import Container from "sap/ushell/Container";
+import Extension from "sap/ushell/services/Extension";
+
+const extension = await Container.getServiceAsync<Extension>("Extension");
+
+// Header button visible across all apps
+const headerItem = await extension.createHeaderItem({
+    id: "myHeaderAction",
+    icon: "sap-icon://action",
+    text: "My Action",
+    press: () => { /* ... */ },
+});
+headerItem.showForAllApps();
+
+// Entry in the shell user menu
+const userAction = await extension.createUserAction({
+    id: "myUserAction",
+    text: "My menu action",
+    press: () => { /* ... */ },
+});
+userAction.showForAllApps();
+```
+
 The trade-off: placement is more opinionated. Header items are supported at the **end** position, and user menu entries are first-class citizens — but you no longer get the old free-form renderer positioning.
 
-### Old Renderer vs. Extension API
+More samples are available on the [Extension API documentation page](https://ui5.sap.com/#/entity/sap.ushell.services.Extension).
 
-| Topic | Old Renderer API | New Extension API (1.120+) |
-| --- | --- | --- |
-| Service | `Container.getRenderer()` | `Container.getServiceAsync("Extension")` |
-| Header buttons | Multiple positions (`begin`, `end`, …) | End position via `createHeaderItem()` |
-| User menu | Manual renderer integration | Native `createUserAction()` support |
-| API stability | Changed across UI5 versions | Dedicated, documented service |
-| TypeScript support | Possible, but loosely typed | Clean async service typing |
-| Recommended for | Legacy systems below 1.120 | **New development on 1.120+** |
+### FrameBoundExtension — Footer, Side Pane, and Sub-Header (UI5 1.124+)
+
+When you need to extend the **shell frame** itself — not just add a header button or user menu entry — use **`sap.ushell.services.FrameBoundExtension`**. It covers the same header and user-menu capabilities as `Extension`, and additionally exposes the launchpad's structural areas:
+
+- **Sub-header** — `createSubHeader()` for a bar below the shell header
+- **Footer** — `createFooter()` for a persistent footer bar
+- **Side pane** — `getSidePane()` for left-panel content
+- **Tool area** — `getToolArea()` for the right-hand tool area
+- **Floating container** — `getFloatingContainer()` for overlay panels
+- **User settings** — `addUserSettingsEntry()` / `addGroupedUserSettingsEntry()`
+
+**API reference:** [sap.ushell.services.FrameBoundExtension](https://ui5.sap.com/#/api/sap.ushell.services.FrameBoundExtension)
+
+Use **`Extension`** for lightweight shell controls (header buttons, user menu actions). Reach for **`FrameBoundExtension`** when the UI belongs to a frame area — footer, side panel, or sub-header.
+
+```typescript
+import Container from "sap/ushell/Container";
+import FrameBoundExtension from "sap/ushell/services/FrameBoundExtension";
+import Button from "sap/m/Button";
+
+const frameExtension =
+    await Container.getServiceAsync<FrameBoundExtension>("FrameBoundExtension");
+
+// Footer bar across the bottom of the shell
+await frameExtension.createFooter({
+    id: "myFooter",
+    contentLeft: [
+        new Button({ text: "Footer action", press: () => { /* ... */ } }),
+    ],
+});
+
+// Side pane with a toggle button
+const sidePane = await frameExtension.getSidePane();
+const sideItem = await sidePane.createItem(
+    {
+        id: "mySidePane",
+        text: "Open panel",
+        press: () => { /* ... */ },
+    },
+    { controlType: "sap.m.Button" }
+);
+sideItem.showForAllApps();
+```
+
+More samples — Footer, SidePane, SubHeader, and more — are available on the [FrameBoundExtension documentation page](https://ui5.sap.com/#/entity/sap.ushell.services.FrameBoundExtension).
+
+### Old Renderer vs. Extension APIs
+
+| Topic | Old Renderer API | Extension (1.120+) | FrameBoundExtension (1.124+) |
+| --- | --- | --- | --- |
+| Service | `Container.getRenderer()` | `Container.getServiceAsync("Extension")` | `Container.getServiceAsync("FrameBoundExtension")` |
+| Header buttons | Multiple positions (`begin`, `end`, …) | `createHeaderItem()` | `createHeaderItem()` |
+| User menu | Manual renderer integration | `createUserAction()` | `createUserAction()` |
+| Sub-header | Via renderer | — | `createSubHeader()` |
+| Footer | Via renderer | — | `createFooter()` |
+| Side pane | Via renderer | — | `getSidePane()` |
+| Tool area | Via renderer | — | `getToolArea()` |
+| API stability | Changed across UI5 versions | Dedicated, documented service | Dedicated, documented service |
+| Recommended for | Legacy systems below 1.120 | **Simple shell controls** | **Frame layout (footer, side panel, sub-header)** |
 
 ---
 
@@ -249,7 +329,7 @@ npm run start
 
 ### Local Testing with the FLP Sandbox
 
-For local development, the generator does not run the plugin in standalone mode. Instead, it **simulates a Fiori Launchpad** using the official ushell sandbox (`webapp/test/flpSandbox.html`). That way you can develop and debug against real shell services — `Extension`, `AppLifeCycle`, `UserInfo`, and the rest — without deploying to ABAP or BTP first.
+For local development, the generator does not run the plugin in standalone mode. Instead, it **simulates a Fiori Launchpad** using the official ushell sandbox (`webapp/test/flpSandbox.html`). That way you can develop and debug against real shell services — `Extension`, `FrameBoundExtension`, `AppLifeCycle`, `UserInfo`, and the rest — without deploying to ABAP or BTP first.
 
 The magic happens in the sandbox configuration. Register your plugin under `bootstrapPlugins` and point `url` at the webapp root:
 
@@ -338,7 +418,10 @@ A few things worth noting:
 - `createHeaderItem()` returns a promise — the API is fully async
 - `Button$PressEvent` gives you proper TypeScript typing for the press handler
 - `showForAllApps()` makes the button available across every launched Fiori app
+- `showOnHome()` also show button on Fiori home
 - `i18n` works exactly like in a standard UI5 application
+
+More samples are available on the [Extension API documentation page](https://ui5.sap.com/#/entity/sap.ushell.services.Extension).
 
 ---
 
@@ -390,7 +473,7 @@ After assignment, the plugin loads automatically when users open the launchpad �
 
 Fiori Launchpad plugins are a powerful but often ignored extension point in the UI5 ecosystem. They let you enhance the shell itself — globally, cleanly, and without touching every individual Fiori app.
 
-With **TypeScript**, the modern **Extension API** (UI5 1.120+), and a proper project generator, building plugins today is significantly more pleasant than wrestling with the old renderer APIs.
+With **TypeScript**, the modern **Extension API** (UI5 1.120+), **FrameBoundExtension** (1.124+), and a proper project generator, building plugins today is significantly more pleasant than wrestling with the old renderer APIs.
 
 If you have a cross-app requirement — tracking, reporting, shell utilities, or lifecycle automation — a plugin is very likely the right tool for the job.
 
@@ -398,5 +481,6 @@ If you have a cross-app requirement — tracking, reporting, shell utilities, or
 
 - [Official Fiori Plugin documentation (SAP Help)](https://help.sap.com/docs/ABAP_PLATFORM_NEW/a7b390faab1140c087b8926571e942b7/cc03f57993f54a969f3c6a9d59b6d3f0.html?locale=en-US)
 - [Extension API documentation](https://ui5.sap.com/#/api/sap.ushell.services.Extension)
+- [FrameBoundExtension API documentation](https://ui5.sap.com/#/api/sap.ushell.services.FrameBoundExtension)
 - [generator-ui5-flp-plugin](https://github.com/ui5-community/generator-ui5-ts-flp-plugin)
 - [fiori-fullscreen-plugin sample](https://github.com/mariokernich/fiori-fullscreen-plugin)
