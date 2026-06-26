@@ -1,0 +1,192 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="100%" height="100%">
+  <defs>
+    <!-- Fonts -->
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&amp;family=Plus+Jakarta+Sans:wght@400;600;800&amp;display=swap');
+      .title-main {
+        font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+        font-weight: 800;
+        font-size: 58px;
+        fill: #ffffff;
+      }
+      .title-sub {
+        font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+        font-weight: 600;
+        font-size: 26px;
+        fill: #94a3b8;
+      }
+      .badge-text {
+        font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+        font-weight: 600;
+        font-size: 16px;
+        fill: #ffffff;
+      }
+      .code-text {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 14px;
+      }
+      .code-keyword { fill: #f43f5e; font-weight: bold; }
+      .code-type { fill: #38bdf8; }
+      .code-method { fill: #fbbf24; }
+      .code-normal { fill: #e2e8f0; }
+      .code-comment { fill: #64748b; font-style: italic; }
+    </style>
+
+    <!-- Gradients -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b0f19" />
+      <stop offset="50%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e1b4b" />
+    </linearGradient>
+
+    <linearGradient id="brandGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0077ff" />
+      <stop offset="100%" stop-color="#00c5dd" />
+    </linearGradient>
+
+    <linearGradient id="eclipseGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2c225b" />
+      <stop offset="50%" stop-color="#3c207a" />
+      <stop offset="100%" stop-color="#f8a5c2" stop-opacity="0.2" />
+    </linearGradient>
+
+    <!-- Glowing effect filters -->
+    <filter id="glowBlue" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="40" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="glowCyan" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="60" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="windowShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="25" stdDeviation="30" flood-color="#000000" flood-opacity="0.5" />
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bgGrad)" />
+
+  <!-- Background glowing ambient lights -->
+  <circle cx="1050" cy="150" r="220" fill="#0077ff" opacity="0.15" filter="url(#glowBlue)" />
+  <circle cx="800" cy="500" r="180" fill="#00c5dd" opacity="0.12" filter="url(#glowCyan)" />
+  <circle cx="150" cy="450" r="200" fill="#4f46e5" opacity="0.1" filter="url(#glowBlue)" />
+
+  <!-- Left Side: Content & Typography -->
+  <g transform="translate(80, 0)">
+    <!-- Tech Logo representation / Eclipse ADT styling -->
+    <g transform="translate(0, 85)">
+      <!-- Mini Brand Tag -->
+      <rect x="0" y="0" width="160" height="32" rx="16" fill="#1e293b" stroke="#334155" stroke-width="1.5" />
+      <circle cx="18" cy="16" r="6" fill="url(#brandGrad)" />
+      <text x="36" y="21" font-family="'Plus Jakarta Sans', sans-serif" font-weight="600" font-size="13" fill="#38bdf8" letter-spacing="1">DEVELOPER GUIDE</text>
+    </g>
+
+    <!-- Main Title -->
+    <text x="0" y="195" class="title-main" letter-spacing="-1">Ditch SAP GUI.</text>
+    <text x="0" y="265" class="title-main" fill="url(#brandGrad)" letter-spacing="-1">Eclipse ADT</text>
+    <text x="0" y="335" class="title-main" letter-spacing="-1">for Modern ABAP</text>
+
+    <!-- Subtitle explanation -->
+    <text x="0" y="390" class="title-sub">The complete configuration guide for</text>
+    <text x="0" y="425" class="title-sub" fill="#e2e8f0">RAP, CAP, CDS, and Clean Code.</text>
+
+    <!-- Tech Badges -->
+    <g transform="translate(0, 475)">
+      <!-- ABAP/RAP Badge -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="112" height="38" rx="8" fill="#1d4ed8" fill-opacity="0.3" stroke="#3b82f6" stroke-width="1.5" />
+        <text x="56" y="24" class="badge-text" text-anchor="middle">ABAP RAP</text>
+      </g>
+      <!-- CDS Views Badge -->
+      <g transform="translate(126, 0)">
+        <rect x="0" y="0" width="112" height="38" rx="8" fill="#0369a1" fill-opacity="0.3" stroke="#0ea5e9" stroke-width="1.5" />
+        <text x="56" y="24" class="badge-text" text-anchor="middle">CDS Views</text>
+      </g>
+      <!-- Clean ABAP Badge -->
+      <g transform="translate(252, 0)">
+        <rect x="0" y="0" width="124" height="38" rx="8" fill="#0f766e" fill-opacity="0.3" stroke="#14b8a6" stroke-width="1.5" />
+        <text x="62" y="24" class="badge-text" text-anchor="middle">Clean Code</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Right Side: Beautiful Eclipse ADT IDE Mockup -->
+  <g transform="translate(640, 95)" filter="url(#windowShadow)">
+    <!-- Workspace Window Container -->
+    <rect width="480" height="440" rx="16" fill="#090d16" stroke="#1e293b" stroke-width="2" />
+    <!-- Gradient Inner Border Highlight -->
+    <rect x="1" y="1" width="478" height="438" rx="15" fill="none" stroke="url(#brandGrad)" stroke-width="1.5" opacity="0.5" />
+
+    <!-- Title Bar / Header of IDE -->
+    <rect width="480" height="40" rx="16" fill="#111827" />
+    <path d="M0,25 L480,25 L480,40 L0,40 Z" fill="#111827" /> <!-- sharp bottom corner for header -->
+    <line x1="0" y1="40" x2="480" y2="40" stroke="#1e293b" stroke-width="1.5" />
+
+    <!-- Window Controls (Mac Style) -->
+    <circle cx="24" cy="20" r="6" fill="#f87171" />
+    <circle cx="44" cy="20" r="6" fill="#fbbf24" />
+    <circle cx="64" cy="20" r="6" fill="#34d399" />
+
+    <!-- IDE Tab Title -->
+    <rect x="100" y="10" width="180" height="30" rx="6" fill="#090d16" stroke="#1e293b" stroke-width="1.5" />
+    <text x="122" y="29" font-family="'JetBrains Mono', monospace" font-size="11" fill="#38bdf8">ZCL_DEMO_RAP.clas</text>
+    <path d="M260,17 L268,25 M268,17 L260,25" stroke="#64748b" stroke-width="1.5" stroke-linecap="round" />
+
+    <!-- Code Editor Content Area -->
+    <g transform="translate(25, 70)">
+      <!-- Line Numbers -->
+      <g font-family="'JetBrains Mono', monospace" font-size="13" fill="#334155" text-anchor="end">
+        <text x="10" y="20">1</text>
+        <text x="10" y="45">2</text>
+        <text x="10" y="70">3</text>
+        <text x="10" y="95">4</text>
+        <text x="10" y="120">5</text>
+        <text x="10" y="145">6</text>
+        <text x="10" y="170">7</text>
+        <text x="10" y="195">8</text>
+        <text x="10" y="220">9</text>
+        <text x="10" y="245">10</text>
+        <text x="10" y="270">11</text>
+        <text x="10" y="295">12</text>
+        <text x="10" y="320">13</text>
+      </g>
+
+      <!-- Code Text Lines -->
+      <g transform="translate(30, 0)" class="code-text">
+        <text x="0" y="20"><tspan class="code-keyword">CLASS</tspan> class_demo <tspan class="code-keyword">DEFINITION</tspan> <tspan class="code-keyword">PUBLIC</tspan>.</text>
+        
+        <text x="0" y="45">  <tspan class="code-keyword">PUBLIC SECTION</tspan>.</text>
+        
+        <text x="0" y="70">    <tspan class="code-keyword">INTERFACES</tspan> if_oo_adt_classrun.</text>
+        
+        <text x="0" y="95">    <tspan class="code-keyword">METHODS</tspan> <tspan class="code-method">get_rap_behavior</tspan></text>
+        <text x="0" y="120">      <tspan class="code-keyword">IMPORTING</tspan> id <tspan class="code-keyword">TYPE</tspan> <tspan class="code-type">sysuuid_x16</tspan>.</text>
+        
+        <text x="0" y="145">  <tspan class="code-keyword">PROTECTED SECTION</tspan>.</text>
+        <text x="0" y="170">  <tspan class="code-keyword">PRIVATE SECTION</tspan>.</text>
+        <text x="0" y="195"><tspan class="code-keyword">ENDCLASS</tspan>.</text>
+
+        <!-- Empty Line -->
+        <text x="0" y="220" class="code-comment">" Implementation of modern RAP handler</text>
+        
+        <text x="0" y="245"><tspan class="code-keyword">CLASS</tspan> class_demo <tspan class="code-keyword">IMPLEMENTATION</tspan>.</text>
+        
+        <text x="0" y="270">  <tspan class="code-keyword">METHOD</tspan> if_oo_adt_classrun~main.</text>
+        
+        <text x="0" y="295">    <tspan class="code-keyword">MODIFY ENTITIES OF</tspan> zr_booking</text>
+        <text x="0" y="320">      <tspan class="code-keyword">CREATE FIELDS</tspan> ( BookingDate ) ...</text>
+      </g>
+    </g>
+
+    <!-- Eclipse Orbit Logo (Stylized in glassmorphism in bottom right) -->
+    <g transform="translate(390, 350)" opacity="0.85">
+      <circle cx="40" cy="40" r="35" fill="url(#eclipseGrad)" />
+      <!-- Horizontal lines representing eclipse -->
+      <line x1="12" y1="28" x2="68" y2="28" stroke="#00c5dd" stroke-width="3" stroke-linecap="round" />
+      <line x1="8" y1="40" x2="72" y2="40" stroke="#0077ff" stroke-width="4" stroke-linecap="round" />
+      <line x1="16" y1="52" x2="64" y2="52" stroke="#38bdf8" stroke-width="3" stroke-linecap="round" />
+      <circle cx="48" cy="35" r="14" fill="#ffffff" filter="url(#glowBlue)" opacity="0.3" />
+    </g>
+  </g>
+</svg>
