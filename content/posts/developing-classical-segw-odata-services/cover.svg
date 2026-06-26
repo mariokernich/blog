@@ -1,0 +1,198 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="100%" height="100%">
+  <defs>
+    <!-- Fonts -->
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&amp;family=Plus+Jakarta+Sans:wght@400;600;800&amp;display=swap');
+      .title-main {
+        font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+        font-weight: 800;
+        font-size: 54px;
+        fill: #ffffff;
+      }
+      .title-sub {
+        font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+        font-weight: 600;
+        font-size: 24px;
+        fill: #94a3b8;
+      }
+      .badge-text {
+        font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+        font-weight: 600;
+        font-size: 15px;
+        fill: #ffffff;
+      }
+      .code-text {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 13px;
+      }
+      .code-keyword { fill: #f43f5e; font-weight: bold; }
+      .code-type { fill: #38bdf8; }
+      .code-method { fill: #fbbf24; }
+      .code-normal { fill: #e2e8f0; }
+      .code-comment { fill: #64748b; font-style: italic; }
+      .url-bracket { fill: #a855f7; }
+      .url-path { fill: #34d399; }
+    </style>
+
+    <!-- Gradients -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16" />
+      <stop offset="50%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e152a" />
+    </linearGradient>
+
+    <linearGradient id="brandGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#eab308" />
+      <stop offset="100%" stop-color="#f97316" />
+    </linearGradient>
+
+    <linearGradient id="sapBlueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0064d2" />
+      <stop offset="100%" stop-color="#00c5dd" />
+    </linearGradient>
+
+    <!-- Glowing effect filters -->
+    <filter id="glowBlue" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="40" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="glowOrange" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="60" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="windowShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="25" stdDeviation="30" flood-color="#000000" flood-opacity="0.6" />
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bgGrad)" />
+
+  <!-- Background glowing ambient lights -->
+  <circle cx="1050" cy="150" r="220" fill="#0064d2" opacity="0.15" filter="url(#glowBlue)" />
+  <circle cx="800" cy="500" r="180" fill="#eab308" opacity="0.10" filter="url(#glowOrange)" />
+  <circle cx="150" cy="450" r="200" fill="#a855f7" opacity="0.1" filter="url(#glowBlue)" />
+
+  <!-- Left Side: Content & Typography -->
+  <g transform="translate(80, 0)">
+    <!-- Tech Logo representation -->
+    <g transform="translate(0, 85)">
+      <!-- Mini Brand Tag -->
+      <rect x="0" y="0" width="185" height="32" rx="16" fill="#1e293b" stroke="#334155" stroke-width="1.5" />
+      <circle cx="18" cy="16" r="6" fill="url(#brandGrad)" />
+      <text x="36" y="21" font-family="'Plus Jakarta Sans', sans-serif" font-weight="600" font-size="12" fill="#eab308" letter-spacing="1">DEVELOPER EXTRA</text>
+    </g>
+
+    <!-- Main Title -->
+    <text x="0" y="190" class="title-main" letter-spacing="-1">The Ultimate Guide to</text>
+    <text x="0" y="255" class="title-main" fill="url(#brandGrad)" letter-spacing="-1">Classical SEGW</text>
+    <text x="0" y="320" class="title-main" letter-spacing="-1">OData Services</text>
+
+    <!-- Subtitle explanation -->
+    <text x="0" y="375" class="title-sub">The complete technical handbook on</text>
+    <text x="0" y="410" class="title-sub" fill="#e2e8f0">MPC/DPC Layers, CRUDQ, and Actions.</text>
+
+    <!-- Tech Badges -->
+    <g transform="translate(0, 465)">
+      <!-- SAP SEGW Badge -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="126" height="38" rx="8" fill="#1d4ed8" fill-opacity="0.3" stroke="#3b82f6" stroke-width="1.5" />
+        <text x="63" y="24" class="badge-text" text-anchor="middle">SAP SEGW</text>
+      </g>
+      <!-- OData V2 Badge -->
+      <g transform="translate(140, 0)">
+        <rect x="0" y="0" width="108" height="38" rx="8" fill="#0369a1" fill-opacity="0.3" stroke="#0ea5e9" stroke-width="1.5" />
+        <text x="54" y="24" class="badge-text" text-anchor="middle">OData V2</text>
+      </g>
+      <!-- SAP Gateway Badge -->
+      <g transform="translate(262, 0)">
+        <rect x="0" y="0" width="138" height="38" rx="8" fill="#581c87" fill-opacity="0.3" stroke="#a855f7" stroke-width="1.5" />
+        <text x="69" y="24" class="badge-text" text-anchor="middle">ABAP Gateway</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Right Side: Beautiful IDE / REST Architecture Mockup -->
+  <g transform="translate(640, 95)" filter="url(#windowShadow)">
+    <!-- Workspace Window Container -->
+    <rect width="480" height="440" rx="16" fill="#090d16" stroke="#1e293b" stroke-width="2" />
+    <!-- Gradient Inner Border Highlight -->
+    <rect x="1" y="1" width="478" height="438" rx="15" fill="none" stroke="url(#sapBlueGrad)" stroke-width="1.5" opacity="0.4" />
+
+    <!-- Title Bar / Header of IDE -->
+    <rect width="480" height="40" rx="16" fill="#111827" />
+    <path d="M0,25 L480,25 L480,40 L0,40 Z" fill="#111827" /> <!-- sharp bottom corner for header -->
+    <line x1="0" y1="40" x2="480" y2="40" stroke="#1e293b" stroke-width="1.5" />
+
+    <!-- Window Controls (Mac Style) -->
+    <circle cx="24" cy="20" r="6" fill="#f87171" />
+    <circle cx="44" cy="20" r="6" fill="#fbbf24" />
+    <circle cx="64" cy="20" r="6" fill="#34d399" />
+
+    <!-- IDE Tab Title -->
+    <rect x="100" y="10" width="220" height="30" rx="6" fill="#090d16" stroke="#1e293b" stroke-width="1.5" />
+    <text x="120" y="29" font-family="'JetBrains Mono', monospace" font-size="11" fill="#00c5dd">ZCL_ZSO_DPC_EXT.clas</text>
+    <path d="M300,17 L308,25 M308,17 L300,25" stroke="#64748b" stroke-width="1.5" stroke-linecap="round" />
+
+    <!-- Code Editor Content Area -->
+    <g transform="translate(25, 75)">
+      <!-- Simulated Request Path at top -->
+      <g transform="translate(10, 0)">
+        <rect x="0" y="0" width="410" height="34" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1" />
+        <rect x="8" y="7" width="45" height="20" rx="4" fill="#10b981" />
+        <text x="30" y="21" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="10" fill="#ffffff" text-anchor="middle">GET</text>
+        <text x="62" y="21" font-family="'JetBrains Mono', monospace" font-size="11" fill="#e2e8f0">
+          <tspan class="url-bracket">/sap/opu/odata/...</tspan><tspan class="url-path">/HandlingUnits('10001')</tspan>
+        </text>
+      </g>
+
+      <!-- Line Numbers -->
+      <g font-family="'JetBrains Mono', monospace" font-size="12" fill="#334155" text-anchor="end" transform="translate(0, 55)">
+        <text x="10" y="20">1</text>
+        <text x="10" y="42">2</text>
+        <text x="10" y="64">3</text>
+        <text x="10" y="86">4</text>
+        <text x="10" y="108">5</text>
+        <text x="10" y="130">6</text>
+        <text x="10" y="152">7</text>
+        <text x="10" y="174">8</text>
+        <text x="10" y="196">9</text>
+        <text x="10" y="218">10</text>
+        <text x="10" y="240">11</text>
+        <text x="10" y="262">12</text>
+      </g>
+
+      <!-- Code Text Lines -->
+      <g transform="translate(30, 55)" class="code-text">
+        <text x="0" y="20"><tspan class="code-keyword">METHOD</tspan> handlingunits_get_entity.</text>
+        
+        <text x="0" y="42">  <tspan class="code-keyword">DATA</tspan> lv_id <tspan class="code-keyword">TYPE</tspan> /scwm/huident.</text>
+        
+        <text x="0" y="64">  io_tech_request_context-&gt;get_converted_keys(</text>
+        <text x="0" y="86">    <tspan class="code-keyword">IMPORTING</tspan> es_key_values = lv_id ).</text>
+        
+        <text x="0" y="108">  <tspan class="code-keyword">SELECT SINGLE</tspan> huident, lgnum, g_weight, gewei</text>
+        <text x="0" y="130">    <tspan class="code-keyword">FROM</tspan> zewm_huhdr</text>
+        <text x="0" y="152">    <tspan class="code-keyword">WHERE</tspan> huident = @lv_id</text>
+        <text x="0" y="174">    <tspan class="code-keyword">INTO</tspan> CORRESPONDING FIELDS OF @er_entity.</text>
+        
+        <text x="0" y="196">  <tspan class="code-keyword">IF</tspan> sy-subrc <tspan class="code-keyword">&lt;&gt;</tspan> 0.</text>
+        <text x="0" y="218">    <tspan class="code-keyword">RAISE EXCEPTION TYPE</tspan> /iwbep/cx_mgw_busi_exception...</text>
+        <text x="0" y="240">  <tspan class="code-keyword">ENDIF</tspan>.</text>
+        <text x="0" y="262"><tspan class="code-keyword">ENDMETHOD</tspan>.</text>
+      </g>
+    </g>
+
+    <!-- SAP Hub Logo Representation in Bottom Right -->
+    <g transform="translate(390, 350)" opacity="0.85">
+      <circle cx="40" cy="40" r="35" fill="url(#sapBlueGrad)" />
+      <!-- Stylized connection nodes -->
+      <line x1="20" y1="40" x2="60" y2="40" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="2 4" />
+      <circle cx="22" cy="40" r="6" fill="#ffffff" />
+      <circle cx="58" cy="40" r="6" fill="#eab308" filter="url(#glowOrange)" />
+      <circle cx="40" cy="22" r="6" fill="#38bdf8" />
+      <circle cx="40" cy="58" r="6" fill="#ffffff" />
+      <path d="M40,28 L40,52" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="2 4" />
+    </g>
+  </g>
+</svg>
