@@ -1,0 +1,52 @@
+{{- /*
+  FAQ shortcode — renders an SEO-friendly, accessible FAQ block AND emits
+  schema.org FAQPage JSON-LD for rich snippets in search results.
+
+  Usage:
+    {{< faq >}}
+      {{< faq-item question="What is an HTTP request?" >}}
+      An HTTP request is a message a client sends to a server to read or change data.
+      {{< /faq-item >}}
+
+      {{< faq-item question="Which JSON class should I use?" >}}
+      Use `/UI2/CL_JSON` on classic On-Premise and `XCO` in ABAP Cloud.
+      {{< /faq-item >}}
+    {{< /faq >}}
+
+  Note: Use the `< >` (not `% %`) delimiter form so nested faq-item shortcodes
+  are processed before the parent renders.
+*/ -}}
+{{- .Page.Store.Set "faqItems" slice -}}
+{{- $title := .Get "title" | default "Frequently Asked Questions" -}}
+{{- $inner := .Inner -}}
+
+<section class="faq" aria-label="{{ $title }}">
+  <h2 class="faq-title">{{ $title }}</h2>
+  <div class="faq-list">
+    {{- $inner -}}
+  </div>
+</section>
+
+{{- /* Emit the FAQPage structured data collected from the faq-item children */ -}}
+{{- $items := .Page.Store.Get "faqItems" -}}
+{{- if $items -}}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {{- range $i, $item := $items -}}
+    {{- if $i }},{{ end }}
+    {
+      "@type": "Question",
+      "name": {{ $item.question | plainify | jsonify }},
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": {{ $item.answer | plainify | jsonify }}
+      }
+    }
+    {{- end }}
+  ]
+}
+</script>
+{{- end -}}

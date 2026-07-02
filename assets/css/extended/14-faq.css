@@ -1,0 +1,77 @@
+/* FAQ shortcode (.faq) */
+.faq {
+    margin: 2rem 0;
+}
+
+.faq .faq-title {
+    margin-bottom: 1rem;
+}
+
+.faq .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.faq-item {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--entry);
+    overflow: hidden;
+    transition: border-color 0.2s ease;
+}
+
+.faq-item[open] {
+    border-color: var(--primary);
+}
+
+.faq-item .faq-question {
+    cursor: pointer;
+    list-style: none;
+    padding: 0.9rem 1.1rem;
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    user-select: none;
+}
+
+/* Remove the default triangle marker */
+.faq-item .faq-question::-webkit-details-marker {
+    display: none;
+}
+.faq-item .faq-question::marker {
+    content: "";
+}
+
+/* Custom +/- indicator */
+.faq-item .faq-question::after {
+    content: "+";
+    font-size: 1.4rem;
+    line-height: 1;
+    font-weight: 400;
+    color: var(--secondary);
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+}
+
+.faq-item[open] .faq-question::after {
+    content: "\2212"; /* minus sign */
+}
+
+.faq-item .faq-answer {
+    padding: 0 1.1rem 1rem;
+    color: var(--content);
+    line-height: 1.6;
+}
+
+.faq-item .faq-answer > p:first-child {
+    margin-top: 0;
+}
+
+.faq-item .faq-answer > p:last-child {
+    margin-bottom: 0;
+}
