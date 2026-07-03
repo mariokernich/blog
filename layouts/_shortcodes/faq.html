@@ -25,3 +25,26 @@
     {{- $inner -}}
   </div>
 </section>
+
+{{- /* FAQPage JSON-LD built from the items the nested faq-item shortcodes
+  registered in the page store. jsonify guarantees valid JSON regardless of
+  quotes or special characters in questions/answers. */ -}}
+{{- with .Page.Store.Get "faqItems" }}
+  {{- $entities := slice -}}
+  {{- range . -}}
+    {{- $answerText := .answer | plainify | htmlUnescape | chomp -}}
+    {{- $entities = $entities | append (dict
+      "@type" "Question"
+      "name" .question
+      "acceptedAnswer" (dict "@type" "Answer" "text" $answerText)
+    ) -}}
+  {{- end -}}
+  {{- $schema := dict
+    "@context" "https://schema.org"
+    "@type" "FAQPage"
+    "mainEntity" $entities
+  -}}
+  <script type="application/ld+json">{{ $schema | jsonify | safeJS }}</script>
+{{- end -}}
+{{- /* Reset so a second faq block on the same page doesn't re-emit these items */ -}}
+{{- .Page.Store.Delete "faqItems" -}}
