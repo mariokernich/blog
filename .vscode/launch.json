@@ -1,0 +1,14 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Hugo: Serve (port 1337)",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "hugo server --port 1337 --baseURL http://localhost:1337/ --appendPort=false --buildDrafts --disableFastRender",
+      "cwd": "${workspaceFolder}"
+    }
+  ]
+}
