@@ -15,14 +15,16 @@ cover:
   hiddenInSingle: false
 ---
 
-In an interconnected enterprise runtime, SAP is no longer an isolated platform. Modern business processes rarely live inside a single system — they span many cloud services, external partners, and third-party tools. To make them work together, systems need to *talk* to each other, and the language they use is **HTTP**.
+In an interconnected enterprise runtime, SAP is no longer an isolated platform. Modern business processes rarely live inside a single system — they span many cloud services, external partners, and third-party tools. To make them work together, systems need to _talk_ to each other, and the language they use is **HTTP**.
 
 ### Why do we need HTTP calls?
+
 Almost every service on the internet exposes its functionality through a **REST API** (a set of web addresses you can call over HTTP). This is fantastic for us as ABAP developers: if a system offers a REST API, we can connect to it directly from our ABAP code. And the two data formats these APIs speak are almost always **JSON** (the modern standard) or **XML** (the classic, still common in SAP-to-SAP and SOAP scenarios) — exactly the two formats we will learn to handle in this guide.
 
 This becomes especially powerful on the **SAP Business Technology Platform (BTP)**. BTP is where companies **centrally bring everything together in the cloud** — connecting their S/4HANA backend, cloud services, and countless external systems in one place. HTTP calls are the glue that makes this central integration possible.
 
 ### Real-world business examples
+
 Here are just a few things you could build with HTTP calls from ABAP:
 
 - **Project management (Jira, Azure DevOps):** Automatically create a Jira ticket when a quality issue is posted in SAP, or update the SAP order status when a Jira issue is closed.
@@ -41,29 +43,32 @@ In this guide, we break these concepts down into simple, practical terms. We wil
 ## 1. Deconstructing an HTTP Request (The Waiter Analogy)
 
 To understand HTTP communication, imagine dining at a restaurant. There are four primary actors:
+
 1. **The Guest (Client):** You (or your ABAP program) wanting to request something.
 2. **The Order (Request):** Your message outlining what you want.
 3. **The Waiter (HTTP Client):** The messenger carrying your order to the kitchen and bringing the food back.
 4. **The Kitchen (Web Server / API):** The backend processing your request and preparing the response.
 
 ### Core Anatomy of a Request
+
 Every HTTP request is made up of a few simple building blocks. Using our restaurant analogy, here is what each part means:
 
-- **The URL (Endpoint Address):** The street address or table location that tells the waiter *where* to deliver your order (e.g., `https://api.example.com/v1/products`).
+- **The URL (Endpoint Address):** The street address or table location that tells the waiter _where_ to deliver your order (e.g., `https://api.example.com/v1/products`).
 - **The Method (The Verb):** The action you want to perform — get something, create something, change something, or delete something (see the table below).
 - **The Headers (Extra Instructions):** Small notes attached to your order, such as "I only accept JSON" or "here is my membership card" (more on this in Section 2).
-- **The Query Parameters (Filters):** Optional add-ons in the URL that refine your request, like *"only bring me desserts under 10€"* (e.g., `?userId=1&status=open`).
+- **The Query Parameters (Filters):** Optional add-ons in the URL that refine your request, like _"only bring me desserts under 10€"_ (e.g., `?userId=1&status=open`).
 - **The Body (The Payload):** The actual content you send along, for example the details of a new order. Usually only needed for `POST`, `PUT`, and `PATCH`.
 
 ### HTTP Methods (The Active Verbs)
+
 To define what action we want the server to perform, we use specific HTTP methods. Here is how they map to our restaurant analogy and database operations:
 
-| HTTP Method | Restaurant Analogy | Database Action (CRUD) | Description |
-| :--- | :--- | :--- | :--- |
-| **`GET`** | "Bring me the menu" or "Serve the soup" | Read (Retrieve) | Fetches existing resource details from the server without modifying anything. |
-| **`POST`** | "Place a new custom order" | Create (Insert) | Submits new data payloads to the server to create a brand new resource. |
-| **`PUT` / `PATCH`** | "Replace my steak with fish" / "Add extra pepper" | Update (Modify) | Overwrites a resource entirely (`PUT`) or updates specific fields (`PATCH`). |
-| **`DELETE`** | "Cancel my order" / "Take away the empty plate" | Delete (Remove) | Permanently deletes a specific resource from the server. |
+| HTTP Method         | Restaurant Analogy                                | Database Action (CRUD) | Description                                                                   |
+| :------------------ | :------------------------------------------------ | :--------------------- | :---------------------------------------------------------------------------- |
+| **`GET`**           | "Bring me the menu" or "Serve the soup"           | Read (Retrieve)        | Fetches existing resource details from the server without modifying anything. |
+| **`POST`**          | "Place a new custom order"                        | Create (Insert)        | Submits new data payloads to the server to create a brand new resource.       |
+| **`PUT` / `PATCH`** | "Replace my steak with fish" / "Add extra pepper" | Update (Modify)        | Overwrites a resource entirely (`PUT`) or updates specific fields (`PATCH`).  |
+| **`DELETE`**        | "Cancel my order" / "Take away the empty plate"   | Delete (Remove)        | Permanently deletes a specific resource from the server.                      |
 
 This entire interaction is mapped in the **Mermaid sequence diagram** below:
 
@@ -94,18 +99,22 @@ sequenceDiagram
 When communicating over HTTP, the request and response do not just consist of raw payloads. They also contain metadata: **Headers** and **Cookies**.
 
 ### What are HTTP Headers?
+
 Headers are **key-value pairs** sent in both requests and responses. Think of request headers as your "special dining instructions" or "ID verification" when placing an order:
-* **`Accept: application/json`**: Telling the kitchen, *"I only understand JSON. Please serve my data format accordingly."*
-* **`Content-Type: application/json; charset=utf-8`**: Telling the kitchen, *"The payload body I am handing over is written in UTF-8-encoded JSON."*
-* **`Authorization: Bearer <token>`**: Your exclusive membership card allowing you access to VIP dining areas.
+
+- **`Accept: application/json`**: Telling the kitchen, _"I only understand JSON. Please serve my data format accordingly."_
+- **`Content-Type: application/json; charset=utf-8`**: Telling the kitchen, _"The payload body I am handing over is written in UTF-8-encoded JSON."_
+- **`Authorization: Bearer <token>`**: Your exclusive membership card allowing you access to VIP dining areas.
 
 ### What are Cookies?
+
 Cookies are small pieces of stateful data that a server sends to your client via a response header (`Set-Cookie`). Your client then stores them and automatically attaches them to subsequent outgoing requests (`Cookie` header).
 
 Think of cookies as a physical **cloakroom ticket** the restaurant hands you on your first visit:
-* On your response, the waiter says: *"Keep this ticket locally."* (`Set-Cookie: session_id=XYZ123`)
-* On your next request, you automatically show that ticket back to the waiter: *"Remember me? Here is my ticket."* (`Cookie: session_id=XYZ123`)
-* This is crucial for **Session Management**, keeping track of logged-in states, or preserving user preferences across stateless HTTP calls.
+
+- On your response, the waiter says: _"Keep this ticket locally."_ (`Set-Cookie: session_id=XYZ123`)
+- On your next request, you automatically show that ticket back to the waiter: _"Remember me? Here is my ticket."_ (`Cookie: session_id=XYZ123`)
+- This is crucial for **Session Management**, keeping track of logged-in states, or preserving user preferences across stateless HTTP calls.
 
 ---
 
@@ -113,13 +122,13 @@ Think of cookies as a physical **cloakroom ticket** the restaurant hands you on 
 
 After the kitchen processes your order, the waiter always comes back with a short status message telling you whether everything went fine. In HTTP, this message is a three-digit **status code**. As a beginner, you only need to remember the five families:
 
-| Range | Meaning | Restaurant Analogy | Common Examples |
-| :--- | :--- | :--- | :--- |
-| **`1xx`** | Informational | "I'm working on it, please wait." | `100 Continue` |
-| **`2xx`** | Success ✅ | "Here is your dish, enjoy!" | `200 OK`, `201 Created`, `204 No Content` |
-| **`3xx`** | Redirection | "That dish moved to another table." | `301 Moved`, `304 Not Modified` |
-| **`4xx`** | Client Error ❌ | "*You* made a mistake in your order." | `400 Bad Request`, `401 Unauthorized`, `403 Forbidden`, `404 Not Found` |
-| **`5xx`** | Server Error 🔥 | "The *kitchen* broke down." | `500 Internal Server Error`, `503 Service Unavailable` |
+| Range     | Meaning         | Restaurant Analogy                    | Common Examples                                                         |
+| :-------- | :-------------- | :------------------------------------ | :---------------------------------------------------------------------- |
+| **`1xx`** | Informational   | "I'm working on it, please wait."     | `100 Continue`                                                          |
+| **`2xx`** | Success ✅      | "Here is your dish, enjoy!"           | `200 OK`, `201 Created`, `204 No Content`                               |
+| **`3xx`** | Redirection     | "That dish moved to another table."   | `301 Moved`, `304 Not Modified`                                         |
+| **`4xx`** | Client Error ❌ | "_You_ made a mistake in your order." | `400 Bad Request`, `401 Unauthorized`, `403 Forbidden`, `404 Not Found` |
+| **`5xx`** | Server Error 🔥 | "The _kitchen_ broke down."           | `500 Internal Server Error`, `503 Service Unavailable`                  |
 
 {{% alert type="info" title="Rule of Thumb" %}}
 A quick way to remember: **`2xx` = good news**, **`4xx` = your fault** (fix your request), **`5xx` = their fault** (the server has a problem). Always check the status code before trusting the response body!
@@ -203,6 +212,7 @@ Network calls can hang forever if the other server is slow or unreachable. You c
 ```abap
 lo_http_client->set_timeout( 30 ). " wait at most 30 seconds
 ```
+
 {{% /alert %}}
 
 ---
@@ -250,6 +260,7 @@ lo_request->set_header_field( i_name = 'X-API-Key' i_value = 'my-secret-api-key'
 If you call an **SAP OData service** and want to **change** data (`POST`, `PUT`, `DELETE`), there is one extra step that trips up almost every beginner: the **CSRF token** (pronounced "sea-surf"). It is a security check that prevents malicious websites from performing actions on your behalf.
 
 The rule is simple and always the same:
+
 1. First, send a `GET` request with the special header `X-CSRF-Token: Fetch`. The server replies with a token.
 2. Then, send your actual `POST`/`PUT`/`DELETE` request and include that token in the `X-CSRF-Token` header.
 
@@ -275,7 +286,7 @@ A `403 Forbidden` error on an SAP OData `POST`/`PUT`/`DELETE` is almost always a
 {{% /alert %}}
 
 {{% alert type="info" title="Providing REST APIs in ABAP Cloud & SAP BTP" %}}
-So far we have focused on *consuming* REST APIs. But what if you want to *expose* your own data as a REST/OData service in a modern environment like **ABAP Cloud** or **SAP BTP**? In the **ABAP RESTful Application Programming Model (RAP)**, **custom CDS views (CDS entities)** are the go-to approach for building exactly these kinds of services.
+So far we have focused on _consuming_ REST APIs. But what if you want to _expose_ your own data as a REST/OData service in a modern environment like **ABAP Cloud** or **SAP BTP**? In the **ABAP RESTful Application Programming Model (RAP)**, **custom CDS views (CDS entities)** are the go-to approach for building exactly these kinds of services.
 
 👉 Learn how to build them in the dedicated guide: [Building Custom CDS Entities with Unmanaged Queries in ABAP RAP]({{< ref "posts/custom-cds-views-with-unmanaged-queries-in-abap-rap" >}}).
 {{% /alert %}}
@@ -284,9 +295,10 @@ So far we have focused on *consuming* REST APIs. But what if you want to *expose
 
 ## 8. Handling JSON Payloads (The Modern Standard)
 
-JSON (*JavaScript Object Notation*) is the de-facto data serialization standard for modern API endpoints. ABAP makes parsing and creating JSON extremely seamless using `/UI2/CL_JSON` combined with **inline data declarations**.
+JSON (_JavaScript Object Notation_) is the de-facto data serialization standard for modern API endpoints. ABAP makes parsing and creating JSON extremely seamless using `/UI2/CL_JSON` combined with **inline data declarations**.
 
 ### JSON Deserialization (JSON to ABAP)
+
 Let's parse incoming JSON data directly into an inline-defined ABAP structure without pre-creating global dictionary structures:
 
 ```abap
@@ -300,11 +312,10 @@ DATA: BEGIN OF ls_todo,
         completed TYPE abap_bool,
       END OF ls_todo.
 
-" De-serialize using camel-case mapping to snake_case automatically
+" De-serialize
 /UI2/CL_JSON=>deserialize(
   EXPORTING
     json        = lv_json_string
-    pretty_name = /UI2/CL_JSON=>pretty_name-camel_case
   CHANGING
     data        = ls_todo
 ).
@@ -317,34 +328,29 @@ cl_demo_output=>display( ).
 ```
 
 ### JSON Serialization (ABAP to JSON)
+
 Generating modern JSON structures out of internal ABAP objects is just as fast:
 
 ```abap
 " Build data structure inline
-DATA(ls_payload) = VALUE #( 
-  id        = 999 
-  title     = 'Post created via ABAP' 
-  completed = abap_true 
+DATA(ls_payload) = VALUE #(
+  id        = 999
+  title     = 'Post created via ABAP'
+  completed = abap_true
 ).
 
 " Serialize ABAP structure into formatted JSON
 DATA(lv_json_output) = /UI2/CL_JSON=>serialize(
   data        = ls_payload
   compress    = abap_true
-  pretty_name = /UI2/CL_JSON=>pretty_name-camel_case
 ).
 
 cl_demo_output=>write( lv_json_output ).
 cl_demo_output=>display( ).
 ```
 
-{{% alert type="info" title="Common Beginner Pitfall: camelCase vs. ABAP names" %}}
-JSON APIs usually use `camelCase` field names (like `userId`), while ABAP field names are typically lowercase with underscores (like `user_id`). The `pretty_name = /UI2/CL_JSON=>pretty_name-camel_case` parameter handles this mapping **automatically** for you (`user_id` ↔ `userId`).
-
-If your fields stay empty after deserialization, this mapping is the **number one culprit** — double-check that the JSON name really matches your ABAP field name after conversion.
-{{% /alert %}}
-
 ### Alternative for ABAP Cloud: the XCO Library
+
 `/UI2/CL_JSON` is great and widely used, but it is **not released for ABAP Cloud** (e.g. on BTP or in S/4HANA Cloud Public Edition). There, SAP gives you the modern **XCO library** instead:
 
 ```abap
@@ -366,7 +372,9 @@ On a **classic On-Premise** system, `/UI2/CL_JSON` is perfectly fine and offers 
 For older legacy platforms, SOAP-based systems, or explicit SAP-to-SAP background messaging, XML is the typical vehicle. We manipulate XML using ABAP's identity transformation: `CALL TRANSFORMATION id`.
 
 ### XML Deserialization (XML to ABAP)
+
 We want to parse the following hierarchical XML into a structured ABAP record:
+
 ```xml
 <post>
   <id>404</id>
@@ -400,11 +408,12 @@ cl_demo_output=>display( ).
 ```
 
 ### XML Serialization (ABAP to XML)
+
 To wrap records back into an XML format:
 
 ```abap
 " Fill an inline structure
-DATA(ls_invoice) = VALUE #( 
+DATA(ls_invoice) = VALUE #(
   invoice_id = 'INV-5501'
   purchaser  = 'Wayne Enterprises'
 ).
@@ -662,6 +671,7 @@ ENDCLASS.
 Using this wrapper class makes your main business logic short, clean, and extremely readable. Here are practical examples demonstrating how to use it for different HTTP operations:
 
 #### 1. A Simple GET Request with Query Parameters
+
 Instead of instantiating destinations, clients, and requests manually, you simply call the wrapper class:
 
 ```abap
@@ -693,6 +703,7 @@ cl_demo_output=>display( ).
 ```
 
 #### 2. A Stateful POST Request with Headers and Cookies
+
 If you need to pass authentication tokens, context headers, or cookies alongside a payload:
 
 ```abap
@@ -729,19 +740,18 @@ cl_demo_output=>display( ).
 
 ## 11. Troubleshooting: Common Beginner Errors
 
-Even with perfect code, HTTP calls can fail for reasons *outside* your program. Here are the errors you will most likely run into — and how to fix them:
+Even with perfect code, HTTP calls can fail for reasons _outside_ your program. Here are the errors you will most likely run into — and how to fix them:
 
-| Symptom | Likely Cause | How to Fix |
-| :--- | :--- | :--- |
-| **SSL handshake failed** / certificate error | The target server's **SSL certificate** is not trusted by your SAP system. | Import the server's certificate into transaction **`STRUST`** (SSL client PSE). This is the #1 reason HTTPS calls fail on-premise. |
-| **`403 Forbidden`** on POST/PUT/DELETE to SAP | Missing or invalid **CSRF token**. | Fetch the token first and reuse the same client (see Section 7). |
-| **`401 Unauthorized`** | Missing or wrong **credentials/token**. | Check your `Authorization` header or the Destination configuration (Section 6). |
-| Program **hangs forever** | The remote server is slow or unreachable. | Set a **timeout** with `set_timeout( )` (Section 5). |
-| Fields are **empty after deserialization** | JSON `camelCase` vs. ABAP field names mismatch. | Use `pretty_name-camel_case` and verify the names match (Section 8). |
-| **Garbled special characters** (é, ü, ...) | Wrong **encoding**. | Make sure you send/read UTF-8 and set `Content-Type: application/json; charset=utf-8`. |
+| Symptom                                       | Likely Cause                                                               | How to Fix                                                                                                                         |
+| :-------------------------------------------- | :------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------- |
+| **SSL handshake failed** / certificate error  | The target server's **SSL certificate** is not trusted by your SAP system. | Import the server's certificate into transaction **`STRUST`** (SSL client PSE). This is the #1 reason HTTPS calls fail on-premise. |
+| **`403 Forbidden`** on POST/PUT/DELETE to SAP | Missing or invalid **CSRF token**.                                         | Fetch the token first and reuse the same client (see Section 7).                                                                   |
+| **`401 Unauthorized`**                        | Missing or wrong **credentials/token**.                                    | Check your `Authorization` header or the Destination configuration (Section 6).                                                    |
+| Program **hangs forever**                     | The remote server is slow or unreachable.                                  | Set a **timeout** with `set_timeout( )` (Section 5).                                                                               |
+| **Garbled special characters** (é, ü, ...)    | Wrong **encoding**.                                                        | Make sure you send/read UTF-8 and set `Content-Type: application/json; charset=utf-8`.                                             |
 
 {{% alert type="info" title="Certificates (STRUST) — Read This!" %}}
-When calling an **HTTPS** endpoint, your SAP system must trust the remote server. If the certificate (or its root/intermediate certificate) is not in **`STRUST`**, the connection is refused *before* any data is sent. Ask your Basis team to import the certificate chain into the **SSL Client (Standard)** PSE — this solves the vast majority of HTTPS connection problems.
+When calling an **HTTPS** endpoint, your SAP system must trust the remote server. If the certificate (or its root/intermediate certificate) is not in **`STRUST`**, the connection is refused _before_ any data is sent. Ask your Basis team to import the certificate chain into the **SSL Client (Standard)** PSE — this solves the vast majority of HTTPS connection problems.
 {{% /alert %}}
 
 ---
@@ -756,7 +766,7 @@ By following these fundamental practices, you write clean, reliable integration 
 4. **Handle the CSRF token for SAP OData:** Fetch it first, then send it back with every change request.
 5. **Use inline declarations:** Declaring data containers and target records directly in your (de)serialization blocks keeps your code clean and free of redundant Dictionary overhead.
 6. **Pick the right JSON tool:** `/UI2/CL_JSON` on classic On-Premise, **`XCO`** in ABAP Cloud.
-7. **Always wrap calls in `TRY-CATCH`:** Network calls, timeouts, and corrupted payloads *will* happen — defensive code keeps your jobs from crashing.
+7. **Always wrap calls in `TRY-CATCH`:** Network calls, timeouts, and corrupted payloads _will_ happen — defensive code keeps your jobs from crashing.
 8. **Reuse a helper class:** A small wrapper like `ZCL_HTTP_HANDLER` removes boilerplate and makes your business logic short and readable.
 
 ---
