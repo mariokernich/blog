@@ -1,5 +1,0 @@
-baseURL: "http://localhost:1337/"
-buildDrafts: true
-
-minify:
-  minifyOutput: false
