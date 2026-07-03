@@ -1,7 +1,6 @@
 {{- /*
   faq-item — a single question/answer entry inside a {{< faq >}} block.
-  Renders an accessible <details> element and registers the Q&A pair in the
-  page store so the parent {{< faq >}} shortcode can build FAQPage JSON-LD.
+  Renders an accessible <details> element.
 
   Usage:
     {{< faq-item question="Your question here?" >}}
@@ -11,11 +10,6 @@
 {{- $question := .Get "question" -}}
 {{- $answerMarkdown := trim .Inner "\n" -}}
 {{- $answerHTML := $answerMarkdown | .Page.RenderString -}}
-
-{{- /* Collect data for the parent faq shortcode's JSON-LD */ -}}
-{{- $items := .Page.Store.Get "faqItems" | default slice -}}
-{{- $items = $items | append (dict "question" $question "answer" $answerHTML) -}}
-{{- .Page.Store.Set "faqItems" $items -}}
 
 <details class="faq-item">
   <summary class="faq-question">{{ $question }}</summary>
