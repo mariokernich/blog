@@ -47,9 +47,9 @@ The **Eclipse IDE** combined with the official **ABAP Development Tools (ADT)** 
 
 For developers preferring a highly efficient, customizable editor, **Visual Studio Code (VS Code)** can be configured as a lightweight development workstation.
 
-{{% alert type="info" title="Newly Released Extension (June 1)!" %}}
+{{< alert type="info" title="Newly Released Extension (June 1)!" >}}
 The official ABAP extension for VS Code was newly released on **June 1**. While it offers a fantastic, modern alternative to Eclipse, it is **not a full replacement yet**. It is especially interesting for leveraging **AI capabilities** (like GitHub Copilot) and **Model Context Protocol (MCP) integrations** directly inside your development workflow. However, it still has key limitations compared to Eclipse, such as no transaction support and a lack of graphical helper views for complex elements (remaining mostly text-based for now).
-{{% /alert %}}
+{{< /alert >}}
 
 1. **Download VS Code:** Download and install [VS Code](https://code.visualstudio.com/).
 2. **Install ABAP Extensions:** Open the Extension Marketplace (`Cmd+Shift+X` on Mac / `Ctrl+Shift+X` on Windows), and search for **ABAP Development Tools**.
@@ -62,9 +62,9 @@ The official ABAP extension for VS Code was newly released on **June 1**. While 
 
 Before typing a single line of ABAP or CDS code, you must design your business objects. Jumping straight into Core Data Services to build database tables or structures without a proper plan leads to massive technical debt.
 
-{{% alert type="warning" title="Design First, Code Second!" %}}
+{{< alert type="warning" title="Design First, Code Second!" >}}
 Always mock up your application screen layouts and your database relationships first. Standard UI frameworks like **Fiori Elements** expect a standardized, clean application structure. Missing relationships, wrong cardialities, or missing draft-tables will break your frontend layer later.
-{{% /alert %}}
+{{< /alert >}}
 
 To design your entity relationship model and flow of actions, you should use free modeling applications such as [draw.io](https://www.draw.io/) or [yEd Graph Editor](https://www.yworks.com/products/yed) to align details with your frontend development team and target users.
 
@@ -187,9 +187,9 @@ graph TD
 
 **Core Data Services (CDS)** is the data-modeling infrastructure of SAP HANA. It acts as an extension of SQL, allowing you to define rich data models directly on the database.
 
-{{% alert type="info" title="Is CDS only valid for RAP?" %}}
+{{< alert type="info" title="Is CDS only valid for RAP?" >}}
 **No!** CDS views are a standalone, foundational concept of SAP S/4HANA. While they define the data-backbone of RAP, they are also used for standard modern Open SQL queries, ALV with IDA, analytical dashboards, search catalogs, or creating CDS-based AMDP (ABAP Managed Database Procedures).
-{{% /alert %}}
+{{< /alert >}}
 
 For further details regarding CDS capabilities, refer to the [SAP CDS Documentation](https://help.sap.com/viewer/91ed123cfd9546e8b26f582736484e55/current/en-US).
 
@@ -328,9 +328,9 @@ define view entity ZI_HandlingUnitHeader
 }
 ```
 
-{{% alert type="warning" title="Important CDS Design Limit!" %}}
+{{< alert type="warning" title="Important CDS Design Limit!" >}}
 **Alias limitations:** You cannot use an alias you defined on Line A in a calculation on Line B within the *same* CDS view entity. For example, trying to write `HUAgeInDays * 2 as DoubleAge` will trigger a syntax compiler error. If you need to chain calculations, you must either write the full formula out again or project this view inside another CDS projection entity.
-{{% /alert %}}
+{{< /alert >}}
 
 ---
 

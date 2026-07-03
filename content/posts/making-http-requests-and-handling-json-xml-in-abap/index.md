@@ -130,9 +130,9 @@ After the kitchen processes your order, the waiter always comes back with a shor
 | **`4xx`** | Client Error ❌ | "_You_ made a mistake in your order." | `400 Bad Request`, `401 Unauthorized`, `403 Forbidden`, `404 Not Found` |
 | **`5xx`** | Server Error 🔥 | "The _kitchen_ broke down."           | `500 Internal Server Error`, `503 Service Unavailable`                  |
 
-{{% alert type="info" title="Rule of Thumb" %}}
+{{< alert type="info" title="Rule of Thumb" >}}
 A quick way to remember: **`2xx` = good news**, **`4xx` = your fault** (fix your request), **`5xx` = their fault** (the server has a problem). Always check the status code before trusting the response body!
-{{% /alert %}}
+{{< /alert >}}
 
 ---
 
@@ -145,9 +145,9 @@ Instead, SAP lets you store connection details (URL, authentication, certificate
 - **On-Premise:** Use an **RFC Destination** (transaction `SM59`) and connect with `cl_http_destination_provider=>create_by_destination( )`.
 - **SAP BTP / S/4HANA Cloud:** Use a **Communication Arrangement** and connect with `cl_http_destination_provider=>create_by_comm_arrangement( )`.
 
-{{% alert type="info" title="Best Practice" %}}
+{{< alert type="info" title="Best Practice" >}}
 Use `create_by_url( )` while experimenting, but switch to a **Destination** or **Communication Arrangement** for anything that goes to production. It keeps secrets out of your code and is fully Clean Core-compliant.
-{{% /alert %}}
+{{< /alert >}}
 
 ---
 
@@ -206,14 +206,14 @@ ENDTRY.
 cl_demo_output=>display( ).
 ```
 
-{{% alert type="info" title="Beginner Tip: Setting a Timeout" %}}
+{{< alert type="info" title="Beginner Tip: Setting a Timeout" >}}
 Network calls can hang forever if the other server is slow or unreachable. You can protect your program by setting a timeout **before** executing the request:
 
 ```abap
 lo_http_client->set_timeout( 30 ). " wait at most 30 seconds
 ```
 
-{{% /alert %}}
+{{< /alert >}}
 
 ---
 
@@ -249,9 +249,9 @@ Some APIs just want a secret key in a custom header:
 lo_request->set_header_field( i_name = 'X-API-Key' i_value = 'my-secret-api-key' ).
 ```
 
-{{% alert type="info" title="Security Tip" %}}
+{{< alert type="info" title="Security Tip" >}}
 **Never** hard-code passwords or tokens in your source code! Store them in a **Destination** or **Communication Arrangement** (see Section 4). SAP then adds the authentication automatically, and your secrets stay out of the code and out of transports.
-{{% /alert %}}
+{{< /alert >}}
 
 ---
 
@@ -281,15 +281,15 @@ lo_request->set_text( `{"MaterialId": "4711", "Description": "New Material"}` ).
 DATA(lo_post_response) = lo_http_client->execute( if_web_http_client=>post ).
 ```
 
-{{% alert type="info" title="Why does my POST return 403?" %}}
+{{< alert type="info" title="Why does my POST return 403?" >}}
 A `403 Forbidden` error on an SAP OData `POST`/`PUT`/`DELETE` is almost always a **missing or invalid CSRF token**. Make sure you fetch the token first **and reuse the same HTTP client** (so the session cookie stays intact), otherwise the token will be rejected.
-{{% /alert %}}
+{{< /alert >}}
 
-{{% alert type="info" title="Providing REST APIs in ABAP Cloud & SAP BTP" %}}
+{{< alert type="info" title="Providing REST APIs in ABAP Cloud & SAP BTP" >}}
 So far we have focused on _consuming_ REST APIs. But what if you want to _expose_ your own data as a REST/OData service in a modern environment like **ABAP Cloud** or **SAP BTP**? In the **ABAP RESTful Application Programming Model (RAP)**, **custom CDS views (CDS entities)** are the go-to approach for building exactly these kinds of services.
 
-👉 Learn how to build them in the dedicated guide: [Building Custom CDS Entities with Unmanaged Queries in ABAP RAP]({{< ref "posts/custom-cds-views-with-unmanaged-queries-in-abap-rap" >}}).
-{{% /alert %}}
+👉 Learn how to build them in the dedicated guide: [Building Custom CDS Entities with Unmanaged Queries in ABAP RAP](/posts/custom-cds-views-with-unmanaged-queries-in-abap-rap)
+{{< /alert >}}
 
 ---
 
@@ -361,9 +361,9 @@ DATA(lv_json) = xco_cp_json=>data->from_abap( ls_payload )->to_string( ).
 xco_cp_json=>data->from_string( lv_json )->write_to( REF #( ls_payload ) ).
 ```
 
-{{% alert type="info" title="Which one should I use?" %}}
+{{< alert type="info" title="Which one should I use?" >}}
 On a **classic On-Premise** system, `/UI2/CL_JSON` is perfectly fine and offers convenient options. In **ABAP Cloud**, use `XCO` — it is the officially released, Clean Core-compliant option.
-{{% /alert %}}
+{{< /alert >}}
 
 ---
 
@@ -429,9 +429,9 @@ cl_demo_output=>write( lv_xml_output ).
 cl_demo_output=>display( ).
 ```
 
-{{% alert type="info" title="Complex XML Structures" %}}
+{{< alert type="info" title="Complex XML Structures" >}}
 When simple ID mapping is insufficient for deeply nested schemas or advanced namespaces, you should create a dedicated **Simple Transformation (ST)** or **XSLT** object in Eclipse ADT and trigger it inside your `CALL TRANSFORMATION` statement.
-{{% /alert %}}
+{{< /alert >}}
 
 ---
 
@@ -750,9 +750,9 @@ Even with perfect code, HTTP calls can fail for reasons _outside_ your program. 
 | Program **hangs forever**                     | The remote server is slow or unreachable.                                  | Set a **timeout** with `set_timeout( )` (Section 5).                                                                               |
 | **Garbled special characters** (é, ü, ...)    | Wrong **encoding**.                                                        | Make sure you send/read UTF-8 and set `Content-Type: application/json; charset=utf-8`.                                             |
 
-{{% alert type="info" title="Certificates (STRUST) — Read This!" %}}
+{{< alert type="info" title="Certificates (STRUST) — Read This!" >}}
 When calling an **HTTPS** endpoint, your SAP system must trust the remote server. If the certificate (or its root/intermediate certificate) is not in **`STRUST`**, the connection is refused _before_ any data is sent. Ask your Basis team to import the certificate chain into the **SSL Client (Standard)** PSE — this solves the vast majority of HTTPS connection problems.
-{{% /alert %}}
+{{< /alert >}}
 
 ---
 

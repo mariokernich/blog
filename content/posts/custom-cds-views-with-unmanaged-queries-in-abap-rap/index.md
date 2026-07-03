@@ -49,9 +49,9 @@ define view entity ZC_OrderInsightMess
 }
 ```
 
-{{% alert type="warning" title="The 'One More CASE WHEN' Trap" %}}
+{{< alert type="warning" title="The 'One More CASE WHEN' Trap" >}}
 Every ABAPer knows the temptation: *"I'll just add one more CASE WHEN to this CDS..."* Five minutes later, you are staring at a massive SQL block that is impossible to debug, slow to execute, and painful to extend.
-{{% /alert %}}
+{{< /alert >}}
 
 Instead of building 200-line CASE WHEN cascades, a Custom CDS Entity lets you delegate core data retrieval and processing to a dedicated **ABAP class** implementing the query provider interface. This gives you:
 
@@ -149,9 +149,9 @@ CLASS zcl_demo_product_query IMPLEMENTATION.
 ENDCLASS.
 ```
 
-{{% alert type="info" title="Total Count vs. Set Data" %}}
+{{< alert type="info" title="Total Count vs. Set Data" >}}
 For production-grade pagination, `set_data(...)` should only receive the current page slice, while `set_total_number_of_records(...)` must receive the size of the *entire filtered dataset* (e.g., via a separate `SELECT COUNT(*)` on the DB).
-{{% /alert %}}
+{{< /alert >}}
 
 ---
 

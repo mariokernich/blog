@@ -11,5 +11,6 @@ $title := .Get "title" -}} {{- $class := "alert-info" -}} {{- if eq $type
     {{- if $title }}
     <div class="alert-title">{{ $title }}</div>
     {{- end -}}
-    <div class="alert-content">{{- .Inner | .Page.RenderString -}}</div>
+    {{- $content := .Inner | replaceRE "\r\n?" "\n" -}}
+    <div class="alert-content">{{ .Page.RenderString (dict "display" "block") $content }}</div>
 </div>
