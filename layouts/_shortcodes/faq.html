@@ -16,7 +16,6 @@
   Note: Use the `< >` (not `% %`) delimiter form so nested faq-item shortcodes
   are processed before the parent renders.
 */ -}}
-{{- .Page.Store.Set "faqItems" slice -}}
 {{- $title := .Get "title" | default "Frequently Asked Questions" -}}
 {{- $inner := .Inner -}}
 
@@ -26,27 +25,3 @@
     {{- $inner -}}
   </div>
 </section>
-
-{{- /* Emit the FAQPage structured data collected from the faq-item children */ -}}
-{{- $items := .Page.Store.Get "faqItems" -}}
-{{- if $items -}}
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {{- range $i, $item := $items -}}
-    {{- if $i }},{{ end }}
-    {
-      "@type": "Question",
-      "name": {{ $item.question | plainify | jsonify }},
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": {{ $item.answer | plainify | jsonify }}
-      }
-    }
-    {{- end }}
-  ]
-}
-</script>
-{{- end -}}
