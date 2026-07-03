@@ -436,3 +436,25 @@ While Custom CDS Views provide complete freedom, they demand extra manual implem
 | **Analytics/KPIs** | Automated aggregation engine | Custom manual aggregations required |
 
 Custom CDS entities represent a powerful tool inside the modern ABAP Clean Core toolbox. By transferring data retrieval and processing logic to custom query classes, we gain full developer control over RAP services while maintaining strict platform boundaries.
+
+---
+
+## Frequently Asked Questions
+
+{{< faq title="Frequently Asked Questions" >}}
+  {{< faq-item question="Why does the RAP framework throw a short dump if I don't process a requested parameter or filter?" >}}
+  To enforce consistency and ensure APIs do not silently ignore criteria. If a caller requests a specific dynamic filter or expects a certain count/paging, but your unmanaged query implementation returns data without checking those values, the API could return unreliable or incomplete datasets. Therefore, RAP validates your query execution and dumps if required variables/methods aren't interacted with.
+  {{< /faq-item >}}
+
+  {{< faq-item question="Can I create projection views or other CDS views on top of a Custom CDS Entity?" >}}
+  No. Standard projection views or database selects (e.g. `select from ZC_DemoProduct`) cannot be written on top of a custom entity because there is no static database source behind it. If you need navigation or custom metadata projections, you should define them via additional custom entities or embed metadata annotations directly in the service metadata extension.
+  {{< /faq-item >}}
+
+  {{< faq-item question="How do associations handle pagination in unmanaged queries?" >}}
+  Associations are evaluated through independent execution paths. When a user requests parent entities and drills down or expands into child navigation paths, the RAP framework does not perform a database JOIN query. Instead, it triggers a separate call to the child's query provider class, presenting the parent key as a standard range table injection (i.e. `PRODUCTID` range table filter) in the child `select` execution.
+  {{< /faq-item >}}
+
+  {{< faq-item question="Can unmanaged RAP queries be write-enabled (Create, Update, Delete)?" >}}
+  Yes. While custom entities are read-only by default, they can support transactional capabilities (CUD operations) by specifying an unmanaged behavior definition and implementing the custom mutation logic manually inside an unmanaged behavior pool class.
+  {{< /faq-item >}}
+{{< /faq >}}
