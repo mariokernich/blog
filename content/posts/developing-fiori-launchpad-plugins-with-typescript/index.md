@@ -3,7 +3,6 @@ title: "Understanding and Developing Fiori Plugins with Extension API & TypeScri
 seoTitle: "Fiori Launchpad Plugins with TypeScript"
 description: "Build Fiori Launchpad plugins with TypeScript and the sap.ushell Extension API — architecture, deployment, and a working fullscreen sample."
 date: 2026-06-15
-lastmod: 2026-06-19
 draft: false
 tags: ["UI5", "SAPUI5", "Fiori", "TypeScript", "Launchpad", "Extension API", "open-source"]
 categories: ["UI5"]

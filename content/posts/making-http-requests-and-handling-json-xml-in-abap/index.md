@@ -38,6 +38,13 @@ But how do HTTP requests actually work? What are headers and cookies, and how do
 
 In this guide, we break these concepts down into simple, practical terms. We will start with an easy-to-understand **waiter analogy**, examine the role of headers and cookies, and dive straight into ready-to-use code examples utilizing modern ABAP and **inline declarations**.
 
+{{< alert type="info" title="New to JSON or XML? Start here" >}}
+We will send and receive a lot of **JSON** and **XML** below. If their syntax still looks unfamiliar, spend five minutes on the basic structure first — it makes everything that follows much easier to read:
+
+- **JSON structure:** [json.org — the official reference](https://www.json.org/json-en.html) (objects, arrays, key-value pairs)
+- **XML structure:** [W3Schools — XML introduction](https://www.w3schools.com/xml/xml_whatis.asp) (elements, tags, nesting)
+  {{< /alert >}}
+
 ---
 
 ## 1. Deconstructing an HTTP Request (The Waiter Analogy)
@@ -151,7 +158,56 @@ Use `create_by_url( )` while experimenting, but switch to a **Destination** or *
 
 ---
 
-## 5. Execution of HTTP Requests in ABAP
+## 5. Try the API First: DummyJSON & Postman
+
+Before we write a single line of ABAP, it pays to know **what our target looks like** and to **poke at it by hand**. Throughout this guide we call a free, public test API called **[DummyJSON](https://dummyjson.com)**.
+
+DummyJSON is a fake REST API that serves realistic sample data — users, posts, carts, **products**, and **todos** — over HTTPS. It needs no sign-up and no API key, and its `add`/`update`/`delete` endpoints only _simulate_ writes: they return a proper response with a freshly generated `id` but never actually persist anything. That makes it perfect for safe experimentation. In this guide we mostly work with **todos**, but you can swap in **products** (or users, posts, …) the exact same way.
+
+👉 Full endpoint list and response schemas: **[dummyjson.com/docs](https://dummyjson.com/docs)**
+
+A single **todo** from DummyJSON looks like this:
+
+```json
+{
+  "id": 1,
+  "todo": "Do something nice for someone you care about",
+  "completed": false,
+  "userId": 26
+}
+```
+
+The endpoints we will use below:
+
+| Purpose              | Method | Endpoint                           |
+| :------------------- | :----- | :--------------------------------- |
+| Get all todos        | `GET`  | `https://dummyjson.com/todos`      |
+| Get a single todo    | `GET`  | `https://dummyjson.com/todos/1`    |
+| Create a todo        | `POST` | `https://dummyjson.com/todos/add`  |
+| Get all products     | `GET`  | `https://dummyjson.com/products`   |
+| Get a single product | `GET`  | `https://dummyjson.com/products/1` |
+
+### Test it in Postman before writing any ABAP
+
+When you integrate a new API, resist the urge to jump straight into ABAP. First fire the request by hand with a REST client like **[Postman](https://www.postman.com/downloads/)** — a free desktop app for sending HTTP requests and inspecting the raw response. This lets you confirm the URL, headers, and payload actually work _before_ you start debugging them inside SAP, where every round-trip is slower.
+
+Trying our first call takes less than a minute:
+
+1. Download and install [Postman](https://www.postman.com/downloads/) (free).
+2. Set the method to `GET` and the URL to `https://dummyjson.com/todos`.
+3. Hit **Send** and inspect the JSON that comes back.
+
+![GET request to https://dummyjson.com/todos in Postman returning a 200 OK response with a todos array](postman-get-todos.png)
+
+As the screenshot shows, Postman confirms a green **`200 OK`** status and pretty-prints the response body: an object with a `todos` array, where each entry has exactly the `id`, `todo`, `completed`, and `userId` fields we listed above. That is the same payload our ABAP code will receive — so once the request behaves here, translating it into ABAP (which we do next) is almost mechanical: you already know exactly what to send and what to expect back.
+
+{{< alert type="info" title="Why test in Postman first?" >}}
+Postman separates **"is the API working?"** from **"is my ABAP working?"**. If the call succeeds in Postman but fails in ABAP, the problem is on your side (headers, encoding, CSRF, certificates). If it fails in both, the problem is the request itself. That distinction saves hours of guessing.
+{{< /alert >}}
+
+---
+
+## 6. Execution of HTTP Requests in ABAP
 
 In modern ABAP instances (such as SAP S/4HANA Cloud or modern On-Premise systems), we use the `IF_WEB_HTTP_CLIENT` interface. It is the Clean Core-compliant successor to the legacy `CL_HTTP_CLIENT` class.
 
@@ -161,7 +217,7 @@ Here is an example demonstrating how to initialize a client, set headers, manage
 TRY.
     " 1. Instantiate the HTTP Client (here with a direct URL for simplicity)
     DATA(lo_http_client) = cl_web_http_client_manager=>create_by_http_destination(
-      cl_http_destination_provider=>create_by_url( 'https://jsonplaceholder.typicode.com/posts' )
+      cl_http_destination_provider=>create_by_url( 'https://dummyjson.com/todos/add' )
     ).
 
     " 2. Obtain the request object so we can configure it
@@ -181,7 +237,7 @@ TRY.
     ).
 
     " 6. Set the request payload (JSON body)
-    lo_request->set_text( `{"title": "Clean Core", "body": "Modern ABAP is great!", "userId": 1}` ).
+    lo_request->set_text( `{"todo": "Learn modern ABAP HTTP", "completed": false, "userId": 1}` ).
 
     " 7. Execute the request using the POST method
     DATA(lo_response) = lo_http_client->execute( if_web_http_client=>post ).
@@ -217,7 +273,7 @@ lo_http_client->set_timeout( 30 ). " wait at most 30 seconds
 
 ---
 
-## 6. Authentication (Proving Who You Are)
+## 7. Authentication (Proving Who You Are)
 
 Most real APIs will not talk to anonymous strangers — you must prove your identity, just like showing an ID card or membership card at the restaurant. Here are the three most common ways, all set via a simple header:
 
@@ -255,7 +311,7 @@ lo_request->set_header_field( i_name = 'X-API-Key' i_value = 'my-secret-api-key'
 
 ---
 
-## 7. Working with SAP OData Services (The CSRF Token)
+## 8. Working with SAP OData Services (The CSRF Token)
 
 If you call an **SAP OData service** and want to **change** data (`POST`, `PUT`, `DELETE`), there is one extra step that trips up almost every beginner: the **CSRF token** (pronounced "sea-surf"). It is a security check that prevents malicious websites from performing actions on your behalf.
 
@@ -293,7 +349,7 @@ So far we have focused on _consuming_ REST APIs. But what if you want to _expose
 
 ---
 
-## 8. Handling JSON Payloads (The Modern Standard)
+## 9. Handling JSON Payloads (The Modern Standard)
 
 JSON (_JavaScript Object Notation_) is the de-facto data serialization standard for modern API endpoints. ABAP makes parsing and creating JSON extremely seamless using `/UI2/CL_JSON` combined with **inline data declarations**.
 
@@ -302,13 +358,13 @@ JSON (_JavaScript Object Notation_) is the de-facto data serialization standard 
 Let's parse incoming JSON data directly into an inline-defined ABAP structure without pre-creating global dictionary structures:
 
 ```abap
-" Raw JSON response
-DATA(lv_json_string) = `{ "id": 101, "title": "Modern ABAP is great!", "completed": false }`.
+" Raw JSON response (a todo from https://dummyjson.com/todos/1)
+DATA(lv_json_string) = `{ "id": 1, "todo": "Buy groceries", "completed": false }`.
 
 " Define target structure inline on the fly
 DATA: BEGIN OF ls_todo,
         id        TYPE i,
-        title     TYPE string,
+        todo      TYPE string,
         completed TYPE abap_bool,
       END OF ls_todo.
 
@@ -322,7 +378,7 @@ DATA: BEGIN OF ls_todo,
 
 " Display structural attributes
 cl_demo_output=>write( |ID: { ls_todo-id }| ).
-cl_demo_output=>write( |Title: { ls_todo-title }| ).
+cl_demo_output=>write( |Todo: { ls_todo-todo }| ).
 cl_demo_output=>write( |Completed: { ls_todo-completed }| ).
 cl_demo_output=>display( ).
 ```
@@ -335,7 +391,7 @@ Generating modern JSON structures out of internal ABAP objects is just as fast:
 " Build data structure inline
 DATA(ls_payload) = VALUE #(
   id        = 999
-  title     = 'Post created via ABAP'
+  todo      = 'Todo created via ABAP'
   completed = abap_true
 ).
 
@@ -367,7 +423,7 @@ On a **classic On-Premise** system, `/UI2/CL_JSON` is perfectly fine and offers 
 
 ---
 
-## 9. Handling XML Payloads (The Standard Classic)
+## 10. Handling XML Payloads (The Standard Classic)
 
 For older legacy platforms, SOAP-based systems, or explicit SAP-to-SAP background messaging, XML is the typical vehicle. We manipulate XML using ABAP's identity transformation: `CALL TRANSFORMATION id`.
 
@@ -435,7 +491,7 @@ When simple ID mapping is insufficient for deeply nested schemas or advanced nam
 
 ---
 
-## 10. Pro Tip: Wrap your HTTP Requests in a Helper Class
+## 11. Pro Tip: Wrap your HTTP Requests in a Helper Class
 
 If you find yourself making HTTP requests in multiple places, writing boilerplate code to handle headers, cookies, query parameters, destinations, and clients gets repetitive and messy. Wrapping these calls into a clean, reusable utility class simplifies your application logic significantly.
 
@@ -678,14 +734,15 @@ Instead of instantiating destinations, clients, and requests manually, you simpl
 TRY.
     DATA(lo_http) = NEW zcl_http_handler( ).
 
-    " Inline lookup query parameter table
+    " Inline query parameter table -> results in ...?limit=10&skip=0
     DATA(lt_params) = VALUE zcl_http_handler=>tt_name_value(
-      ( name = 'userId' value = '1' )
+      ( name = 'limit' value = '10' )
+      ( name = 'skip'  value = '0' )
     ).
 
-    " Fetch data
+    " Fetch the first 10 todos
     DATA(ls_response) = lo_http->get(
-      iv_url          = 'https://jsonplaceholder.typicode.com/posts'
+      iv_url          = 'https://dummyjson.com/todos'
       it_query_params = lt_params
     ).
 
@@ -738,16 +795,305 @@ cl_demo_output=>display( ).
 
 ---
 
-## 11. Troubleshooting: Common Beginner Errors
+## 12. Real-World Example: Creating a Jira Issue from ABAP
+
+Let's put everything together in a genuinely useful scenario — the very first one from our intro: **automatically creating a Jira ticket when a quality issue is posted in SAP**. This example builds directly on the `ZCL_HTTP_HANDLER` wrapper from Section 11 and calls the real **[Jira Cloud REST API](https://developer.atlassian.com/cloud/jira/platform/rest/v3/)**.
+
+### How Jira wants the data
+
+To create an issue, Jira expects a `POST` to `/rest/api/3/issue` with a JSON body where all fields live under a `fields` object. Here is how the pieces you asked about map to that contract:
+
+| What you want to set | JSON path                   | Example value                              |
+| :------------------- | :-------------------------- | :----------------------------------------- |
+| **Project**          | `fields.project.key`        | `"SAP"`                                    |
+| **Title**            | `fields.summary`            | `"Quality issue on production order 4711"` |
+| **Issue type**       | `fields.issuetype.name`     | `"Task"`, `"Bug"`, `"Story"`               |
+| **Assignee**         | `fields.assignee.accountId` | `"5b10ac8d82e05b22cc7d4ef5"`               |
+| **Priority**         | `fields.priority.name`      | `"High"`, `"Medium"`, `"Low"`              |
+| **Labels**           | `fields.labels`             | `["sap", "integration"]`                   |
+| **Description**      | `fields.description`        | An **ADF** document (see the note below)   |
+
+{{< alert type="info" title="Two things you need from Jira first" >}}
+
+1. **An API token** — create one at [id.atlassian.com](https://id.atlassian.com/manage-profile/security/api-tokens). Jira Cloud authenticates with **Basic Auth** using your account e-mail + this token (never your password).
+2. **The assignee's account ID** — in Jira Cloud you no longer assign by username but by a stable **`accountId`**. You can look it up via `GET /rest/api/3/users/search` or from the user's profile URL.
+   {{< /alert >}}
+
+### The sample class: `ZCL_JIRA_CLIENT`
+
+This small class wraps authentication and payload building, so the calling program stays a one-liner. It **reuses `ZCL_HTTP_HANDLER`** internally — a nice example of composing small helpers.
+
+```abap
+CLASS zcl_jira_client DEFINITION
+  PUBLIC
+  CREATE PUBLIC.
+
+  PUBLIC SECTION.
+    TYPES:
+      " What we hand back to the caller after a create attempt
+      BEGIN OF ty_result,
+        success TYPE abap_bool,
+        code    TYPE i,
+        id      TYPE string,   " internal Jira ID,   e.g. "10042"
+        key     TYPE string,   " readable issue key, e.g. "SAP-123"
+        url     TYPE string,   " REST self-link to the new issue
+        message TYPE string,   " Jira's error payload when success = abap_false
+      END OF ty_result.
+
+    METHODS:
+      constructor
+        IMPORTING
+          iv_base_url  TYPE string   " e.g. https://your-domain.atlassian.net
+          iv_email     TYPE string   " your Atlassian account e-mail
+          iv_api_token TYPE string   " API token from id.atlassian.com
+        RAISING
+          cx_web_http_client_error,
+
+      create_issue
+        IMPORTING
+          iv_project_key TYPE string              " e.g. "SAP"
+          iv_summary     TYPE string              " the issue title
+          iv_issue_type  TYPE string DEFAULT `Task`
+          iv_assignee_id TYPE string OPTIONAL     " Jira account ID of the assignee
+          iv_priority    TYPE string DEFAULT `Medium`
+          iv_description TYPE string OPTIONAL
+        RETURNING
+          VALUE(rs_result) TYPE ty_result
+        RAISING
+          cx_web_http_client_error
+          cx_http_dest_provider_error.
+
+  PRIVATE SECTION.
+    " ABAP data definitions that mirror the Jira "create issue" JSON.
+    " We fill these and let /UI2/CL_JSON serialize them (see Section 9) -
+    " no hand-written JSON strings, no manual escaping.
+    TYPES:
+      BEGIN OF ty_key,
+        key TYPE string,
+      END OF ty_key,
+
+      BEGIN OF ty_name,
+        name TYPE string,
+      END OF ty_name,
+
+      BEGIN OF ty_assignee,
+        account_id TYPE string,   " camelCase serialization -> "accountId"
+      END OF ty_assignee,
+
+      " --- Atlassian Document Format (ADF) for the description ---
+      BEGIN OF ty_text_node,
+        type TYPE string,
+        text TYPE string,
+      END OF ty_text_node,
+      tt_text_node TYPE STANDARD TABLE OF ty_text_node WITH DEFAULT KEY,
+
+      BEGIN OF ty_para_node,
+        type    TYPE string,
+        content TYPE tt_text_node,
+      END OF ty_para_node,
+      tt_para_node TYPE STANDARD TABLE OF ty_para_node WITH DEFAULT KEY,
+
+      BEGIN OF ty_doc,
+        type    TYPE string,
+        version TYPE i,
+        content TYPE tt_para_node,
+      END OF ty_doc,
+
+      tt_labels TYPE STANDARD TABLE OF string WITH DEFAULT KEY,
+
+      " --- the "fields" object Jira expects ---
+      BEGIN OF ty_fields,
+        project     TYPE ty_key,
+        summary     TYPE string,
+        issuetype   TYPE ty_name,
+        priority    TYPE ty_name,
+        labels      TYPE tt_labels,
+        assignee    TYPE REF TO ty_assignee,  " bound only if an ID is supplied
+        description TYPE ty_doc,
+      END OF ty_fields,
+
+      BEGIN OF ty_issue,
+        fields TYPE ty_fields,
+      END OF ty_issue.
+
+    DATA:
+      mv_base_url TYPE string,
+      mo_http     TYPE REF TO zcl_http_handler.
+
+    METHODS:
+      build_payload
+        IMPORTING
+          iv_project_key TYPE string
+          iv_summary     TYPE string
+          iv_issue_type  TYPE string
+          iv_assignee_id TYPE string
+          iv_priority    TYPE string
+          iv_description TYPE string
+        RETURNING
+          VALUE(rv_json) TYPE string.
+ENDCLASS.
+
+
+CLASS zcl_jira_client IMPLEMENTATION.
+
+  METHOD constructor.
+    mv_base_url = iv_base_url.
+    mo_http     = NEW zcl_http_handler( ).
+
+    " Jira Cloud uses Basic Auth: "email:api_token", Base64-encoded.
+    DATA(lv_credentials) = cl_http_utility=>encode_base64( |{ iv_email }:{ iv_api_token }| ).
+
+    " Stored in the handler once and reused for every subsequent request.
+    mo_http->set_header( iv_name = `Authorization` iv_value = |Basic { lv_credentials }| ).
+    mo_http->set_header( iv_name = `Content-Type`  iv_value = `application/json` ).
+    mo_http->set_header( iv_name = `Accept`        iv_value = `application/json` ).
+  ENDMETHOD.
+
+  METHOD build_payload.
+    " Fill the ABAP structure that mirrors the Jira contract. The description
+    " is wrapped in the Atlassian Document Format (doc -> paragraph -> text).
+    DATA(ls_issue) = VALUE ty_issue(
+      fields = VALUE #(
+        project   = VALUE #( key  = iv_project_key )
+        summary   = iv_summary
+        issuetype = VALUE #( name = iv_issue_type )
+        priority  = VALUE #( name = iv_priority )
+        labels    = VALUE #( ( `sap` ) ( `integration` ) )
+        description = VALUE #(
+          type    = `doc`
+          version = 1
+          content = VALUE #(
+            ( type    = `paragraph`
+              content = VALUE #( ( type = `text` text = iv_description ) ) ) )
+        )
+      )
+    ).
+
+    " The assignee is optional -> bind the reference only when an ID is given.
+    " Thanks to compress = abap_true an unbound reference is simply omitted.
+    IF iv_assignee_id IS NOT INITIAL.
+      ls_issue-fields-assignee = NEW #( account_id = iv_assignee_id ).
+    ENDIF.
+
+    " Serialize the structure to JSON (see Section 9). camelCase maps the
+    " ABAP component account_id -> the JSON key "accountId" that Jira expects,
+    " while single-word names such as issuetype stay lower-case.
+    rv_json = /ui2/cl_json=>serialize(
+      data        = ls_issue
+      compress    = abap_true
+      pretty_name = /ui2/cl_json=>pretty_mode-camel_case
+    ).
+  ENDMETHOD.
+
+  METHOD create_issue.
+    " 1. Build the JSON body
+    DATA(lv_body) = build_payload(
+      iv_project_key = iv_project_key
+      iv_summary     = iv_summary
+      iv_issue_type  = iv_issue_type
+      iv_assignee_id = iv_assignee_id
+      iv_priority    = iv_priority
+      iv_description = iv_description
+    ).
+
+    " 2. POST it to the Jira REST API
+    DATA(ls_response) = mo_http->post(
+      iv_url  = |{ mv_base_url }/rest/api/3/issue|
+      iv_body = lv_body
+    ).
+
+    rs_result-code = ls_response-code.
+
+    " 3. Jira answers 201 Created on success and echoes back id + key
+    IF ls_response-code = 201.
+      DATA: BEGIN OF ls_created,
+              id   TYPE string,
+              key  TYPE string,
+              self TYPE string,
+            END OF ls_created.
+
+      /ui2/cl_json=>deserialize(
+        EXPORTING json = ls_response-body
+        CHANGING  data = ls_created
+      ).
+
+      rs_result-success = abap_true.
+      rs_result-id      = ls_created-id.
+      rs_result-key     = ls_created-key.
+      rs_result-url     = ls_created-self.
+    ELSE.
+      " On errors Jira returns { "errorMessages": [...], "errors": { ... } }
+      rs_result-success = abap_false.
+      rs_result-message = ls_response-body.
+    ENDIF.
+  ENDMETHOD.
+
+ENDCLASS.
+```
+
+### Using it: one clean call
+
+With the class in place, creating a Jira task from anywhere in your SAP logic is short and readable:
+
+```abap
+TRY.
+    " 1. Point the client at your Jira Cloud site and authenticate
+    DATA(lo_jira) = NEW zcl_jira_client(
+      iv_base_url  = `https://your-domain.atlassian.net`
+      iv_email     = `integration.bot@your-company.com`
+      iv_api_token = `ATATT3xFfGF0...your-api-token...`
+    ).
+
+    " 2. Create the task: title, type, assignee, priority and description
+    DATA(ls_result) = lo_jira->create_issue(
+      iv_project_key = `SAP`
+      iv_summary     = `Quality issue on production order 4711`
+      iv_issue_type  = `Task`
+      iv_assignee_id = `5b10ac8d82e05b22cc7d4ef5`
+      iv_priority    = `High`
+      iv_description = `Automatically raised from SAP after a QM notification was posted.`
+    ).
+
+    " 3. React to the outcome
+    IF ls_result-success = abap_true.
+      cl_demo_output=>write( |✅ Jira issue created: { ls_result-key }| ).
+      cl_demo_output=>write( |Link: { ls_result-url }| ).
+    ELSE.
+      cl_demo_output=>write( |❌ Jira rejected the request (HTTP { ls_result-code }):| ).
+      cl_demo_output=>write( ls_result-message ). " contains Jira's validation errors
+    ENDIF.
+
+  CATCH cx_web_http_client_error cx_http_dest_provider_error INTO DATA(lx_err).
+    cl_demo_output=>write( lx_err->get_text( ) ).
+ENDTRY.
+cl_demo_output=>display( ).
+```
+
+A successful run returns something like `SAP-123` — the key of the freshly created Jira issue, ready to store back on your SAP document.
+
+{{< alert type="info" title="Why is the description so nested? (ADF)" >}}
+Since REST API **v3**, Jira no longer accepts a plain description string. It expects the **Atlassian Document Format (ADF)** — a JSON tree of `doc` → `paragraph` → `text` nodes. That is why our payload wraps the text in that little structure. For a single paragraph the snippet above is all you need; richer formatting (bold, lists, links) just adds more nodes.
+{{< /alert >}}
+
+{{< alert type="info" title="Production hardening" >}}
+This example builds the body from string literals so you can see the exact Jira contract. In production, remember two things:
+
+- **Escape user input:** if `iv_summary` or `iv_description` can contain quotes or newlines, build the payload from an ABAP structure with `/UI2/CL_JSON` or `XCO` (Section 9) instead of concatenating strings, so the JSON stays valid.
+- **Keep the token out of your code:** store the Jira URL and API token in a **Destination** / **Communication Arrangement** (Section 4) rather than passing them as literals.
+  {{< /alert >}}
+
+---
+
+## 13. Troubleshooting: Common Beginner Errors
 
 Even with perfect code, HTTP calls can fail for reasons _outside_ your program. Here are the errors you will most likely run into — and how to fix them:
 
 | Symptom                                       | Likely Cause                                                               | How to Fix                                                                                                                         |
 | :-------------------------------------------- | :------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------- |
 | **SSL handshake failed** / certificate error  | The target server's **SSL certificate** is not trusted by your SAP system. | Import the server's certificate into transaction **`STRUST`** (SSL client PSE). This is the #1 reason HTTPS calls fail on-premise. |
-| **`403 Forbidden`** on POST/PUT/DELETE to SAP | Missing or invalid **CSRF token**.                                         | Fetch the token first and reuse the same client (see Section 7).                                                                   |
-| **`401 Unauthorized`**                        | Missing or wrong **credentials/token**.                                    | Check your `Authorization` header or the Destination configuration (Section 6).                                                    |
-| Program **hangs forever**                     | The remote server is slow or unreachable.                                  | Set a **timeout** with `set_timeout( )` (Section 5).                                                                               |
+| **`403 Forbidden`** on POST/PUT/DELETE to SAP | Missing or invalid **CSRF token**.                                         | Fetch the token first and reuse the same client (see Section 8).                                                                   |
+| **`401 Unauthorized`**                        | Missing or wrong **credentials/token**.                                    | Check your `Authorization` header or the Destination configuration (Section 7).                                                    |
+| Program **hangs forever**                     | The remote server is slow or unreachable.                                  | Set a **timeout** with `set_timeout( )` (Section 6).                                                                               |
 | **Garbled special characters** (é, ü, ...)    | Wrong **encoding**.                                                        | Make sure you send/read UTF-8 and set `Content-Type: application/json; charset=utf-8`.                                             |
 
 {{< alert type="info" title="Certificates (STRUST) — Read This!" >}}
@@ -799,6 +1145,10 @@ Set an `Authorization` header: use `Basic` with Base64-encoded `user:password` f
 
 {{< faq-item question="Should I use JSON or XML for ABAP integrations?" >}}
 Prefer JSON for modern REST APIs — it is lightweight and the de-facto standard. Use XML for SOAP-based services, legacy platforms, or explicit SAP-to-SAP background messaging. ABAP handles JSON with `/UI2/CL_JSON` or `XCO`, and XML with `CALL TRANSFORMATION id`.
+{{< /faq-item >}}
+
+{{< faq-item question="How do I create a Jira issue from ABAP?" >}}
+Send a `POST` to the Jira Cloud REST API endpoint `/rest/api/3/issue` with a JSON body containing a `fields` object (`project.key`, `summary` for the title, `issuetype.name`, `assignee.accountId`, `priority.name`, and a `description` in Atlassian Document Format). Authenticate with Basic Auth using your Atlassian e-mail plus an API token from `id.atlassian.com`. Jira returns `201 Created` with the new issue `key` (e.g. `SAP-123`). See the `ZCL_JIRA_CLIENT` sample class in Section 12 for a complete implementation.
 {{< /faq-item >}}
 
 {{< /faq >}}

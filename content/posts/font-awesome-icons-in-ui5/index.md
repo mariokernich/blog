@@ -3,7 +3,6 @@ title: "Extend UI5 with Font Awesome: Industry-Standard Icons for SAPUI5"
 seoTitle: "Font Awesome Icons in SAPUI5"
 description: "Use Font Awesome icons in SAPUI5 via ui5-fontawesome-lib — install, configure ui5-middleware, and reference icons with sap-icon:// URIs."
 date: 2025-09-09
-lastmod: 2026-06-15
 draft: false
 tags: ["UI5", "SAPUI5", "font-awesome", "icons", "open-source"]
 categories: ["UI5"]
