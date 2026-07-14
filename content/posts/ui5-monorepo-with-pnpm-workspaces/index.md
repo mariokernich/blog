@@ -324,48 +324,6 @@ The tiles use `applicationType: "URL"`, so the app on `:8080` is embedded as an 
 `data-sap-ui-frame-options-config='{"allowlist": ["your-flp-host"]}'`
 {{< /alert >}}
 
-### Cross-Origin Hurdle #2: CORS for the Plugin
-
-While tile apps live in iframes, the launchpad loads the **plugin's resources directly** from `:8082` into the `:8090` origin. That means the plugin's dev server must send **CORS headers**. The showcase solves this with a tiny project-local custom middleware:
-
-```js
-// packages/sample-plugin/lib/middleware/cors.cjs
-module.exports = function () {
-    return function (req, res, next) {
-        res.setHeader("Access-Control-Allow-Origin", "*");
-        res.setHeader("Access-Control-Allow-Methods", "GET, HEAD, OPTIONS");
-        res.setHeader("Access-Control-Allow-Headers", "*");
-        if (req.method === "OPTIONS") {
-            res.statusCode = 204;
-            return res.end();
-        }
-        next();
-    };
-};
-```
-
-It is registered in the plugin's server config, with the extension definition as a second YAML document in the same file:
-
-```yaml
-# packages/sample-plugin/ui5-test.yaml
-server:
-  customMiddleware:
-    - name: cors-middleware
-      afterMiddleware: csp
-    - name: ui5-tooling-transpile-middleware
-      afterMiddleware: compression
----
-specVersion: "4.0"
-kind: extension
-type: server-middleware
-metadata:
-  name: cors-middleware
-middleware:
-  path: lib/middleware/cors.cjs
-```
-
----
-
 ## Gotchas & Lessons Learned
 
 A quick checklist of everything that can silently break this setup:
@@ -373,7 +331,6 @@ A quick checklist of everything that can silently break this setup:
 - **`transpileDependencies: true`** in the *consuming* app — otherwise the linked TypeScript library 404s at runtime.
 - **Unique ports per package** — `pnpm --parallel` kills colliding servers with `EADDRINUSE`.
 - **`data-sap-ui-frame-options="allow"`** in every app embedded cross-origin in the sandbox.
-- **CORS middleware** on every server whose resources the launchpad origin loads directly (plugins, reuse libraries loaded via `url`, …).
 - **Pin the CDN version** for the classic FLP sandbox (`1.120.x`) — and always with the full patch version in the URL.
 - **pnpm build scripts** — postinstall scripts of dependencies (esbuild, browser drivers, …) must be explicitly allowed via `allowBuilds` in `pnpm-workspace.yaml`, otherwise pnpm skips them.
 - **`*.gen.d.ts` includes via the real path**, not through `node_modules` — TypeScript resolves the symlink.
