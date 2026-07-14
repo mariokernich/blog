@@ -390,8 +390,6 @@ applications: {
 },
 ```
 
-If the new project is another **shell plugin** instead, it goes into `bootstrapPlugins` rather than `applications`. Keep in mind that the launchpad loads plugin resources directly across origins, so the plugin's dev server must send **CORS headers** — `sample-plugin` ships a small custom middleware for this (`lib/middleware/cors.cjs`) that you can copy over.
-
 ### 4. Allow iframe embedding
 
 Like every app embedded cross-origin in the sandbox, the new app must permit framing in its `index.html`:
@@ -413,7 +411,7 @@ If the new app should also use `com.myorg.mylib`, apply the same three settings 
 This is where the monorepo pays off again. The root scripts and the CI pipeline all use `pnpm --recursive`, so they discover the new package automatically — `pnpm start`, `pnpm -r run build`, typecheck, and lint just include it from now on. The only convention to follow: use the **same script names** as the other packages (`start`, `build`, `ts-typecheck`, `lint`, `test`), because that is what the recursive runs invoke. A package that lacks one of these scripts is silently skipped.
 
 {{< alert type="info" title="Quick checklist for every new package" >}}
-Scaffold into `packages/` → `pnpm install` → unique port, no browser-open → tile or `bootstrapPlugins` entry in `flpSandbox.html` → `frame-options: allow` (apps) or CORS middleware (plugins) → consistent script names. That's it.
+Scaffold into `packages/` → `pnpm install` → unique port, no browser-open → tile or `bootstrapPlugins` entry in `flpSandbox.html` → `frame-options: allow` (apps) → consistent script names. That's it.
 {{< /alert >}}
 
 ---
