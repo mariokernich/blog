@@ -378,8 +378,6 @@ The complete, working setup — including CI, tests, and the custom control with
 
 ---
 
-## Frequently Asked Questions
-
 {{< faq title="Frequently Asked Questions" >}}
   {{< faq-item question="Does this setup also work with npm or Yarn workspaces instead of pnpm?" >}}
   Yes. The mechanism the UI5 Tooling relies on is the **symlink in `node_modules`**, and npm workspaces and Yarn workspaces create those as well. The `workspace:*` protocol shown in this post is pnpm/Yarn syntax — with npm workspaces you reference the package with a regular version range instead. I prefer pnpm because it is fast, strict about undeclared dependencies, and its workspace features (`--filter`, `--recursive --parallel`) make the orchestration scripts very compact.
