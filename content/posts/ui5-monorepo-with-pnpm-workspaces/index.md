@@ -83,8 +83,6 @@ Before we dive into the configuration, let's step back for a moment. Why put thr
 
 - **Type safety across package boundaries.** Because the app's TypeScript sees the library's sources directly, renaming a control property immediately flags every usage in the app. Refactorings that would be scary across repositories become routine.
 
-- **Less duplication, faster installs.** One lockfile, one `node_modules` store: pnpm installs shared tooling like the UI5 CLI, ESLint, and TypeScript once and links it everywhere, instead of downloading the same packages three times.
-
 In short: everything that belongs together *lives* together — and the tooling overhead of keeping three separate repositories in sync simply disappears.
 
 {{< alert type="info" title="Not a silver bullet" >}}
