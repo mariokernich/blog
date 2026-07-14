@@ -376,7 +376,4 @@ The complete, working setup — including CI, tests, and the custom control with
   UI5 CLI v3+ ships a [dedicated workspace configuration](https://sap.github.io/ui5-tooling/stable/pages/Workspace/) that maps dependencies to local folders without any npm-level linking. It is a solid alternative if you cannot switch package managers. In a pnpm monorepo, however, it is redundant: the symlinks already exist, one mechanism serves both Node.js resolution *and* the UI5 Tooling, and there is no extra config file to keep in sync.
   {{< /faq-item >}}
 
-  {{< faq-item question="Why is the FLP sandbox pinned to SAPUI5 1.120 while the packages use 1.150?" >}}
-  The two versions serve different layers. Each package declares its own framework version in `ui5.yaml` (here OpenUI5 `1.150.0`) — that is what your app and library actually run on. The pinned `1.120.30` only applies to the **classic launchpad sandbox** in `flpSandbox.html`: its homepage renderer (`fiori2` with groups and tiles) is deprecated and broken on newer SAPUI5 releases, and 1.120 is the LTS line that still fully supports it. The apps inside the iframes are unaffected by the sandbox version.
-  {{< /faq-item >}}
 {{< /faq >}}
