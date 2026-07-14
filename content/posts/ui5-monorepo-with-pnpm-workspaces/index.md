@@ -306,10 +306,6 @@ Note the difference between the two mechanisms:
 - **Applications** appear as tiles and open in an iframe when clicked.
 - The **plugin** is not a tile. The shell itself fetches its `manifest.json` and `Component.js` at startup and runs the component inside the launchpad — in the showcase it registers a header button via the modern `Extension` service. If you want to dive deeper into plugins, I wrote a [dedicated post about Fiori Launchpad plugins with TypeScript](/posts/developing-fiori-launchpad-plugins-with-typescript).
 
-{{< alert type="warning" title="Pin the CDN version for the classic sandbox" >}}
-The classic sandbox homepage (`defaultRenderer: "fiori2"` with groups and tiles) is deprecated and **broken on current SAPUI5 releases**. The showcase pins `1.120.30` — the LTS line that still fully supports it. Also note that the CDN needs the **full patch version** in the URL: `/1.120/` returns a 404.
-{{< /alert >}}
-
 ### Cross-Origin Hurdle #1: Iframe Embedding
 
 The tiles use `applicationType: "URL"`, so the app on `:8080` is embedded as an iframe from a **different origin** than the launchpad on `:8090`. UI5's clickjacking protection would normally block all interaction — you get the blocked cursor 🚫 and a console error about a missing allowlist. The app therefore allows embedding in its bootstrap:
