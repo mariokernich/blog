@@ -93,6 +93,29 @@ A monorepo shines when the projects are developed **together** and by the same t
 
 ---
 
+## Where the Packages Come From: easy-ui5
+
+One thing before we start: none of the three packages was written from scratch. They all come straight out of the community [easy-ui5 generators](https://github.com/ui5-community/generator-easy-ui5) — the fastest way to scaffold UI5 TypeScript projects:
+
+| Package                  | Generator                    | Command                     |
+| ------------------------ | ---------------------------- | --------------------------- |
+| `packages/sample-app`    | `generator-ui5-ts-app`       | `yo easy-ui5 ts-app`        |
+| `packages/sample-lib`    | `generator-ui5-ts-library`   | `yo easy-ui5 ts-library`    |
+| `packages/sample-plugin` | `generator-ui5-ts-flp-plugin`| `yo easy-ui5 ts-flp-plugin` |
+
+```sh
+npm i -g yo generator-easy-ui5
+
+cd packages
+yo easy-ui5 ts-app        # scaffolds a new app into packages/<your-app>
+```
+
+Each generator asks a handful of questions (namespace, framework version, author, …) and produces a **complete, standalone project** — `ui5.yaml`, TypeScript setup, linting, and test tooling included. And because `pnpm-workspace.yaml` simply declares `packages/*`, any project generated into the `packages/` folder automatically becomes a workspace member on the next `pnpm install`. There is no registration step.
+
+That also means the monorepo-specific work in this post is a surprisingly thin layer on top of the generated projects: the `workspace:*` link between app and library, `transpileDependencies`, the tsconfig path mappings, unique ports, and the central sandbox. Everything else is generator output.
+
+---
+
 ## Step 1: The pnpm Workspace
 
 The foundation is a plain pnpm workspace. The root `pnpm-workspace.yaml` declares where the packages live:
@@ -323,6 +346,79 @@ The tiles use `applicationType: "URL"`, so the app on `:8080` is embedded as an 
 `allow` disables clickjacking protection entirely — fine on localhost, not in production. There, use `trusted` with an explicit allowlist:
 `data-sap-ui-frame-options-config='{"allowlist": ["your-flp-host"]}'`
 {{< /alert >}}
+
+---
+
+## Growing the Workspace: Adding More Projects
+
+The best part of this setup is that it doesn't stop at three packages. Adding a fourth project — say, a second app — follows the exact same recipe as the first three. Here is the complete checklist.
+
+### 1. Scaffold it with easy-ui5
+
+Generate the new project directly into the `packages/` folder:
+
+```sh
+cd packages
+yo easy-ui5 ts-app        # or ts-library / ts-flp-plugin
+cd ..
+pnpm install
+```
+
+Because the workspace declares `packages/*`, the new project is picked up automatically — `pnpm install` links it into the workspace and you are done. No config file to touch.
+
+### 2. Give it a unique port
+
+The generated `start` script needs two small edits: pin a **free port** and make sure it does **not open a browser** (only the central launchpad does that). In our setup, `8080`–`8082` and `8090` are already taken, so the next app gets `8083`:
+
+```jsonc
+// packages/my-second-app/package.json
+"start": "ui5 serve --port 8083"
+```
+
+That's all the orchestration needed — the root `pnpm start` runs the `start` script of *every* workspace package, so the new server comes up automatically alongside the others.
+
+### 3. Register it in the launchpad
+
+To make the new app appear as a tile, add one entry to `window["sap-ushell-config"]` in `flpSandbox.html`:
+
+```js
+applications: {
+    // ...existing tiles...
+    "mysecondapp-display": {
+        title: "My Second App",
+        applicationType: "URL",
+        url: "http://localhost:8083/index.html",
+    },
+},
+```
+
+If the new project is another **shell plugin** instead, it goes into `bootstrapPlugins` rather than `applications`. Keep in mind that the launchpad loads plugin resources directly across origins, so the plugin's dev server must send **CORS headers** — `sample-plugin` ships a small custom middleware for this (`lib/middleware/cors.cjs`) that you can copy over.
+
+### 4. Allow iframe embedding
+
+Like every app embedded cross-origin in the sandbox, the new app must permit framing in its `index.html`:
+
+```html
+<script id="sap-ui-bootstrap" ... data-sap-ui-frame-options="allow"></script>
+```
+
+### 5. Consuming the shared library? Repeat the linking steps
+
+If the new app should also use `com.myorg.mylib`, apply the same three settings shown earlier for `sample-app`:
+
+- `"com.myorg.mylib": "workspace:*"` in its `package.json` (then `pnpm install`),
+- the library in its `manifest.json` under `sap.ui5/dependencies/libs`,
+- `transpileDependencies: true` in its `ui5.yaml`, plus the `tsconfig.json` path mapping and the `*.gen.d.ts` include for typed imports.
+
+### 6. Scripts and CI: nothing to do
+
+This is where the monorepo pays off again. The root scripts and the CI pipeline all use `pnpm --recursive`, so they discover the new package automatically — `pnpm start`, `pnpm -r run build`, typecheck, and lint just include it from now on. The only convention to follow: use the **same script names** as the other packages (`start`, `build`, `ts-typecheck`, `lint`, `test`), because that is what the recursive runs invoke. A package that lacks one of these scripts is silently skipped.
+
+{{< alert type="info" title="Quick checklist for every new package" >}}
+Scaffold into `packages/` → `pnpm install` → unique port, no browser-open → tile or `bootstrapPlugins` entry in `flpSandbox.html` → `frame-options: allow` (apps) or CORS middleware (plugins) → consistent script names. That's it.
+{{< /alert >}}
+
+---
 
 ## Gotchas & Lessons Learned
 
