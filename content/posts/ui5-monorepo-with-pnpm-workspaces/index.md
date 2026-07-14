@@ -375,3 +375,33 @@ The complete, working setup — including CI, tests, and the custom control with
 - [ui5-tooling-transpile](https://www.npmjs.com/package/ui5-tooling-transpile)
 - [UI5 Tooling custom middleware](https://sap.github.io/ui5-tooling/stable/pages/extensibility/CustomServerMiddleware/)
 - [My post on Fiori Launchpad plugins with TypeScript](/posts/developing-fiori-launchpad-plugins-with-typescript)
+
+---
+
+## Frequently Asked Questions
+
+{{< faq title="Frequently Asked Questions" >}}
+  {{< faq-item question="Does this setup also work with npm or Yarn workspaces instead of pnpm?" >}}
+  Yes. The mechanism the UI5 Tooling relies on is the **symlink in `node_modules`**, and npm workspaces and Yarn workspaces create those as well. The `workspace:*` protocol shown in this post is pnpm/Yarn syntax — with npm workspaces you reference the package with a regular version range instead. I prefer pnpm because it is fast, strict about undeclared dependencies, and its workspace features (`--filter`, `--recursive --parallel`) make the orchestration scripts very compact.
+  {{< /faq-item >}}
+
+  {{< faq-item question="Do I have to build the library before I can start the app?" >}}
+  No — that is the whole point of the setup. With `transpileDependencies: true` in the app's `ui5.yaml`, the app's dev server transpiles the library's TypeScript sources **on the fly**. You edit a control in `sample-lib`, reload the app, and see the change immediately. A build of the library is only needed for production (`pnpm -r run build`).
+  {{< /faq-item >}}
+
+  {{< faq-item question="What happens in production — are the packages still linked?" >}}
+  No. The workspace link is a **development-time convenience only**. For production, every package runs its own `ui5 build` and is deployed as an independent artifact — for example, the app and the library as separate BSP applications on ABAP, or separate HTML5 apps on BTP. The app finds the deployed library at runtime through its `manifest.json` dependency, exactly as with any standard UI5 library. Alternatively, a **self-contained build** can bundle the library into the app.
+  {{< /faq-item >}}
+
+  {{< faq-item question="Does this work without TypeScript, too?" >}}
+  Yes — and it gets even simpler. The workspace linking (Step 1) is completely independent of TypeScript. In a plain JavaScript monorepo you can drop the transpile middleware, `transpileDependencies`, and the `tsconfig.json` path mappings entirely; the symlinked library is served as-is.
+  {{< /faq-item >}}
+
+  {{< faq-item question="Why not use the UI5 Tooling's own workspace feature (ui5-workspace.yaml) instead?" >}}
+  UI5 CLI v3+ ships a [dedicated workspace configuration](https://sap.github.io/ui5-tooling/stable/pages/Workspace/) that maps dependencies to local folders without any npm-level linking. It is a solid alternative if you cannot switch package managers. In a pnpm monorepo, however, it is redundant: the symlinks already exist, one mechanism serves both Node.js resolution *and* the UI5 Tooling, and there is no extra config file to keep in sync.
+  {{< /faq-item >}}
+
+  {{< faq-item question="Why is the FLP sandbox pinned to SAPUI5 1.120 while the packages use 1.150?" >}}
+  The two versions serve different layers. Each package declares its own framework version in `ui5.yaml` (here OpenUI5 `1.150.0`) — that is what your app and library actually run on. The pinned `1.120.30` only applies to the **classic launchpad sandbox** in `flpSandbox.html`: its homepage renderer (`fiori2` with groups and tiles) is deprecated and broken on newer SAPUI5 releases, and 1.120 is the LTS line that still fully supports it. The apps inside the iframes are unaffected by the sandbox version.
+  {{< /faq-item >}}
+{{< /faq >}}
