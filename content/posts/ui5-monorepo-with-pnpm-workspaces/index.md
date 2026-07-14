@@ -69,6 +69,30 @@ The app renders a custom control from the library, the library has its own test 
 
 ---
 
+## Why a Monorepo? The Benefits in Plain Words
+
+Before we dive into the configuration, let's step back for a moment. Why put three projects into one repository at all? Because it removes friction in exactly the places where multi-repo setups hurt every single day:
+
+- **No publishing cycle.** In separate repositories, every library change means: bump the version, publish, and reinstall in the app — just to see a button render correctly. In the workspace, the app links **directly against the library's sources**. You save a file in `sample-lib`, reload the browser, and the change is there. That's it.
+
+- **One command starts everything.** New team member? `git clone`, `pnpm install`, `pnpm start` — and the complete landscape is running: app, library, plugin, and the shared launchpad. No wiki page with ten setup steps, no "works on my machine".
+
+- **One change, one commit.** Add a property to a library control *and* use it in the app? In a multi-repo world that's two pull requests that must be merged in the right order. Here it's **one atomic commit** — the library change and its usage always stay in sync, and reviewers see the full picture in a single diff.
+
+- **The CI catches integration breaks immediately.** One pipeline typechecks, lints, and builds *all* packages on every push. If a library change breaks the app, you find out **now** — not weeks later when someone finally updates the library version in the app.
+
+- **Type safety across package boundaries.** Because the app's TypeScript sees the library's sources directly, renaming a control property immediately flags every usage in the app. Refactorings that would be scary across repositories become routine.
+
+- **Less duplication, faster installs.** One lockfile, one `node_modules` store: pnpm installs shared tooling like the UI5 CLI, ESLint, and TypeScript once and links it everywhere, instead of downloading the same packages three times.
+
+In short: everything that belongs together *lives* together — and the tooling overhead of keeping three separate repositories in sync simply disappears.
+
+{{< alert type="info" title="Not a silver bullet" >}}
+A monorepo shines when the projects are developed **together** and by the same team — exactly the app + library + plugin scenario shown here. Fully independent products with separate release cycles and owners can still be better off in separate repositories.
+{{< /alert >}}
+
+---
+
 ## Step 1: The pnpm Workspace
 
 The foundation is a plain pnpm workspace. The root `pnpm-workspace.yaml` declares where the packages live:
