@@ -32,8 +32,6 @@ The v5 pre-release ships three major features:
 - **A build cache** — the biggest refactoring of the codebase in years. The new motto is *"what you build is what you serve"*: the dev server serves the actual build output, and when you change a file, only that file is rebuilt. Repeated builds reuse cached results instead of rebuilding everything — in the multi-component demo on stage, a rebuild that previously processed every project was nearly instant.
 - **The new component type** for multi-project development. If you maintain several UI5 apps or components in one repository, you can now serve a root application with multiple components in a single setup — no more workarounds. If you have read my post on [UI5 monorepos with pnpm workspaces](/posts/ui5-monorepo-with-pnpm-workspaces), you know this pain first-hand; first-class support is very welcome (it also targets apps without their own HTML entry point, e.g. Work Zone scenarios).
 
-The team explicitly asked for **feedback on the pre-release** before the official release — and there is a completely reworked [documentation site](https://ui5.github.io/cli/) to go with it.
-
 And for everything the core doesn't cover, the community ecosystem stays as strong as ever: Nico Schönteich demoed on stage how [`ui5-tooling-modules`](https://www.npmjs.com/package/ui5-tooling-modules) lets you pull **any third-party npm package** into a UI5 app — including a custom control rendering a 3D supermarket with three.js and a custom web component talking to a Bluetooth label printer. Live on stage, printer included.
 
 ## New Built-In Debugging Tools (Since UI5 1.149)
