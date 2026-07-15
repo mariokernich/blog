@@ -67,7 +67,7 @@ On the UI5 side, SAP now ships **UI5 plugins for coding agents**, available dire
 
 And it works: SAP showed results from real S/4HANA applications where the vast majority of linter findings were fixed fully automatically. What's left over is mostly the sync-to-async migrations — actual behavior changes that an AI can't safely judge without knowing the business context. Fair enough. The plugin takes care of the repetitive bulk, your judgment covers the rest.
 
-On the Fiori side, the **SAP Fiori MCP server** gives agents what they otherwise lack: knowledge of the Fiori and UI5 documentation, your project structure, and the OData services behind it — which finally makes generating Fiori Elements apps reliable instead of hallucination-prone. It ships with a set of skills (creating FE apps, adding charts, generating OPA tests, and so on) and comes bundled as a Claude Code plugin: one install, no configuration. In the on-stage demo, a single natural-language prompt added a working analytical chart to a CAP travel app.
+On the Fiori side, the [**SAP Fiori MCP server**](https://github.com/SAP/open-ux-tools/tree/main/packages/fiori-mcp-server) gives agents what they otherwise lack: knowledge of the Fiori and UI5 documentation, your project structure, and the OData services behind it — which finally makes generating Fiori Elements apps reliable instead of hallucination-prone. It ships with a set of skills (creating FE apps, adding charts, generating OPA tests, and so on) and comes bundled as a Claude Code plugin: one install, no configuration. In the on-stage demo, a single natural-language prompt added a working analytical chart to a CAP travel app.
 
 And one AI session was so remarkable that it deserves its own section.
 
