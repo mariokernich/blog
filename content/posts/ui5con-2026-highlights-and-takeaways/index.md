@@ -1,26 +1,26 @@
 ---
 title: "UI5con 2026: My Highlights and Takeaways"
-seoTitle: "UI5con 2026 Recap: UI5 CLI v5, New Debug Tools & New FLP Sandbox"
-description: "My takeaways from UI5con 2026 — UI5 CLI v5 with build cache and built-in live reload, new debugging tools, JSX type-safe views as an incubation project, AI-driven modernization, a new launchpad sandbox, and why UI5 2.0 is on hold."
+seoTitle: "UI5con 2026 Recap: UI5 CLI v5, JSX & AI Tooling"
+description: "UI5con 2026 recap: UI5 CLI v5 with build cache & live reload, JSX type-safe views, AI-driven modernization, a new FLP sandbox — and why UI5 2.0 is on hold."
 date: 2026-07-15
 draft: false
-tags: ["UI5", "SAPUI5", "UI5con", "Fiori", "TypeScript", "AI"]
+tags: ["UI5", "SAPUI5", "UI5con", "Fiori", "TypeScript", "AI", "JSX", "UI5 CLI"]
 categories: ["UI5"]
 ShowToc: true
 cover:
-  image: "thumbnail.png"
+  image: "thumbnail.jpg"
   alt: "Mario Kernich at UI5con 2026"
   caption: "At UI5con 2026"
   hiddenInSingle: false
 ---
 
-**UI5con 2026** took place on July 14th — and this one was special: it marked **10 years of UI5con**. A whole decade of community, and the framework still keeps innovating. As every year, it was the best place to find out where UI5 and its tooling are actually heading — straight from the teams that build them.
+**UI5con 2026** took place on July 14th — and this one was special: it marked **10 years of UI5con** 🎉. As every year, it was the best place to find out where UI5 and its tooling are actually heading — straight from the teams that build them.
 
-Before diving into the announcements: I'm genuinely grateful I could be part of it again this year. UI5con is as much about the people as it is about the content — catching up with familiar faces from the community, putting faces to GitHub handles, and talking shop between the sessions is what makes this conference special. Thanks to everyone who organized it and everyone I got to chat with!
+Before diving into the announcements: I'm really glad I could be part of it again this year. UI5con is as much about the people as it is about the content — catching up with familiar faces from the community, putting faces to GitHub handles, and talking shop between the sessions is what makes this conference special. Thanks to everyone who organized it and everyone I got to chat with!
 
 The keynote opened with some numbers that show how alive the framework is. Since the last UI5con: **12 minor releases**, **22 patches**, and roughly **6,800 commits from around 140 contributors** — and that is OpenUI5 alone. That covers releases **1.138 through 1.150**, the latter freshly published.
 
-This is my personal recap: the announcements I consider relevant for day-to-day UI5 development, plus a few opinions. If you want the full picture, the complete main stage was recorded and is available on YouTube — I've embedded it at the [end of this post](#the-recording).
+This is my personal recap: the announcements I consider relevant for day-to-day UI5 development, plus a few opinions. If you want the full picture, the complete main stage was recorded and is available on YouTube — I've embedded it at the [end of this post](#the-recording-live-from-the-main-stage).
 
 ## UI5 CLI v5: Build Cache, Live Reload, Multi-Project Support
 
@@ -49,7 +49,11 @@ Getting to them is a two-step affair:
 ui5.help()
 ```
 
-The `ui5` console object lists everything the tools can do. The feature is documented in the [SAPUI5 SDK — Demo Kit](https://ui5.sap.com/), and it is worth ten minutes of exploration — being able to inspect a running app on *any* system just by appending a URL parameter is a big deal for support situations, where installing the UI5 Inspector extension is often not an option.
+The `ui5` console object lists everything the tools can do — from `ui5.control($0)` to grab the UI5 control behind a DOM node, to `ui5.spy()` for function calls, to routing traces and theming parameters:
+
+{{< figure src="debug-tools.png" alt="Browser console showing the output of ui5.help() with the available UI5 Debug Tools commands" caption="ui5.help() in action — the new debug tools listing their commands in the console" >}}
+
+The feature is documented in the [SAPUI5 SDK — Demo Kit](https://ui5.sap.com/#/topic/c9b0f8cca852443f9b8d3bf8ba5626ab%23loio81526aa4f21944109eef190bc06767b1), and it is worth ten minutes of exploration — being able to inspect a running app on *any* system just by appending a URL parameter is a big deal for support situations, where installing the UI5 Inspector extension is often not an option.
 
 ## Best Practices: TypeScript, UI5 Linter — and AI
 
@@ -73,15 +77,15 @@ And one AI session was so remarkable that it deserves its own section.
 
 The talk *"UI5 has entered the chat – AI, MCP Apps and UI5"* by **Marian Zeis** and **Mike Zaschka** was one of the most impressive contributions of the conference — a real showcase of what is already possible with AI today.
 
-The project they presented builds **UI5 apps in real time while you interact with the AI**: you chat, and the assistant doesn't just answer in text — it assembles a live UI5 app on the fly, renders it directly in the conversation, and lets you **interact with it** right there. Not a mockup, not generated code you still have to run somewhere — a working app, materializing mid-chat via MCP Apps.
+The project they presented builds **UI5 apps in real time while you interact with the AI**: you chat, and the assistant doesn't just answer in text — it assembles a live UI5 app on the fly, renders it directly in the conversation, and lets you **interact with it** right there. This is not a code generator that hands you something to deploy later; the app appears and runs directly inside the chat, powered by MCP Apps.
 
 The source code is available on GitHub: [marianfoo/UI5con_2026_MCPApps](https://github.com/marianfoo/UI5con_2026_MCPApps).
 
-My take: **mega interesting**, and technically genuinely impressive. Where exactly this will land in everyday business scenarios is still an open question — but that's the nature of every technology this new, and honestly part of what makes it exciting. It's demos like this that explore the territory *before* the use cases are obvious, and someone has to do that pioneering work. Marian and Mike showed what's already possible when AI and UI5 meet through MCP Apps — and I'm curious to see where they and the community take it from here. This talk alone was worth the trip.
+My take: **mega interesting**, and technically hard not to be impressed by. Where exactly this will land in everyday business scenarios is still an open question — but that's normal for technology this new, and honestly part of the fun. Someone has to explore the territory before the use cases become obvious, and Marian and Mike are doing exactly that. I'm curious to see where they and the community take it from here — this talk alone was worth the trip.
 
 ## JSX: Type-Safe Views — Available Today as an Incubation Project
 
-One of the keynote's genuine announcements: a **JSX runtime for UI5**, released as an **incubation project** in the UI5 community organization on GitHub. Not a teaser — you can install it and write your first JSX view today.
+One of the keynote's real announcements: a **JSX runtime for UI5**, released as an **incubation project** in the UI5 community organization on GitHub. You can install it and write your first JSX view today.
 
 ### What is JSX, and why should a UI5 developer care?
 
@@ -91,7 +95,7 @@ And that closes the **last big gap** in the UI5 TypeScript story. TypeScript has
 
 ### How it works
 
-The bridge is deliberately thin. Your project needs exactly two pieces:
+There is not much magic involved — your project needs exactly two pieces:
 
 1. **At build time**, the standard Babel plugin [`transform-react-jsx`](https://babeljs.io/docs/babel-plugin-transform-react-jsx) converts the JSX markup into plain function calls — the same mechanism the whole JSX ecosystem uses.
 2. **At runtime**, the lightweight **UI5 JSX runtime** turns those function calls into regular UI5 control constructor calls.
@@ -104,6 +108,8 @@ According to **Peter Müßig**, this is going to be an interesting topic in the 
 
 If you have ever set up a local launchpad sandbox, you know the dirty secret: the classic local sandbox is based on an **old launchpad version** that new customer systems don't even run anymore. You develop against a shell that behaves differently from what your users get.
 
+{{< figure src="flp-sandbox-this-is-fine.jpg" alt="This is fine meme: a dog sitting in a burning room, captioned 'writing endless sandbox configs and updating them over and over'" caption="Every local FLP setup until now" >}}
+
 That finally changes:
 
 - A **new launchpad sandbox** was presented, aligned with what current systems actually run.
@@ -114,7 +120,7 @@ That finally changes:
 As with all experimental features, expect the configuration format to change before it stabilizes. For production-like testing today, the classic sandbox (pinned to a fixed patch version) remains the pragmatic choice — like in my [monorepo setup](/posts/ui5-monorepo-with-pnpm-workspaces).
 {{< /alert >}}
 
-For everyone building [launchpad plugins](/posts/developing-fiori-launchpad-plugins-with-typescript) or testing tile navigation locally, this is one of the most practically relevant announcements of the whole conference.
+For everyone building [launchpad plugins](/posts/developing-fiori-launchpad-plugins-with-typescript) or testing tile navigation locally, this is the announcement that will pay off first in day-to-day work.
 
 ## Customize Fiori Elements Apps
 
@@ -122,7 +128,7 @@ For everyone building [launchpad plugins](/posts/developing-fiori-launchpad-plug
 
 ## Bonus: A UI5con Neovim Theme
 
-My favorite detail of the whole conference had nothing to do with roadmaps: Nico Schönteich built a **custom Neovim theme just for this year's UI5con** — and presented his demos live on stage in a terminal dressed head to toe in UI5con colors, phoenix included.
+My favorite side note had nothing to do with roadmaps: Nico Schönteich built a **custom Neovim theme just for this year's UI5con** — and presented his demos live on stage in a terminal dressed head to toe in UI5con colors, phoenix included.
 
 {{< figure src="neovim-theme.png" alt="Nico Schönteich presenting on stage with his custom UI5con Neovim theme" caption="Nico Schönteich's custom UI5con Neovim theme in action on the main stage" >}}
 
@@ -136,7 +142,7 @@ And the elephant in the room: **UI5 2.0 is on hold.** The 1.x line continues.
 
 The reasoning, straight from the Q&A, is more interesting than the headline. The team *could* ship 2.0 — the legacy-free groundwork is essentially done, and the migration tooling reaches 95%+ automation. But their honest assessment: a legacy-free 2.0 is cleaner, yet **not fundamentally different** — and in the AI era it wouldn't solve any *new* problems. Instead of maintaining two codebases for an incremental step, they'd rather take the time to figure out what a genuinely **bigger step** should look like (generative UI, agent-to-UI protocols, JSX all point in that direction).
 
-## The Recording
+## The Recording: Live from the Main Stage
 
 The full main stage — *UI5con 2026: Live from the Main Stage!* — is available on YouTube:
 
@@ -144,7 +150,9 @@ The full main stage — *UI5con 2026: Live from the Main Stage!* — is availabl
 
 ## Conclusion
 
-UI5con 2026 was less about flashy reinventions and more about **removing friction**: a CLI with build cache and live reload built in, debugging that needs no extension, type-safe JSX views you can try today, a sandbox that matches reality, and AI tooling that checks its own work with the linter. Combined with the clear commitment to the 1.x line, the message to UI5 teams is: **the stack you build on today is the stack that gets better** — no rewrite required.
+UI5con 2026 was less about flashy reinventions and more about removing friction: a CLI with build cache and live reload built in, debugging that needs no extension, type-safe JSX views you can try today, a sandbox that matches reality, and AI tooling that checks its own work with the linter. Add the clear commitment to the 1.x line, and the message to UI5 teams is a reassuring one: keep building on what you have — it only gets better from here, no rewrite required.
+
+See you next year — the phoenix keeps rising 🔥
 
 ---
 
@@ -159,6 +167,10 @@ UI5con 2026 was less about flashy reinventions and more about **removing frictio
 
   {{< faq-item question="When can I use the new launchpad sandbox?" >}}
   It ships as an <strong>experimental</strong> feature with UI5 <strong>1.150</strong>, configured via simple config files or a middleware. Experimental means the API and configuration may still change — fine for trying out, not yet for team-wide standardization.
+  {{< /faq-item >}}
+
+  {{< faq-item question="What is JSX in UI5?" >}}
+  JSX is a syntax extension (known from React) that lets you write UI markup directly inside JavaScript or TypeScript code. For UI5, a new <strong>JSX runtime</strong> is available as an incubation project: a Babel plugin transforms the markup at build time, and a lightweight runtime turns it into regular UI5 control constructor calls. The result is <strong>type-safe views</strong> — the compiler checks every control, property and event handler, which XML views cannot offer.
   {{< /faq-item >}}
 
   {{< faq-item question="Is UI5 2.0 cancelled?" >}}

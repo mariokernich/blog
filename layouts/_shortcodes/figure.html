@@ -1,0 +1,44 @@
+{{- /*
+  Site override of PaperMod's figure shortcode: identical markup, but the
+  image is wrapped in the same fancybox link the render-image.html markdown
+  hook produces, so shortcode figures open in the lightbox too.
+  An explicit "link" parameter takes precedence and disables the lightbox.
+*/ -}}
+{{- $src := .Get "src" -}}
+{{- with .Page.Resources.Get (strings.TrimPrefix "./" $src) -}}
+  {{- $src = .RelPermalink -}}
+{{- end -}}
+<figure{{ if or (.Get "class") (eq (.Get "align") "center") }} class="
+           {{- if eq (.Get "align") "center" }}align-center {{ end }}
+           {{- with .Get "class" }}{{ . }}{{- end }}"
+{{- end -}}>
+    {{- if .Get "link" -}}
+        <a href="{{ .Get "link" }}"{{ with .Get "target" }} target="{{ . }}"{{ end }}{{ with .Get "rel" }} rel="{{ . }}"{{ end }}>
+    {{- else -}}
+        {{- /* image src as group value: single-item group, no paging */ -}}
+        <a class="fancybox-link" href="{{ $src | safeURL }}" data-fancybox="{{ $src }}"{{ with or (.Get "caption") (.Get "alt") }} data-caption="{{ . | markdownify | plainify | htmlUnescape }}"{{ end }}>
+    {{- end }}
+    <img loading="lazy" src="{{ $src }}{{- if eq (.Get "align") "center" }}#center{{- end }}"
+         {{- if or (.Get "alt") (.Get "caption") }}
+         alt="{{ with .Get "alt" }}{{ . }}{{ else }}{{ .Get "caption" | markdownify| plainify }}{{ end }}"
+         {{- end -}}
+         {{- with .Get "width" }} width="{{ . }}"{{ end -}}
+         {{- with .Get "height" }} height="{{ . }}"{{ end -}}
+    /> <!-- Closing img tag -->
+    </a>
+    {{- if or (or (.Get "title") (.Get "caption")) (.Get "attr") -}}
+        <figcaption>
+            {{ with (.Get "title") -}}
+                {{ . }}
+            {{- end -}}
+            {{- if or (.Get "caption") (.Get "attr") -}}<p>
+                {{- .Get "caption" | markdownify -}}
+                {{- with .Get "attrlink" }}
+                    <a href="{{ . }}">
+                {{- end -}}
+                {{- .Get "attr" | markdownify -}}
+                {{- if .Get "attrlink" }}</a>{{ end }}</p>
+            {{- end }}
+        </figcaption>
+    {{- end }}
+</figure>

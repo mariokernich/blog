@@ -13,7 +13,9 @@
   {{- end -}}
 {{- end -}}
 {{- $attributes := merge .Attributes (dict "alt" .Text "src" $src "title" (.Title | transform.HTMLEscape) "loading" "lazy") -}}
-<a class="fancybox-link" href="{{ $src | safeURL }}" data-fancybox="gallery"{{ with .Title }} data-caption="{{ . | transform.HTMLEscape }}"{{ end }}>
+{{- /* data-fancybox uses the image src as group value so every image forms
+  its own single-item group — no prev/next paging between images */ -}}
+<a class="fancybox-link" href="{{ $src | safeURL }}" data-fancybox="{{ $src }}"{{ with .Title }} data-caption="{{ . | transform.HTMLEscape }}"{{ end }}>
   <img
     {{- range $k, $v := $attributes -}}
       {{- if $v -}}
