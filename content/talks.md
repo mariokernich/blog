@@ -18,6 +18,14 @@ Here is an overview of my speaking engagements, sessions, and presentations.
 
 ---
 
+## UI5ers Live - AUGUST 2026 - REMOTE
+
+In this episode, I introduce a new generator for SAP Fiori launchpad plugins built on TypeScript and the current Extension API. Building launchpad plugins has traditionally meant wrestling with boilerplate and outdated tooling. I walk through the plugin architecture — which mirrors a standard SAPUI5 app but uses a single Component.ts as its entry point — and explore extension points for adding shell header buttons, triggering user actions, running background services, and embedding sidebars. I also cover how plugins access core launchpad capabilities via the AppLifeCycle service and UserInfo, plus a fallback approach for older SAPUI5 versions that still depend on direct Renderer access.
+
+![UI5ers Live August 2026](/images/talks/ui5ers-live-august-2026.jpg)
+
+---
+
 ## ABAPCONF - JUNE 2026 - MANNHEIM
 
 In this session, we explore how to build custom CDS entities in ABAP RAP backed by a fully custom query implementation using the IF_RAP_QUERY_PROVIDER interface. We walk through how to programmatically handle incoming request parameters such as filtering, sorting, and paging (top/skip) within the SELECT method, and demonstrate how to define and resolve associations to enable $expand capabilities for OData consumers. By the end, attendees will know how to take full control over data retrieval in RAP while still adhering to the framework’s contract — ideal for scenarios involving legacy APIs, external data sources, or complex custom logic.
