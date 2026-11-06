@@ -1,4 +1,4 @@
-name: Deploy via FTPS
+name: Deploy via FTP
 
 on:
   push:
@@ -36,15 +36,22 @@ jobs:
           HUGO_ENV: production
         run: hugo --gc --minify
 
-      - name: Deploy to kernich.de via FTPS
+      # FTP-Deploy-Action requires server-dir to end with "/".
+      - name: Normalize server dir
+        id: ftp
+        env:
+          FTP_PATH: ${{ secrets.FTP_PATH }}
+        run: echo "dir=${FTP_PATH%/}/" >> "$GITHUB_OUTPUT"
+
+      - name: Deploy to kernich.de via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftps
+          protocol: ftp
           port: ${{ secrets.FTP_PORT }}
           local-dir: ./public/
-          server-dir: ${{ secrets.FTP_PATH }}
+          server-dir: ${{ steps.ftp.outputs.dir }}
           dangerous-clean-slate: false
           log-level: standard
