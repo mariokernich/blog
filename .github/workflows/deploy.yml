@@ -36,22 +36,26 @@ jobs:
           HUGO_ENV: production
         run: hugo --gc --minify
 
-      # FTP-Deploy-Action requires server-dir to end with "/".
-      - name: Normalize server dir
-        id: ftp
-        env:
-          FTP_PATH: ${{ secrets.FTP_PATH }}
-        run: echo "dir=${FTP_PATH%/}/" >> "$GITHUB_OUTPUT"
+      - name: Install lftp
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
 
+      # lftp instead of FTP-Deploy-Action: the host requires the TLS session of
+      # the control channel to be reused on the data channel, which lftp does
+      # and the basic-ftp client of FTP-Deploy-Action does not.
       - name: Deploy to kernich.de via FTPS
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.FTP_HOST }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftps
-          port: ${{ secrets.FTP_PORT }}
-          local-dir: ./public/
-          server-dir: ${{ steps.ftp.outputs.dir }}
-          dangerous-clean-slate: false
-          log-level: standard
+        env:
+          FTP_HOST: ${{ secrets.FTP_HOST }}
+          FTP_PORT: ${{ secrets.FTP_PORT }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          LFTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          FTP_PATH: ${{ secrets.FTP_PATH }}
+        run: |
+          lftp --env-password -u "$FTP_USERNAME" -p "${FTP_PORT:-21}" "$FTP_HOST" <<EOF
+          set ftp:ssl-force true
+          set ftp:ssl-protect-data true
+          set ssl:verify-certificate true
+          set net:max-retries 3
+          set net:timeout 30
+          mirror --reverse --parallel=4 --verbose=1 ./public/ "${FTP_PATH%/}/"
+          bye
+          EOF
