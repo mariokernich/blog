@@ -108,3 +108,10 @@
 .post-content code {
     font-size: 0.875rem;
 }
+
+/* Inline code inside headings: scale with the heading instead of the
+   fixed body size above, so `tc:` in an h2 is not rendered at 14px. */
+.post-content :is(h1, h2, h3, h4, h5, h6) code {
+    font-size: 0.9em;
+    font-weight: inherit;
+}
