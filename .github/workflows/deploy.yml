@@ -1,4 +1,4 @@
-name: Deploy via FTP
+name: Deploy via FTPS
 
 on:
   push:
@@ -43,13 +43,13 @@ jobs:
           FTP_PATH: ${{ secrets.FTP_PATH }}
         run: echo "dir=${FTP_PATH%/}/" >> "$GITHUB_OUTPUT"
 
-      - name: Deploy to kernich.de via FTP
+      - name: Deploy to kernich.de via FTPS
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftp
+          protocol: ftps
           port: ${{ secrets.FTP_PORT }}
           local-dir: ./public/
           server-dir: ${{ steps.ftp.outputs.dir }}
